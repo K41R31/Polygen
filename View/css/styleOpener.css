@@ -1,0 +1,19 @@
+.button-2D {
+    -fx-background-color: TRANSPARENT;
+    -fx-background-image: url("../../resources/Opener/opener_button2D.png");
+    -fx-opacity: 0.7;
+}
+.button-3D {
+    -fx-background-color: TRANSPARENT;
+    -fx-background-image: url("../../resources/Opener/opener_button3D.png");
+    -fx-opacity: 0.7;
+}
+.button-2D:hover {
+    -fx-opacity: 1;
+}
+.button-3D:hover {
+    -fx-opacity: 1;
+}
+.root-pane {
+    -fx-background-image: url("../../resources/Opener/opener_background.png");
+}

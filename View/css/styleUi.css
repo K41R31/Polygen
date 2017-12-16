@@ -1,0 +1,94 @@
+.split-pane:horizontal > .split-pane-divider {
+    -fx-padding: 0;
+}
+.split-pane:vertical > .split-pane-divider {
+    -fx-padding: 0;
+}
+.backg-transp {
+    -fx-background-color: TRANSPARENT;
+}
+.backg-bright {
+    -fx-background-color: #535353;
+}
+.backg-dark {
+    -fx-background-color: #282828;
+}
+.que-panes {
+    -fx-background-color: #2b2b2b;
+}
+.que-filter {
+    -fx-background-color: #797979;
+}
+.open-que-menu {
+    -fx-opacity: 0.4;
+}
+.open-que-menu:hover {
+    -fx-opacity: 1;
+}
+.tool-bar-buttons:hover {
+    -fx-effect: dropshadow(gaussian, BLACK, 10, 0, 0, 0);
+}
+.menu-bar {
+    -fx-background-color: TRANSPARENT;
+}
+.menu-bar .label {
+    -fx-font-family: "Walkway Bold";
+    -fx-font-size: 20;
+    -fx-text-fill: #b8b8b8;
+}
+.menu-bar .context-menu {
+    -fx-background-color: GREY;
+}
+.visible-check-box {
+    -fx-background-image: url("../../resources/Ui/ui_toggleVisibilityDisabled.png");
+}
+.visible-check-box:hover {
+    -fx-background-image: url("../../resources/Ui/ui_toggleVisibilityDisabledHover.png");
+ }
+.visible-check-box .box {
+    -fx-background-color: TRANSPARENT;
+}
+.visible-check-box:selected {
+    -fx-background-image: url("../../resources/Ui/ui_toggleVisibilityActive.png");
+}
+.visible-check-box:hover:selected {
+    -fx-background-image: url("../../resources/Ui/ui_toggleVisibilityActiveHover.png");
+}
+.visible-check-box:selected .mark {
+    -fx-background-color: TRANSPARENT;
+}
+.add-filter-button {
+    -fx-background-color: TRANSPARENT;
+    -fx-background-image: url("../../resources/Ui/ui_arrow.png");
+}
+.add-filter-button:hover {
+    -fx-background-image: url("../../resources/Ui/ui_arrowHover.png");
+}
+.add-filter-button:pressed {
+    -fx-background-image: url("../../resources/Ui/ui_arrowPressed.png");
+}
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+.tab-pane {
+    -fx-tab-min-width:90px;
+}
+.tab {
+    -fx-background-insets: 0 1 0 1,0,0;
+}
+.tab-pane .tab {
+    -fx-background-color: #e6e6e6;
+}
+.tab-pane .tab:selected {
+    -fx-background-color: #444444;
+}
+.tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-font-family: "Walkway Bold";
+    -fx-text-fill: #828282;
+    -fx-font-size: 18px;
+}
+.tab:selected .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #96b946;
+}

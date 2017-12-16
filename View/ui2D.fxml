@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="anchorPane_uiMain" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Polygen.Controller.UiController2D">
+   <children>
+      <SplitPane dividerPositions="0.035, 0.166" orientation="VERTICAL" style="-fx-background-color: #282828;" styleClass="backg-dark" stylesheets="@css/styleUi.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+            <SplitPane dividerPositions="0.022, 0.93" styleClass="backg-bright" stylesheets="@css/styleUi.css">
+               <items>
+                  <ImageView fx:id="imageView_logo" fitHeight="40.0" fitWidth="40.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/Ui/ui_logo.png" />
+                     </image>
+                  </ImageView>
+                  <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="200.0">
+                     <children>
+                        <MenuBar>
+                          <menus>
+                            <Menu mnemonicParsing="false" text="File">
+                              <items>
+                                <MenuItem mnemonicParsing="false" onAction="#loadImage" text="New">
+                                       <accelerator>
+                                          <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                                       </accelerator></MenuItem>
+                              </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Edit">
+                              <items>
+                                <MenuItem mnemonicParsing="false" text="Delete" />
+                              </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Help">
+                              <items>
+                                <MenuItem mnemonicParsing="false" text="About" />
+                              </items>
+                            </Menu>
+                          </menus>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </MenuBar>
+                     </children></HBox>
+                  <SplitPane styleClass="backg-transp">
+                     <items>
+                        <StackPane prefWidth="60.0">
+                           <children>
+                              <Rectangle fx:id="rectangle_closeBackg" fill="#c2383800" height="30.0" onMouseEntered="#btnClose_entered" onMouseExited="#btnClose_exited" onMousePressed="#btnClose_action" stroke="TRANSPARENT" strokeType="INSIDE" width="60.0" StackPane.alignment="TOP_RIGHT">
+                                 <StackPane.margin>
+                                    <Insets bottom="10.0" right="5.0" />
+                                 </StackPane.margin>
+                              </Rectangle>
+                              <StackPane disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="10.0" prefWidth="10.0" StackPane.alignment="CENTER_RIGHT">
+                                 <children>
+                                    <Line fx:id="line_close1" endX="5.0" endY="5.0" startX="-5.0" startY="-5.0" />
+                                    <Line fx:id="line_close2" endX="5.0" endY="-5.0" startX="-5.0" startY="5.0" />
+                                 </children>
+                                 <StackPane.margin>
+                                    <Insets bottom="10.0" right="30.0" />
+                                 </StackPane.margin>
+                              </StackPane>
+                           </children>
+                        </StackPane>
+                     </items>
+                  </SplitPane>
+               </items></SplitPane>
+            <SplitPane styleClass="backg-dark">
+               <padding>
+                  <Insets bottom="1.0" top="1.0" />
+               </padding></SplitPane>
+            <SplitPane dividerPositions="0.167" styleClass="backg-transp">
+              <items>
+                  <SplitPane fx:id="splitPane_paneSize" dividerPositions="0.1, 0.36, 0.555, 0.5" orientation="VERTICAL" styleClass="backg-bright">
+                    <items>
+                        <AnchorPane>
+                           <children>
+                              <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#testAlgorithm" text="TestAlgorithm" />
+                                 </children></StackPane>
+                           </children>
+                           <padding>
+                              <Insets bottom="15.0" top="15.0" />
+                           </padding>
+                        </AnchorPane>
+                        <AnchorPane>
+                           <padding>
+                              <Insets bottom="15.0" top="15.0" />
+                           </padding>
+                           <children>
+                              <VBox alignment="BOTTOM_CENTER" layoutX="-16.0" layoutY="33.0" prefHeight="213.0" prefWidth="320.0" spacing="10.0" styleClass="que-panes" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="18.0">
+                                 <children>
+                                    <HBox alignment="CENTER_RIGHT" spacing="20.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Text fx:id="text_title0" fill="#9b9b9b" strokeType="OUTSIDE" strokeWidth="0.0" text="PRE PROCESSING" textAlignment="RIGHT">
+                                             <font>
+                                                <Font name="Walkway Black" size="25.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                       <padding>
+                                          <Insets left="10.0" right="15.0" />
+                                       </padding>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox alignment="CENTER_RIGHT" spacing="20.0" styleClass="que-filter" VBox.vgrow="SOMETIMES">
+                                       <children>
+                                          <Text fx:id="text_greyscaleFilter" fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0" text="greyscale">
+                                             <font>
+                                                <Font name="Walkway SemiBold" size="30.0" />
+                                             </font>
+                                          </Text>
+                                          <CheckBox fx:id="checkBox_0" layoutX="270.0" layoutY="22.0" mnemonicParsing="false" onAction="#updatePicture" prefHeight="29.0" prefWidth="45.0" selected="true" styleClass="visible-check-box" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="62.0" spacing="20.0" styleClass="que-filter" VBox.vgrow="SOMETIMES">
+                                       <children>
+                                          <Text fx:id="text_brightnessFilter" fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0" text="brightness" textAlignment="RIGHT">
+                                             <font>
+                                                <Font name="Walkway SemiBold" size="30.0" />
+                                             </font>
+                                          </Text>
+                                          <CheckBox fx:id="checkBox_1" mnemonicParsing="false" onAction="#updatePicture" prefHeight="29.0" prefWidth="45.0" selected="true" styleClass="visible-check-box" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="20.0" top="10.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane>
+                           <children>
+                              <VBox alignment="BOTTOM_CENTER" spacing="10.0" styleClass="que-panes" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox alignment="CENTER_RIGHT" spacing="20.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Text fx:id="text_title1" fill="#9b9b9b" strokeType="OUTSIDE" strokeWidth="0.0" text="BLUR" textAlignment="RIGHT">
+                                             <font>
+                                                <Font name="Walkway Black" size="25.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                       <padding>
+                                          <Insets left="10.0" right="15.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox alignment="CENTER_RIGHT" spacing="20.0" styleClass="que-filter" VBox.vgrow="SOMETIMES">
+                                       <children>
+                                          <Text fx:id="text_blurFilter" fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0">
+                                             <font>
+                                                <Font name="Walkway SemiBold" size="30.0" />
+                                             </font>
+                                          </Text>
+                                          <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#selectBlurFilter" prefHeight="25.0" prefWidth="25.0" styleClass="add-filter-button" textAlignment="CENTER" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="20.0" top="10.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="15.0" top="15.0" />
+                           </padding>
+                        </AnchorPane>
+                        <AnchorPane>
+                           <children>
+                              <VBox alignment="BOTTOM_CENTER" spacing="10.0" styleClass="que-panes" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox alignment="CENTER_RIGHT" spacing="20.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Text fx:id="text_title2" fill="#9b9b9b" strokeType="OUTSIDE" strokeWidth="0.0" text="EDGE EXTRACTION" textAlignment="RIGHT">
+                                             <font>
+                                                <Font name="Walkway Black" size="25.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                       <padding>
+                                          <Insets left="10.0" right="15.0" />
+                                       </padding>
+                                    </HBox>
+                                    <GridPane alignment="CENTER" vgap="10.0" VBox.vgrow="SOMETIMES">
+                                      <columnConstraints>
+                                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                                        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                                        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <HBox alignment="CENTER_RIGHT" spacing="20.0" styleClass="que-filter">
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
+                                             </padding>
+                                             <children>
+                                                <Text fx:id="text_edgeExtractionFilter0" fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0">
+                                                   <font>
+                                                      <Font name="Walkway SemiBold" size="36.0" />
+                                                   </font>
+                                                </Text>
+                                                <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" styleClass="add-filter-button" textAlignment="CENTER" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_RIGHT" spacing="20.0" styleClass="que-filter" GridPane.rowIndex="1">
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
+                                             </padding>
+                                             <children>
+                                                <Text fx:id="text_edgeExtractionFilter1" fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0">
+                                                   <font>
+                                                      <Font name="Walkway SemiBold" size="36.0" />
+                                                   </font>
+                                                </Text>
+                                                <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" styleClass="add-filter-button" textAlignment="CENTER" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_RIGHT" spacing="20.0" styleClass="que-filter" GridPane.rowIndex="2">
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
+                                             </padding>
+                                             <children>
+                                                <Text fx:id="text_edgeExtractionFilter2" fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0">
+                                                   <font>
+                                                      <Font name="Walkway SemiBold" size="36.0" />
+                                                   </font>
+                                                </Text>
+                                                <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" styleClass="add-filter-button" textAlignment="CENTER" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                    </GridPane>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="20.0" top="10.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="15.0" top="15.0" />
+                           </padding>
+                        </AnchorPane>
+                        <AnchorPane />
+                    </items>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets bottom="10.0" top="10.0" />
+                     </padding>
+                  </SplitPane>
+                  <StackPane style="-fx-background-color: #1f1f1f;">
+                     <children>
+                        <ImageView fitHeight="320.0" fitWidth="325.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/Ui/ui_mainViewLogo.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="processView" fitHeight="800.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </StackPane>
+              </items>
+            </SplitPane>
+        </items>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </SplitPane>
+      <VBox fx:id="vBox_filterSelector" alignment="CENTER" disable="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+   </children>
+</AnchorPane>
