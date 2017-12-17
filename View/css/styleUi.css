@@ -92,3 +92,18 @@
     -fx-alignment: CENTER;
     -fx-text-fill: #96b946;
 }
+.text-blurSelector {
+    -fx-font-family: "Walkway SemiBold";
+    -fx-font-size: 30px;
+}
+.text-blurSelector:hover {
+    -fx-font-family: "Walkway Black";
+    -fx-font-size: 30px;
+}
+.text_filterBack {
+    -fx-font-family: "Walkway Bold";
+    -fx-font-size: 20px;
+}
+.text_filterBack:hover {
+    -fx-font-family: "Walkway Black";
+}

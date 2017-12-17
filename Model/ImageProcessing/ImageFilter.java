@@ -14,7 +14,7 @@ public class ImageFilter {
 
     public Mat processMat(Mat originalMat, ArrayList<Boolean> states, float alpha, float beta) {
         processMat = originalMat;
-        if (states.get(0)) processMat = greyscale(processMat);
+        if (states.get(0)) processMat = grayscale(processMat);
         if (states.get(1)) processMat = brightnessContrast(processMat, alpha, beta);
         return processMat;
     }
@@ -24,7 +24,7 @@ public class ImageFilter {
         return original;
     }
 
-    private Mat greyscale(Mat inputMat) {
+    private Mat grayscale(Mat inputMat) {
         Mat outputMat = new Mat();
         Imgproc.cvtColor(inputMat, outputMat, Imgproc.COLOR_BGR2GRAY);
         return outputMat;

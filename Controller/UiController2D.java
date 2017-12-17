@@ -2,7 +2,9 @@ package Polygen.Controller;
 
 import Polygen.Model.ImageProcessing.ImageProcessing;
 import Polygen.Model.Polygons.DetectionAlg;
-import javafx.scene.effect.GaussianBlur;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -73,7 +75,9 @@ public class UiController2D implements Initializable {
     @FXML
     private Rectangle rectangle_closeBackg;
     @FXML
-    private VBox vBox_filterSelector;
+    private AnchorPane AnchorPane_filterSelector;
+    @FXML
+    private VBox VBox_filterSelector;
     private ImageProcessing imageProcessing;
 
 
@@ -114,10 +118,40 @@ public class UiController2D implements Initializable {
     */
     @FXML
     private void selectBlurFilter() {
-        vBox_filterSelector.setDisable(false);
-        vBox_filterSelector.setVisible(true);
-        anchorPane_uiMain.setEffect(new GaussianBlur(10)); //TODO add Blur Auswahlmöglichkeiten
-
+        toggleFilterSelector(true, "BLUR FILTER");
+        Text empty0 = new Text(); //Platzhalter0
+        VBox_filterSelector.getChildren().add(empty0);
+        String[] blurText = {"Gaussian Blur","Madian Blur","Billateral Filter"};
+        for(int i = 0; i < 3; i++) {
+            Text t = new Text(blurText[i]);
+            t.getStyleClass().add("text-blurSelector");
+            t.setFill(Color.WHITE);
+            int finalI = i;
+            t.setOnMouseClicked(event -> {
+                text_blurFilter.setText(blurText[finalI]);
+                closeFilterSelector();
+            });
+            VBox_filterSelector.getChildren().add(t);
+        }
+        Text empty1 = new Text(); //Platzhalter1
+        VBox_filterSelector.getChildren().add(empty1);
+        Text back = new Text("BACK");
+        back.getStyleClass().add("text_filterBack");
+        back.setFill(Color.web("#ff3535"));
+        back.setOnMouseClicked(event -> {
+            closeFilterSelector();
+        });
+        VBox_filterSelector.getChildren().add(back);
+    }
+    private void toggleFilterSelector(boolean toggle, String headingText) {
+        if(toggle) {
+            Text header = new Text("ADD A "+headingText);
+            header.setFont(new Font("Walkway Bold",40));
+            header.setFill(Color.WHITE);
+            VBox_filterSelector.getChildren().add(header);
+        }
+        AnchorPane_filterSelector.setDisable(!toggle);
+        AnchorPane_filterSelector.setVisible(toggle);
     }
     @FXML
     private void updatePicture() {
@@ -137,6 +171,11 @@ public class UiController2D implements Initializable {
             e.printStackTrace();
         }
         updatePicture();
+    }
+    @FXML
+    private void closeFilterSelector() {
+        toggleFilterSelector(false, null);
+        VBox_filterSelector.getChildren().clear();
     }
     @FXML
     private void btnClose_entered() {

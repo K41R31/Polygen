@@ -22,7 +22,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchorPane_uiMain" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Polygen.Controller.UiController2D">
+<AnchorPane fx:id="anchorPane_uiMain" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@css/styleUi.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Polygen.Controller.UiController2D">
    <children>
       <SplitPane dividerPositions="0.035, 0.166" orientation="VERTICAL" style="-fx-background-color: #282828;" styleClass="backg-dark" stylesheets="@css/styleUi.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -131,6 +131,9 @@
                                              <font>
                                                 <Font name="Walkway SemiBold" size="30.0" />
                                              </font>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
                                           </Text>
                                           <CheckBox fx:id="checkBox_0" layoutX="270.0" layoutY="22.0" mnemonicParsing="false" onAction="#updatePicture" prefHeight="29.0" prefWidth="45.0" selected="true" styleClass="visible-check-box" />
                                        </children>
@@ -306,6 +309,11 @@
             <Insets />
          </opaqueInsets>
       </SplitPane>
-      <VBox fx:id="vBox_filterSelector" alignment="CENTER" disable="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <AnchorPane fx:id="AnchorPane_filterSelector" disable="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane opacity="0.8" style="-fx-background-color: BLACK;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <VBox fx:id="VBox_filterSelector" alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

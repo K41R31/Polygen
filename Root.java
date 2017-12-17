@@ -10,12 +10,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import org.opencv.core.Rect;
 
 import java.awt.*;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class Root extends Application {
 
@@ -66,7 +63,9 @@ public class Root extends Application {
         primaryStage.setTitle("Polygen");
         primaryStage.setWidth(screenSize.getWidth());
         primaryStage.setHeight(screenSize.getHeight() - 40);
-        primaryStage.setScene(new Scene(root, Color.TRANSPARENT));
+        Scene primaryScene = new Scene(root, Color.TRANSPARENT);
+        primaryScene.getStylesheets().add((getClass().getResource("View/css/styleUi.css")).toExternalForm());
+        primaryStage.setScene(primaryScene);
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.show();
     }
