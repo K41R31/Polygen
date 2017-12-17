@@ -13,23 +13,27 @@ import java.util.ArrayList;
 
 public class ImageProcessing {
 
-    private Polygen.Model.FileSearcher fileSearcher = new Polygen.Model.FileSearcher();
-    private ImageFilter imageFilter = new ImageFilter();
     private Mat originalMat;
     private Mat processedImgMat;
+    private ImageFilter imageFilter = new ImageFilter();
 
 
 	public ImageProcessing() throws Exception {
 
 	    System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
-        originalMat = loadImage();
 
 	}
 
-	private Mat loadImage() throws Exception {
+	public void loadImage() {
         Mat imageMat;
-        File file = fileSearcher.openFile();
-        if (file == null) return null;
+        Polygen.Model.FileSearcher fileSearcher = new Polygen.Model.FileSearcher();
+        File file = null;
+        try {
+            file = fileSearcher.openFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (file == null) return;
         else {
             imageMat = Imgcodecs.imread(file.toString());
             if (imageMat.empty() && file.toString() != null) {
@@ -41,7 +45,7 @@ public class ImageProcessing {
                 loadImage(); //Wenn eine nicht lesbare Datei geöffnet wurde, öffnet sich die Methode immer wieder selber
             }
         }
-        return imageMat;
+        this.originalMat = imageMat;
 	}
 
 	private void writeImage(Mat imgMat, String filename) {
@@ -51,13 +55,15 @@ public class ImageProcessing {
 	    					 Imgcodecs.CV_IMWRITE_PNG_STRATEGY_FIXED));
 	}
 
-    public Image drawImage(ArrayList states, float alpha, float beta) { //wird in UiController von EventHandlern ausgeführt (Variablen sollen nicht einzelnd übergeben werden)
-        Mat processedImgMat = imageFilter.processMat(originalMat, states, alpha, beta);
+    public Image drawImage(float alpha, float beta) { //wird in UiController von EventHandlern ausgeführt (Variablen sollen nicht einzelnd übergeben werden)
+        Mat processedImgMat = imageFilter.processMat(originalMat,2, 2);
         MatOfByte byteMat = new MatOfByte();
         Imgcodecs.imencode(".png", processedImgMat, byteMat); //imgMat = Mat die gezeichnet werden soll
         return new Image(new ByteArrayInputStream(byteMat.toArray()));
     }
 
+    public void setBlurFilter(int blurFilter) { imageFilter.setBlurFilter(blurFilter); }
+    public void setStates(boolean[] states) { imageFilter.setStates(states); }
     public Mat getOriginalMat() { return originalMat; }
     public Mat getProcessedImgMat() { return processedImgMat; }
 }

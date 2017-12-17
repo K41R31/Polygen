@@ -1,10 +1,9 @@
 package Polygen.Controller;
 
+import Polygen.Model.ImageProcessing.ImageFilter;
 import Polygen.Model.ImageProcessing.ImageProcessing;
 import Polygen.Model.Polygons.DetectionAlg;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -23,7 +22,6 @@ import org.opencv.imgcodecs.Imgcodecs;
 import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class UiController2D implements Initializable {
@@ -47,21 +45,13 @@ public class UiController2D implements Initializable {
     @FXML
     private Text text_edgeExtractionFilter2;
     @FXML
-    private CheckBox button_0;
-    @FXML
-    private CheckBox button_1;
-    @FXML
-    private CheckBox button_2;
-    @FXML
-    private Button button_3;
-    @FXML
-    private Button button_4;
-    @FXML
-    private Button button_5;
+    private Button button_addBlurFilter;
     @FXML
     private CheckBox checkBox_0;
     @FXML
     private CheckBox checkBox_1;
+    @FXML
+    private CheckBox checkBox_2;
     @FXML
     private ImageView processView;
     @FXML
@@ -78,6 +68,8 @@ public class UiController2D implements Initializable {
     private AnchorPane AnchorPane_filterSelector;
     @FXML
     private VBox VBox_filterSelector;
+    @FXML
+    private HBox hBox_blurFilter;
     private ImageProcessing imageProcessing;
 
 
@@ -102,10 +94,10 @@ public class UiController2D implements Initializable {
         text_edgeExtractionFilter2.setFont(resizeFilterFont);
     }
 
-    private ArrayList<Boolean> getAllStates() {
-        ArrayList<Boolean> states = new ArrayList<>();
-        states.add(checkBox_0.isSelected());
-        states.add(checkBox_1.isSelected());
+    private boolean[] getAllStates() {
+        boolean[] states = {false, false, false, false, false, false};
+        states[0] = (checkBox_0.isSelected());
+        states[1] = (checkBox_1.isSelected());
         return states;
     }
     /*
@@ -117,11 +109,11 @@ public class UiController2D implements Initializable {
         }
     */
     @FXML
-    private void selectBlurFilter() {
+    private void selectBlurFilter() { //TODO + durch Auge ersetzen wenn Filter hinzugefügt wurde
         toggleFilterSelector(true, "BLUR FILTER");
         Text empty0 = new Text(); //Platzhalter0
         VBox_filterSelector.getChildren().add(empty0);
-        String[] blurText = {"Gaussian Blur","Madian Blur","Billateral Filter"};
+        String[] blurText = {"Gaussian Blur","Median Blur","Billateral Filter"};
         for(int i = 0; i < 3; i++) {
             Text t = new Text(blurText[i]);
             t.getStyleClass().add("text-blurSelector");
@@ -129,6 +121,11 @@ public class UiController2D implements Initializable {
             int finalI = i;
             t.setOnMouseClicked(event -> {
                 text_blurFilter.setText(blurText[finalI]);
+                imageProcessing.setBlurFilter(finalI);
+                button_addBlurFilter.setDisable(true);
+                button_addBlurFilter.setVisible(false);
+                hBox_blurFilter.setDisable(false);
+                hBox_blurFilter.setVisible(true);
                 closeFilterSelector();
             });
             VBox_filterSelector.getChildren().add(t);
@@ -154,8 +151,19 @@ public class UiController2D implements Initializable {
         AnchorPane_filterSelector.setVisible(toggle);
     }
     @FXML
+    private void removeBlurFilter() {
+        text_blurFilter.setText("");
+        imageProcessing.setBlurFilter(-1);
+        button_addBlurFilter.setDisable(false);
+        button_addBlurFilter.setVisible(true);
+        hBox_blurFilter.setDisable(true);
+        hBox_blurFilter.setVisible(false);
+    }
+    @FXML
     private void updatePicture() {
-        processView.setImage(imageProcessing.drawImage(getAllStates(), 2, 2));
+        boolean[] states = {checkBox_0.isSelected(), checkBox_1.isSelected(), checkBox_2.isSelected()};
+        imageProcessing.setStates(states);
+        processView.setImage(imageProcessing.drawImage(5,5));
     }
     @FXML
     private void testAlgorithm() {
@@ -165,11 +173,7 @@ public class UiController2D implements Initializable {
     }
     @FXML
     private void loadImage() {
-        try {
-            imageProcessing = new ImageProcessing();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        imageProcessing.loadImage();
         updatePicture();
     }
     @FXML
@@ -198,5 +202,10 @@ public class UiController2D implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         resizeObjectsRelative();
+        try {
+            imageProcessing = new ImageProcessing();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

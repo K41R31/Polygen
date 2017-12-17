@@ -1,21 +1,30 @@
 package Polygen.Model.ImageProcessing;
 
 import org.opencv.core.Mat;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
 
+import static org.opencv.core.Core.BORDER_DEFAULT;
+
 public class ImageFilter {
 
-    private Mat processMat;
+    private boolean[] states; //Der Zustand der einzelnen Filter (Augen)
+    private int blurFilter; //Der Ausgewählter Blur Filter (-1 wenn keiner ausgewählt wurde)
 
     public ImageFilter() {
     }
 
-    public Mat processMat(Mat originalMat, ArrayList<Boolean> states, float alpha, float beta) {
-        processMat = originalMat;
-        if (states.get(0)) processMat = grayscale(processMat);
-        if (states.get(1)) processMat = brightnessContrast(processMat, alpha, beta);
+    public Mat processMat(Mat originalMat, float alpha, float beta) {
+        Mat processMat = originalMat;
+        if (states[0]) processMat = grayscale(processMat);
+        if (states[1]) processMat = brightnessContrast(processMat, alpha, beta);
+        if (states[2]) {
+            if (blurFilter == 0) processMat = gaussianBlur(processMat, 5, 5);
+            else if (blurFilter == 1) processMat = medianBlur(processMat, 5);
+            else if (blurFilter == 2) processMat = billateralFilter(processMat, 5);
+        }
         return processMat;
     }
 
@@ -36,19 +45,22 @@ public class ImageFilter {
         return outputMat;
     }
 
-    private Mat gaussianBlur(int kernelsize_min, int kernelsize_max) {
-        Mat gauss = null;
-        return gauss;
+    private Mat gaussianBlur(Mat inputMat, int kernelsize_min, int kernelsize_max) {
+        Mat outputMat = new Mat();
+        Imgproc.GaussianBlur(inputMat, outputMat, new Size(3, 3), 0, 0);
+        return outputMat;
     }
 
-    private Mat medianBlur(int kernelsize) {
-        Mat median = null;
-        return median;
+    private Mat medianBlur(Mat inputMat, int medianKernel) {
+        Mat outputMat = new Mat();
+        Imgproc.medianBlur(inputMat, outputMat, medianKernel);
+        return outputMat;
     }
 
-    private Mat billateralFilter(int kernelsize) {
-        Mat billateral = null;
-        return billateral;
+    private Mat billateralFilter(Mat inputMat, int billKernel) {
+        Mat outputMat = new Mat();
+        Imgproc.bilateralFilter(inputMat, outputMat, billKernel, billKernel * 2, billKernel / 2);
+        return outputMat;
     }
 
     private Mat sobelFilter() {
@@ -65,4 +77,6 @@ public class ImageFilter {
         Mat canny = null;
         return canny;
     }
+    public void setBlurFilter(int blurFilter) { this.blurFilter = blurFilter; }
+    public void setStates(boolean[] states) { this.states = states; }
 }
