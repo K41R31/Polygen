@@ -21,6 +21,8 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import org.opencv.core.MatOfByte;
 import org.opencv.imgcodecs.Imgcodecs;
+
+import javax.xml.bind.annotation.XmlList;
 import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
@@ -29,6 +31,8 @@ import java.util.ResourceBundle;
 
 public class UiController2D implements Initializable {
 
+    @FXML
+    private ImageView view_processView;
     @FXML
     private Text text_title0;
     @FXML
@@ -197,13 +201,13 @@ public class UiController2D implements Initializable {
     private void updatePicture() {
         updateStates();
         updateValues();
-        processView.setImage(imageProcessing.drawImage());
+        view_processView.setImage(imageProcessing.drawImage());
     }
     @FXML
     private void testAlgorithm() {
         MatOfByte byteMat = new MatOfByte();
         Imgcodecs.imencode(".png", new DetectionAlg().getMat(imageProcessing.getOriginalMat(), imageProcessing.getProcessedImgMat(), 500), byteMat); //imgMat = Mat die gezeichnet werden soll
-        processView.setImage(new Image(new ByteArrayInputStream(byteMat.toArray())));
+        view_processView.setImage(new Image(new ByteArrayInputStream(byteMat.toArray())));
     }
     @FXML
     private void loadImage() {
