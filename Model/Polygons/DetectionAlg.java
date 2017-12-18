@@ -24,17 +24,8 @@ public class DetectionAlg {
         this.edgeMat = edgeMat;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public Mat getMat(Mat imageMat, Mat edgeMat, float scale) {
-        this.scale = scale;
-        Mat mask = new Mat(imageMat.rows(),imageMat.cols(),CV_8UC3, new Scalar(0,255,0));
-=======
-=======
->>>>>>> e757d99cc4279c9d13711139a5095f45a0e5d287
     public Mat getMat() {
-        Mat mask = new Mat(imageMat.rows(),imageMat.cols(),3, new Scalar(0,0,0));
->>>>>>> e757d99cc4279c9d13711139a5095f45a0e5d287
+        Mat mask = new Mat(imageMat.rows(),imageMat.cols(),CV_8UC3, new Scalar(0,255,0));
         ArrayList<Point> arrayList_vertices = new ArrayList<>();
         return algorithm(arrayList_vertices, edgeMat, mask);
     }
@@ -53,8 +44,6 @@ public class DetectionAlg {
         return mask;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     private ArrayList<Point> getPoly0(ArrayList<Point> arrayList_vertices) {
 
         Point point_middle = null;
@@ -88,10 +77,6 @@ public class DetectionAlg {
         return arrayList_vertices;
     }
 
-=======
->>>>>>> e757d99cc4279c9d13711139a5095f45a0e5d287
-=======
->>>>>>> e757d99cc4279c9d13711139a5095f45a0e5d287
     private void drawMask(Mat mask, ArrayList<Point> arrayList_vertices) {
         fillConvexPoly(mask, new MatOfPoint(arrayList_vertices.get(0), arrayList_vertices.get(1), arrayList_vertices.get(2)), new Scalar(0,0, 255));
     }
