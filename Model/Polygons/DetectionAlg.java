@@ -13,16 +13,19 @@ public class DetectionAlg {
 
     private float scale; //TODO Scale minValue = 0,0007% || 10; maxValue = 0,01% || 10
     private int polyCounter = 0;
+    private Mat imageMat;
+    private Mat edgeMat;
 
-    public DetectionAlg() { //edge Mat = KantenBild; scale = eingabe vom Nutzer
+    public DetectionAlg(Mat imageMat, Mat edgeMat, float scale) { //edge Mat = KantenBild; scale = eingabe vom Nutzer
+        this.scale = scale;
+        this.imageMat = imageMat;
+        this.edgeMat = edgeMat;
     }
 
-    public Mat getMat(Mat imageMat, Mat edgeMat, float scale) {
-        this.scale = scale;
+    public Mat getMat() {
         Mat mask = new Mat(imageMat.rows(),imageMat.cols(),3, new Scalar(0,0,0));
         ArrayList<Point> arrayList_vertices = new ArrayList<>();
-        Mat processedMat = algorithm(arrayList_vertices, edgeMat, mask);
-        return processedMat;
+        return algorithm(arrayList_vertices, edgeMat, mask);
     }
 
     private Mat algorithm(ArrayList<Point> arrayList_vertices, Mat progress, Mat mask) {
@@ -37,24 +40,6 @@ public class DetectionAlg {
         //drawPoly(poly);
         polyCounter++;
         return mask;
-    }
-
-    private ArrayList<Point> getPoly0(ArrayList<Point> arrayList_vertices) {
-
-        Point point_second = null;
-        Point point_zero = new Point(0,0);
-        arrayList_vertices.add(point_zero); //Immer der Anfang, erster Vertex liegt auf 0,0
-        Point point_first = new Point(randomLength(), randomLength());
-        arrayList_vertices.add(point_first);
-        Point point_middle = new Point(point_first.x/2,point_first.y/2);
-        float distance = (float) Math.sqrt(point_first.x*point_first.x+point_first.y*point_first.y);
-        while (true) {
-            point_second = new Point(point_middle.x + randomLength(), point_middle.y + randomLength());
-            System.out.println("First "+point_first + "Second "+point_second);
-            if ((float) Math.sqrt((point_second.x-point_first.x)*(point_second.x-point_first.x)+(point_second.y-point_first.y)*(point_second.y-point_first.y))>0.7*distance) break;
-        }
-        arrayList_vertices.add(point_second);
-        return arrayList_vertices;
     }
 
     private void drawMask(Mat mask, ArrayList<Point> arrayList_vertices) {
