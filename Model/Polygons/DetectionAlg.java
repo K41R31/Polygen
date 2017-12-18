@@ -8,6 +8,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static org.opencv.core.CvType.CV_8UC3;
+import static org.opencv.core.CvType.CV_8UC4;
 import static org.opencv.imgproc.Imgproc.fillConvexPoly;
 
 
