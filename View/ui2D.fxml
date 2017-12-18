@@ -25,7 +25,7 @@
 
 <AnchorPane fx:id="anchorPane_uiMain" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@css/styleUi.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Polygen.Controller.UiController2D">
    <children>
-      <SplitPane dividerPositions="0.035, 0.166" orientation="VERTICAL" style="-fx-background-color: #282828;" styleClass="backg-dark" stylesheets="@css/styleUi.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.035, 0.166, 0.97" orientation="VERTICAL" style="-fx-background-color: #282828;" styleClass="backg-dark" stylesheets="@css/styleUi.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
             <SplitPane dividerPositions="0.022, 0.93" styleClass="backg-bright" stylesheets="@css/styleUi.css">
                <items>
@@ -349,9 +349,9 @@
                         <Insets bottom="20.0" top="20.0" />
                      </padding>
                   </SplitPane>
-                  <StackPane style="-fx-background-color: #1f1f1f;">
+                  <StackPane fx:id="pane_processWindow" style="-fx-background-color: #1f1f1f;">
                      <children>
-                        <ImageView fitHeight="66.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="320.0" fitWidth="325.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../resources/Ui/ui_mainViewLogo.png" />
                            </image>
@@ -361,6 +361,7 @@
                   </StackPane>
               </items>
             </SplitPane>
+            <AnchorPane />
         </items>
          <opaqueInsets>
             <Insets />
