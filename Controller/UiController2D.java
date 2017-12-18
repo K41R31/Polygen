@@ -6,6 +6,7 @@ import Polygen.Model.Polygons.DetectionAlg;
 import javafx.scene.control.Slider;
 import javafx.scene.effect.Glow;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -31,6 +32,8 @@ import java.util.ResourceBundle;
 
 public class UiController2D implements Initializable {
 
+    @FXML
+    private StackPane pane_processWindow;
     @FXML
     private ImageView view_processView;
     @FXML
@@ -59,8 +62,6 @@ public class UiController2D implements Initializable {
     private CheckBox checkBox_1;
     @FXML
     private CheckBox checkBox_2;
-    @FXML
-    private ImageView processView;
     @FXML
     private Line line_close1;
     @FXML
@@ -108,8 +109,8 @@ public class UiController2D implements Initializable {
         anchorPane_uiMain.setPrefHeight(windowHeight);
         imageView_logo.setFitWidth(windowWidth*0.021);
         imageView_logo.setFitHeight(windowHeight* 0.037);
-        Font resizeTitleFont = new Font("Walkway Black", windowHeight*0.023);
-        Font resizeFilterFont = new Font("Walkway SemiBold", windowHeight*0.028);
+        Font resizeTitleFont = new Font("Walkway Black", windowHeight*0.0241);
+        Font resizeFilterFont = new Font("Walkway SemiBold", windowHeight*0.0278);
         text_title0.setFont(resizeTitleFont);
         text_title1.setFont(resizeTitleFont);
         text_title2.setFont(resizeTitleFont);
@@ -150,6 +151,7 @@ public class UiController2D implements Initializable {
                 hBox_blurFilter.setDisable(false);
                 hBox_blurFilter.setVisible(true);
                 closeFilterSelector();
+                updatePicture();
             });
             VBox_filterSelector.getChildren().add(t);
         }
@@ -196,6 +198,7 @@ public class UiController2D implements Initializable {
         button_addBlurFilter.setVisible(true);
         hBox_blurFilter.setDisable(true);
         hBox_blurFilter.setVisible(false);
+        updatePicture();
     }
     @FXML
     private void updatePicture() {
@@ -212,6 +215,8 @@ public class UiController2D implements Initializable {
     @FXML
     private void loadImage() {
         imageProcessing.loadImage();
+        view_processView.setFitWidth(pane_processWindow.getWidth());
+        view_processView.setFitHeight(pane_processWindow.getHeight());
         updatePicture();
     }
     @FXML

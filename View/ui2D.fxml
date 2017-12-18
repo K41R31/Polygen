@@ -345,9 +345,9 @@
                         <Insets bottom="20.0" top="20.0" />
                      </padding>
                   </SplitPane>
-                  <StackPane style="-fx-background-color: #1f1f1f;">
+                  <StackPane fx:id="pane_processWindow" style="-fx-background-color: #1f1f1f;">
                      <children>
-                        <ImageView fitHeight="66.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="320.0" fitWidth="325.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../resources/Ui/ui_mainViewLogo.png" />
                            </image>
