@@ -41,12 +41,19 @@ public class DetectionAlg {
 
     private ArrayList<Point> getPoly0(ArrayList<Point> arrayList_vertices) {
 
-        arrayList_vertices.add(new Point(0,0)); //Immer der Anfang, erster Vertex liegt auf 0,0
-        arrayList_vertices.add(new Point(randomLength(),randomLength()));
-        arrayList_vertices.add(new Point(randomLength(),randomLength()));
-//        float relationship1 = (float)((arrayList_vertices.get(1).x)/(arrayList_vertices.get(1).y));
-//        float relationship2 = (float)((arrayList_vertices.get(2).x)/(arrayList_vertices.get(2).y));
-//        if (relationship1>relationship2-100 && relationship1<relationship2+100) arrayList_vertices.set(2,new Point(randomLength(),randomLength()));
+        Point point_second = null;
+        Point point_zero = new Point(0,0);
+        arrayList_vertices.add(point_zero); //Immer der Anfang, erster Vertex liegt auf 0,0
+        Point point_first = new Point(randomLength(), randomLength());
+        arrayList_vertices.add(point_first);
+        Point point_middle = new Point(point_first.x/2,point_first.y/2);
+        float distance = (float) Math.sqrt(point_first.x*point_first.x+point_first.y*point_first.y);
+        while (true) {
+            point_second = new Point(point_middle.x + randomLength(), point_middle.y + randomLength());
+            System.out.println("First "+point_first + "Second "+point_second);
+            if ((float) Math.sqrt((point_second.x-point_first.x)*(point_second.x-point_first.x)+(point_second.y-point_first.y)*(point_second.y-point_first.y))>0.7*distance) break;
+        }
+        arrayList_vertices.add(point_second);
         return arrayList_vertices;
     }
 

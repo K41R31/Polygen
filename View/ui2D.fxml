@@ -49,6 +49,10 @@
                             <Menu mnemonicParsing="false" text="Edit">
                               <items>
                                 <MenuItem mnemonicParsing="false" text="Delete" />
+                                    <MenuItem mnemonicParsing="false" onAction="#testAlgorithm" text="Generate Polygons">
+                                       <accelerator>
+                                          <KeyCodeCombination alt="ANY" code="P" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                                       </accelerator></MenuItem>
                               </items>
                             </Menu>
                             <Menu mnemonicParsing="false" text="Help">
@@ -352,7 +356,7 @@
                               <Image url="@../resources/Ui/ui_mainViewLogo.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="view_processView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="view_processView" fitHeight="600.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </StackPane>
               </items>
