@@ -25,7 +25,7 @@ public class DetectionAlg {
     }
 
     public Mat getMat() {
-        Mat mask = new Mat(imageMat.rows(),imageMat.cols(),CV_8UC3, new Scalar(0,255,0));
+        Mat mask = new Mat(imageMat.rows(),imageMat.cols(),CV_8UC3, new Scalar(0,0,0));
         ArrayList<Point> arrayList_vertices = new ArrayList<>();
         return algorithm(arrayList_vertices, edgeMat, mask);
     }
