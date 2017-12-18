@@ -6,6 +6,8 @@ import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import java.awt.*;
 import java.util.ArrayList;
+
+import static org.opencv.core.CvType.CV_8UC3;
 import static org.opencv.imgproc.Imgproc.fillConvexPoly;
 
 
@@ -23,8 +25,6 @@ public class DetectionAlg {
     }
 
     public Mat getMat() {
-        Mat mask = new Mat(imageMat.rows(),imageMat.cols(),3, new Scalar(0,0,0));
-        Mat mask = new Mat(imageMat.rows(),imageMat.cols(),CV_8UC3, new Scalar(0,255,0));
         Mat mask = new Mat(imageMat.rows(),imageMat.cols(),CV_8UC3, new Scalar(0,255,0));
         ArrayList<Point> arrayList_vertices = new ArrayList<>();
         return algorithm(arrayList_vertices, edgeMat, mask);
