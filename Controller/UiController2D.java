@@ -209,7 +209,7 @@ public class UiController2D implements Initializable {
     @FXML
     private void testAlgorithm() {
         MatOfByte byteMat = new MatOfByte();
-        Imgcodecs.imencode(".png", new DetectionAlg().getMat(imageProcessing.getOriginalMat(), imageProcessing.getProcessedImgMat(), 500), byteMat); //imgMat = Mat die gezeichnet werden soll
+        Imgcodecs.imencode(".png", new DetectionAlg(imageProcessing.getOriginalMat(), imageProcessing.getProcessedImgMat(), 500).getMat(), byteMat); //imgMat = Mat die gezeichnet werden soll
         view_processView.setImage(new Image(new ByteArrayInputStream(byteMat.toArray())));
     }
     @FXML
