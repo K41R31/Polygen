@@ -23,7 +23,10 @@ public class DetectionAlg {
     }
 
     public Mat getMat() {
+<<<<<<< HEAD
         Mat mask = new Mat(imageMat.rows(),imageMat.cols(),3, new Scalar(0,0,0));
+=======
+>>>>>>> ddba4da6cb7d0e17ee5f5fb4f4285c973bf133d0
         ArrayList<Point> arrayList_vertices = new ArrayList<>();
         return algorithm(arrayList_vertices, edgeMat, mask);
     }
@@ -42,6 +45,9 @@ public class DetectionAlg {
         return mask;
     }
 
+<<<<<<< HEAD
+=======
+>>>>>>> ddba4da6cb7d0e17ee5f5fb4f4285c973bf133d0
     private void drawMask(Mat mask, ArrayList<Point> arrayList_vertices) {
         fillConvexPoly(mask, new MatOfPoint(arrayList_vertices.get(0), arrayList_vertices.get(1), arrayList_vertices.get(2)), new Scalar(255,255, 255));
     }
