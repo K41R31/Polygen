@@ -7,7 +7,7 @@ import org.opencv.imgproc.Imgproc;
 public class ImageFilter {
 
     private boolean[] states; //Der Zustand der einzelnen Filter (Augen)
-    private int blurFilter; //Der Ausgewählter Blur Filter (-1 wenn keiner ausgewählt wurde)
+    private int blurFilter = -1; //Der Ausgewählter Blur Filter (-1 wenn keiner ausgewählt wurde)
     private float[] values; //Die Werte der Filter
 
     public ImageFilter() {
@@ -44,7 +44,7 @@ public class ImageFilter {
 
     private Mat gaussianBlur(Mat inputMat, int kernelsize_min, int kernelsize_max) {
         Mat outputMat = new Mat();
-        Imgproc.GaussianBlur(inputMat, outputMat, new Size(3, 3), 0, 0);
+        Imgproc.GaussianBlur(inputMat, outputMat, new Size(5, 5), 5, 5);
         return outputMat;
     }
 

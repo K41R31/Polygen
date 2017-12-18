@@ -138,25 +138,14 @@
                </items></SplitPane>
             <SplitPane dividerPositions="0.167" styleClass="backg-transp">
               <items>
-                  <SplitPane fx:id="splitPane_paneSize" dividerPositions="0.1, 0.36, 0.555, 0.5" orientation="VERTICAL" styleClass="backg-bright">
+                  <SplitPane fx:id="splitPane_paneSize" dividerPositions="0.1, 0.36, 0.555" orientation="VERTICAL" styleClass="backg-bright">
                     <items>
                         <AnchorPane>
-                           <children>
-                              <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <Button mnemonicParsing="false" onAction="#testAlgorithm" text="TestAlgorithm" />
-                                 </children></StackPane>
-                           </children>
                            <padding>
-                              <Insets bottom="15.0" top="15.0" />
-                           </padding>
-                        </AnchorPane>
-                        <AnchorPane>
-                           <padding>
-                              <Insets bottom="15.0" top="15.0" />
+                              <Insets bottom="20.0" top="20.0" />
                            </padding>
                            <children>
-                              <VBox fx:id="vBox_preProcessingBackground" alignment="BOTTOM_CENTER" layoutX="-16.0" layoutY="33.0" prefHeight="213.0" prefWidth="320.0" spacing="10.0" styleClass="que-panes" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="18.0">
+                              <VBox fx:id="vBox_preProcessingBackground" alignment="BOTTOM_CENTER" layoutX="-16.0" layoutY="33.0" prefHeight="213.0" prefWidth="320.0" spacing="10.0" styleClass="que-panes" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <HBox alignment="CENTER_RIGHT" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
@@ -255,7 +244,7 @@
                               </VBox>
                            </children>
                            <padding>
-                              <Insets bottom="15.0" top="15.0" />
+                              <Insets bottom="20.0" top="20.0" />
                            </padding>
                         </AnchorPane>
                         <AnchorPane>
@@ -338,16 +327,22 @@
                               </VBox>
                            </children>
                            <padding>
-                              <Insets bottom="15.0" top="15.0" />
+                              <Insets bottom="20.0" top="20.0" />
                            </padding>
                         </AnchorPane>
-                        <AnchorPane />
+                        <AnchorPane>
+                           <children>
+                              <StackPane layoutY="41.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#testAlgorithm" text="Generate Polygons" />
+                                 </children></StackPane>
+                           </children></AnchorPane>
                     </items>
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
                      <padding>
-                        <Insets bottom="10.0" top="10.0" />
+                        <Insets bottom="20.0" top="20.0" />
                      </padding>
                   </SplitPane>
                   <StackPane style="-fx-background-color: #1f1f1f;">
