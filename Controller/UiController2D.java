@@ -1,6 +1,5 @@
 package Polygen.Controller;
 
-import Polygen.Model.ImageProcessing.ImageFilter;
 import Polygen.Model.ImageProcessing.ImageProcessing;
 import Polygen.Model.Polygons.DetectionAlg;
 import javafx.scene.control.Slider;
@@ -22,10 +21,9 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import org.opencv.core.MatOfByte;
 import org.opencv.imgcodecs.Imgcodecs;
-
-import javax.xml.bind.annotation.XmlList;
 import java.awt.*;
 import java.io.ByteArrayInputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -36,6 +34,8 @@ public class UiController2D implements Initializable {
     private StackPane pane_processWindow;
     @FXML
     private ImageView view_processView;
+    @FXML
+    private ImageView imageView_buttonGenPoly;
     @FXML
     private Text text_title0;
     @FXML
@@ -57,11 +57,17 @@ public class UiController2D implements Initializable {
     @FXML
     private Button button_addBlurFilter;
     @FXML
+    private Button button_buttonGenPoly;
+    @FXML
     private CheckBox checkBox_0;
     @FXML
     private CheckBox checkBox_1;
     @FXML
     private CheckBox checkBox_2;
+    @FXML
+    private Image image_genPoly;
+    @FXML
+    private Image image_genPolyHover;
     @FXML
     private Line line_close1;
     @FXML
@@ -120,6 +126,14 @@ public class UiController2D implements Initializable {
         text_edgeExtractionFilter0.setFont(resizeFilterFont);
         text_edgeExtractionFilter1.setFont(resizeFilterFont);
         text_edgeExtractionFilter2.setFont(resizeFilterFont);
+        double buttonGenWidth = windowWidth*0.1458;
+        double buttonGenHeight = windowHeight*0.1134;
+        image_genPoly = new Image("Polygen/resources/Ui/ui_generatePolysButton.png", buttonGenWidth, buttonGenHeight, false, false);
+        image_genPolyHover = new Image("Polygen/resources/Ui/ui_generatePolysButtonHover.png");
+        imageView_buttonGenPoly.setFitWidth(buttonGenWidth);
+        imageView_buttonGenPoly.setFitHeight(buttonGenHeight);
+        button_buttonGenPoly.setPrefWidth(buttonGenWidth);
+        button_buttonGenPoly.setPrefHeight(buttonGenHeight);
     }
 
     private void updateStates() {
@@ -189,7 +203,12 @@ public class UiController2D implements Initializable {
             list_fiterBackgounds.get(i).setStyle("-fx-background-color: #2b2b2b");
         }
     }
-
+    @FXML
+    private void testAlgorithm() { //TODO Algorithmus anders einbinden
+        MatOfByte byteMat = new MatOfByte();
+        Imgcodecs.imencode(".png", new DetectionAlg(imageProcessing.getOriginalMat(), imageProcessing.getProcessedImgMat(), 500).getMat(), byteMat); //imgMat = Mat die gezeichnet werden soll
+        view_processView.setImage(new Image(new ByteArrayInputStream(byteMat.toArray())));
+    }
     @FXML
     private void removeBlurFilter() {
         text_blurFilter.setText("");
@@ -207,12 +226,6 @@ public class UiController2D implements Initializable {
         view_processView.setImage(imageProcessing.drawImage());
     }
     @FXML
-    private void testAlgorithm() {
-        MatOfByte byteMat = new MatOfByte();
-        Imgcodecs.imencode(".png", new DetectionAlg(imageProcessing.getOriginalMat(), imageProcessing.getProcessedImgMat(), 500).getMat(), byteMat); //imgMat = Mat die gezeichnet werden soll
-        view_processView.setImage(new Image(new ByteArrayInputStream(byteMat.toArray())));
-    }
-    @FXML
     private void loadImage() {
         imageProcessing.loadImage();
         view_processView.setFitWidth(pane_processWindow.getWidth());
@@ -224,6 +237,12 @@ public class UiController2D implements Initializable {
         toggleFilterSelector(false, null);
         VBox_filterSelector.getChildren().clear();
     }
+    @FXML
+    private void buttonGenPolys_entered() { imageView_buttonGenPoly.setImage(image_genPolyHover); }
+    @FXML
+    private void buttonGenPolys_exited() { imageView_buttonGenPoly.setImage(image_genPoly); }
+    @FXML
+    private void buttonGenPolys_action() { testAlgorithm(); }
     @FXML
     private void title0_entered() {
         text_title0.setEffect(glow);
@@ -280,14 +299,15 @@ public class UiController2D implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        glow.setLevel(0.5);
+        resizeObjectsRelative();
+        imageView_buttonGenPoly.setImage(image_genPoly);
         list_sliderPanes.add(pane_sliderPreProcessing);
         list_sliderPanes.add(pane_sliderBlur);
         list_sliderPanes.add(pane_sliderEdgeExtraction);
         list_fiterBackgounds.add(vBox_preProcessingBackground);
         list_fiterBackgounds.add(vBox_blurBackground);
         list_fiterBackgounds.add(vBox_edgeExtractionBackground);
-        glow.setLevel(0.5);
-        resizeObjectsRelative();
         try {
             imageProcessing = new ImageProcessing();
         } catch (Exception e) {

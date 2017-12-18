@@ -25,7 +25,7 @@
 
 <AnchorPane fx:id="anchorPane_uiMain" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@css/styleUi.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Polygen.Controller.UiController2D">
    <children>
-      <SplitPane dividerPositions="0.035, 0.166, 0.97" orientation="VERTICAL" style="-fx-background-color: #282828;" styleClass="backg-dark" stylesheets="@css/styleUi.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.035, 0.166" orientation="VERTICAL" style="-fx-background-color: #282828;" styleClass="backg-dark" stylesheets="@css/styleUi.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
             <SplitPane dividerPositions="0.022, 0.93" styleClass="backg-bright" stylesheets="@css/styleUi.css">
                <items>
@@ -89,7 +89,7 @@
                      </items>
                   </SplitPane>
                </items></SplitPane>
-            <SplitPane dividerPositions="0.167, 0.8" styleClass="backg-dark">
+            <SplitPane dividerPositions="0.2, 0.8" styleClass="backg-dark">
                <padding>
                   <Insets bottom="1.0" top="1.0" />
                </padding>
@@ -338,7 +338,10 @@
                            <children>
                               <StackPane layoutY="41.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#testAlgorithm" text="Generate Polygons" />
+                                    <Button fx:id="button_buttonGenPoly" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseEntered="#buttonGenPolys_entered" onMouseExited="#buttonGenPolys_exited" onMousePressed="#buttonGenPolys_action" prefHeight="131.0" prefWidth="300.0" styleClass="button-genPoly">
+                                       <graphic>
+                                          <ImageView fx:id="imageView_buttonGenPoly" fitHeight="131.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" />
+                                       </graphic></Button>
                                  </children></StackPane>
                            </children></AnchorPane>
                     </items>
@@ -361,7 +364,6 @@
                   </StackPane>
               </items>
             </SplitPane>
-            <AnchorPane />
         </items>
          <opaqueInsets>
             <Insets />

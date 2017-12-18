@@ -117,3 +117,6 @@
 .text-filterBack:hover {
     -fx-font-family: "Walkway Black";
 }
+.button-genPoly {
+    -fx-background-color: TRANSPARENT;
+}
