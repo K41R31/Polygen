@@ -4,22 +4,19 @@ import org.opencv.core.Mat;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
-import java.util.ArrayList;
-
-import static org.opencv.core.Core.BORDER_DEFAULT;
-
 public class ImageFilter {
 
     private boolean[] states; //Der Zustand der einzelnen Filter (Augen)
     private int blurFilter; //Der Ausgewählter Blur Filter (-1 wenn keiner ausgewählt wurde)
+    private float[] values; //Die Werte der Filter
 
     public ImageFilter() {
     }
 
-    public Mat processMat(Mat originalMat, float alpha, float beta) {
+    public Mat processMat(Mat originalMat) {
         Mat processMat = originalMat;
-        if (states[0]) processMat = grayscale(processMat);
-        if (states[1]) processMat = brightnessContrast(processMat, alpha, beta);
+        if (states[0]) processMat = greyscale(processMat);
+        if (states[1]) processMat = brightnessContrast(processMat, values[0], values[1]);
         if (states[2]) {
             if (blurFilter == 0) processMat = gaussianBlur(processMat, 5, 5);
             else if (blurFilter == 1) processMat = medianBlur(processMat, 5);
@@ -33,7 +30,7 @@ public class ImageFilter {
         return original;
     }
 
-    private Mat grayscale(Mat inputMat) {
+    private Mat greyscale(Mat inputMat) {
         Mat outputMat = new Mat();
         Imgproc.cvtColor(inputMat, outputMat, Imgproc.COLOR_BGR2GRAY);
         return outputMat;
@@ -77,6 +74,8 @@ public class ImageFilter {
         Mat canny = null;
         return canny;
     }
-    public void setBlurFilter(int blurFilter) { this.blurFilter = blurFilter; }
-    public void setStates(boolean[] states) { this.states = states; }
+
+    void setValues(float[] values) { this.values = values; }
+    void setBlurFilter(int blurFilter) { this.blurFilter = blurFilter; }
+    void setStates(boolean[] states) { this.states = states; }
 }

@@ -3,6 +3,8 @@ package Polygen.Controller;
 import Polygen.Model.ImageProcessing.ImageFilter;
 import Polygen.Model.ImageProcessing.ImageProcessing;
 import Polygen.Model.Polygons.DetectionAlg;
+import javafx.scene.control.Slider;
+import javafx.scene.effect.Glow;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -22,6 +24,7 @@ import org.opencv.imgcodecs.Imgcodecs;
 import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class UiController2D implements Initializable {
@@ -59,6 +62,10 @@ public class UiController2D implements Initializable {
     @FXML
     private Line line_close2;
     @FXML
+    private Slider slider_alpha;
+    @FXML
+    private Slider slider_beta;
+    @FXML
     private AnchorPane anchorPane_uiMain;
     @FXML
     private ImageView imageView_logo;
@@ -69,8 +76,24 @@ public class UiController2D implements Initializable {
     @FXML
     private VBox VBox_filterSelector;
     @FXML
+    private VBox vBox_preProcessingBackground;
+    @FXML
+    private VBox vBox_blurBackground;
+    @FXML
+    private VBox vBox_edgeExtractionBackground;
+    @FXML
     private HBox hBox_blurFilter;
+    @FXML
+    private HBox pane_sliderPreProcessing;
+    @FXML
+    private HBox pane_sliderBlur;
+    @FXML
+    private HBox pane_sliderEdgeExtraction;
+
     private ImageProcessing imageProcessing;
+    private Glow glow = new Glow();
+    private ArrayList<HBox> list_sliderPanes = new ArrayList<>();
+    private ArrayList<VBox> list_fiterBackgounds = new ArrayList<>();
 
 
     private void resizeObjectsRelative() {
@@ -94,22 +117,18 @@ public class UiController2D implements Initializable {
         text_edgeExtractionFilter2.setFont(resizeFilterFont);
     }
 
-    private boolean[] getAllStates() {
-        boolean[] states = {false, false, false, false, false, false};
-        states[0] = (checkBox_0.isSelected());
-        states[1] = (checkBox_1.isSelected());
-        return states;
+    private void updateStates() {
+        boolean[] states = {checkBox_0.isSelected(), checkBox_1.isSelected(), checkBox_2.isSelected()};
+        imageProcessing.setStates(states);
     }
-    /*
-        private ArrayList<Float> getAllValues() {
-            ArrayList<Float> states = new ArrayList<>();
-            states.add();
-            states.add();
-            return states;
-        }
-    */
+
+    private void updateValues() {
+        float[] values = {(float)slider_alpha.getValue(), (float)slider_beta.getValue()};
+        imageProcessing.setValues(values);
+    }
+
     @FXML
-    private void selectBlurFilter() { //TODO + durch Auge ersetzen wenn Filter hinzugefügt wurde
+    private void selectBlurFilter() {
         toggleFilterSelector(true, "BLUR FILTER");
         Text empty0 = new Text(); //Platzhalter0
         VBox_filterSelector.getChildren().add(empty0);
@@ -133,7 +152,7 @@ public class UiController2D implements Initializable {
         Text empty1 = new Text(); //Platzhalter1
         VBox_filterSelector.getChildren().add(empty1);
         Text back = new Text("BACK");
-        back.getStyleClass().add("text_filterBack");
+        back.getStyleClass().add("text-filterBack");
         back.setFill(Color.web("#ff3535"));
         back.setOnMouseClicked(event -> {
             closeFilterSelector();
@@ -150,6 +169,21 @@ public class UiController2D implements Initializable {
         AnchorPane_filterSelector.setDisable(!toggle);
         AnchorPane_filterSelector.setVisible(toggle);
     }
+
+    private void sliderManager(int activePane) {
+        for(int i = 0; i < 3; i++) {
+            if(i == activePane) {
+                list_sliderPanes.get(i).setVisible(true);
+                list_sliderPanes.get(i).setDisable(false);
+                list_fiterBackgounds.get(i).setStyle("-fx-background-color: #3a3a3a");
+                continue;
+            }
+            list_sliderPanes.get(i).setVisible(false);
+            list_sliderPanes.get(i).setDisable(true);
+            list_fiterBackgounds.get(i).setStyle("-fx-background-color: #2b2b2b");
+        }
+    }
+
     @FXML
     private void removeBlurFilter() {
         text_blurFilter.setText("");
@@ -161,9 +195,9 @@ public class UiController2D implements Initializable {
     }
     @FXML
     private void updatePicture() {
-        boolean[] states = {checkBox_0.isSelected(), checkBox_1.isSelected(), checkBox_2.isSelected()};
-        imageProcessing.setStates(states);
-        processView.setImage(imageProcessing.drawImage(5,5));
+        updateStates();
+        updateValues();
+        processView.setImage(imageProcessing.drawImage());
     }
     @FXML
     private void testAlgorithm() {
@@ -180,6 +214,42 @@ public class UiController2D implements Initializable {
     private void closeFilterSelector() {
         toggleFilterSelector(false, null);
         VBox_filterSelector.getChildren().clear();
+    }
+    @FXML
+    private void title0_entered() {
+        text_title0.setEffect(glow);
+    }
+    @FXML
+    private void title0_exited() {
+        text_title0.setEffect(null);
+    }
+    @FXML
+    private void title0_active() {
+        sliderManager(0);
+    }
+    @FXML
+    private void title1_entered() { //text_title1
+        text_title1.setEffect(glow);
+    }
+    @FXML
+    private void title1_exited() {
+        text_title1.setEffect(null);
+    }
+    @FXML
+    private void title1_active() {
+        sliderManager(1);
+    }
+    @FXML
+    private void title2_entered() {
+        text_title2.setEffect(glow);
+    }
+    @FXML
+    private void title2_exited() {
+        text_title2.setEffect(null);
+    }
+    @FXML
+    private void title2_active() {
+        sliderManager(2);
     }
     @FXML
     private void btnClose_entered() {
@@ -201,6 +271,13 @@ public class UiController2D implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        list_sliderPanes.add(pane_sliderPreProcessing);
+        list_sliderPanes.add(pane_sliderBlur);
+        list_sliderPanes.add(pane_sliderEdgeExtraction);
+        list_fiterBackgounds.add(vBox_preProcessingBackground);
+        list_fiterBackgounds.add(vBox_blurBackground);
+        list_fiterBackgounds.add(vBox_edgeExtractionBackground);
+        glow.setLevel(0.5);
         resizeObjectsRelative();
         try {
             imageProcessing = new ImageProcessing();

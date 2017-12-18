@@ -110,10 +110,10 @@
     -fx-font-family: "Walkway Black";
     -fx-font-size: 30px;
 }
-.text_filterBack {
+.text-filterBack {
     -fx-font-family: "Walkway Bold";
     -fx-font-size: 20px;
 }
-.text_filterBack:hover {
+.text-filterBack:hover {
     -fx-font-family: "Walkway Black";
 }

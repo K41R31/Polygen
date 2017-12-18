@@ -65,7 +65,7 @@ public class UiController3D implements Initializable {
     */
     @FXML
     private void updatePicture() {
-        processView.setImage(imageProcessing.drawImage(2,2));
+        processView.setImage(imageProcessing.drawImage());
     }
     @FXML
     private void testAlgorithm() {

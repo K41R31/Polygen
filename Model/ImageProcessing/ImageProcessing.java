@@ -55,13 +55,14 @@ public class ImageProcessing {
 	    					 Imgcodecs.CV_IMWRITE_PNG_STRATEGY_FIXED));
 	}
 
-    public Image drawImage(float alpha, float beta) { //wird in UiController von EventHandlern ausgeführt (Variablen sollen nicht einzelnd übergeben werden)
-        Mat processedImgMat = imageFilter.processMat(originalMat,2, 2);
+    public Image drawImage() { //wird in UiController von EventHandlern ausgeführt (Variablen sollen nicht einzelnd übergeben werden)
+        Mat processedImgMat = imageFilter.processMat(originalMat);
         MatOfByte byteMat = new MatOfByte();
         Imgcodecs.imencode(".png", processedImgMat, byteMat); //imgMat = Mat die gezeichnet werden soll
         return new Image(new ByteArrayInputStream(byteMat.toArray()));
     }
 
+    public void setValues(float[] values) { imageFilter.setValues(values); }
     public void setBlurFilter(int blurFilter) { imageFilter.setBlurFilter(blurFilter); }
     public void setStates(boolean[] states) { imageFilter.setStates(states); }
     public Mat getOriginalMat() { return originalMat; }
