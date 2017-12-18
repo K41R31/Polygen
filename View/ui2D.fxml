@@ -347,7 +347,7 @@
                   </SplitPane>
                   <StackPane style="-fx-background-color: #1f1f1f;">
                      <children>
-                        <ImageView fitHeight="320.0" fitWidth="325.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="66.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../resources/Ui/ui_mainViewLogo.png" />
                            </image>
