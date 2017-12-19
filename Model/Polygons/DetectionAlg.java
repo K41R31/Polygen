@@ -53,7 +53,7 @@ public class DetectionAlg {
         Point point_zero = new Point(0,0);
         arrayList_vertices.add(point_zero); //Immer der Anfang, erster Vertex liegt auf 0,0
         float distance1 = 600;
-        while (distance1 > 500) {
+        while (distance1 > scale) {
             point_first = new Point(randomLength(), randomLength());
             point_middle = new Point(point_first.x / 2, point_first.y / 2);
             distance1 = (float) Math.sqrt(point_first.x * point_first.x + point_first.y * point_first.y);
