@@ -33,7 +33,7 @@ public class DetectionAlg {
 
     private Mat algorithm(ArrayList<Point> arrayList_vertices, Mat progress, Mat mask) {
         if (polyCounter == 0) {
-            arrayList_vertices = getPoly0(arrayList_vertices);
+            arrayList_vertices.addAll(getPoly0(arrayList_vertices));
         }
         else {
 
@@ -45,15 +45,14 @@ public class DetectionAlg {
         return mask;
     }
 
-    private ArrayList<Point> getPoly0(ArrayList<Point> arrayList_vertices) {
+    private ArrayList<Point> getPoly0(ArrayList<Point> arrayList_vertices) { //Berechnet das erste Polygon so, dass es nicht zu groß und nicht zu dünn wird
 
+        Point point_zero = new Point(0,0);
         Point point_middle = null;
         Point point_first = null;
-        Point point_second = null;
-        Point point_zero = new Point(0,0);
-        arrayList_vertices.add(point_zero); //Immer der Anfang, erster Vertex liegt auf 0,0
-        float distance1 = 600;
-        while (distance1 > scale) {
+        Point point_second;
+        float distance1 = 0;
+        while (distance1 > scale || distance1 == 0) {
             point_first = new Point(randomLength(), randomLength());
             point_middle = new Point(point_first.x / 2, point_first.y / 2);
             distance1 = (float) Math.sqrt(point_first.x * point_first.x + point_first.y * point_first.y);
@@ -71,8 +70,9 @@ public class DetectionAlg {
             System.out.println(" Distanz1: " +distance1 + " Distanz2: " +distance2 + " Bogenmaß: " + alpha + " Alpha: " + degrees_alpha);
             if (distance2>0.6*distance1 && degrees_alpha>=30) break;
         }
-        arrayList_vertices.add(point_first);
-        arrayList_vertices.add(point_second);
+        arrayList_vertices.add(point_zero); //Immer der Anfang, erster Vertex liegt auf 0,0
+        arrayList_vertices.add(point_first); //Wird so lange neu berechnet, bis distance1(die Distanz zum point_zero) kleiner als der scale ist
+        arrayList_vertices.add(point_second); //Wird so lange neu berechnet, bis die Distanz und die Winkel zu einander groß genug sind
         System.out.println("" + arrayList_vertices.get(1) + "" + arrayList_vertices.get(2));
 
         return arrayList_vertices;

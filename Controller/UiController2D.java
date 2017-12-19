@@ -164,6 +164,7 @@ public class UiController2D implements Initializable {
                 button_addBlurFilter.setVisible(false);
                 hBox_blurFilter.setDisable(false);
                 hBox_blurFilter.setVisible(true);
+                button_buttonGenPoly.setDisable(false); //TODO Später beim hinzufügen eines Edge Detection Filters aktivieren
                 closeFilterSelector();
                 updatePicture();
             });
@@ -260,9 +261,7 @@ public class UiController2D implements Initializable {
         text_title1.setEffect(glow);
     }
     @FXML
-    private void title1_exited() {
-        text_title1.setEffect(null);
-    }
+    private void title1_exited() { text_title1.setEffect(null); }
     @FXML
     private void title1_active() {
         sliderManager(1);
@@ -302,6 +301,7 @@ public class UiController2D implements Initializable {
         glow.setLevel(0.5);
         resizeObjectsRelative();
         imageView_buttonGenPoly.setImage(image_genPoly);
+        button_buttonGenPoly.setDisable(true);
         list_sliderPanes.add(pane_sliderPreProcessing);
         list_sliderPanes.add(pane_sliderBlur);
         list_sliderPanes.add(pane_sliderEdgeExtraction);
