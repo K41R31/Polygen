@@ -45,7 +45,7 @@ public class DetectionAlg {
         return mask;
     }
 
-    private ArrayList<Point> getPoly0(ArrayList<Point> arrayList_vertices) { //Berechnet das erste Polygon so, dass es nicht zu groß und nicht zu dünn wird
+    private ArrayList<Point> getPoly0(ArrayList<Point> arrayList_vertices) { //Berechnet das erste Polygon so, dass es nicht zu groß und dünn wird
 
         Point point_zero = new Point(0,0);
         Point point_middle = null;
@@ -67,7 +67,7 @@ public class DetectionAlg {
             double alpha = Math.acos(skalar/(Math.abs(distance1)*Math.abs(distance2)));
             double degrees_double_alpha = 180*alpha/Math.PI;
             float degrees_alpha = (float) degrees_double_alpha;
-            System.out.println(" Distanz1: " +distance1 + " Distanz2: " +distance2 + " Bogenmaß: " + alpha + " Alpha: " + degrees_alpha);
+            System.out.println("Distanz1: " +distance1 + " Distanz2: " +distance2 + " Bogenmaß: " + alpha + " Alpha: " + degrees_alpha);
             if (distance2>0.6*distance1 && degrees_alpha>=30) break;
         }
         arrayList_vertices.add(point_zero); //Immer der Anfang, erster Vertex liegt auf 0,0
