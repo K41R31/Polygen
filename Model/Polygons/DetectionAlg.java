@@ -45,7 +45,7 @@ public class DetectionAlg {
             polyCounter++;
         }
         if (polyCounter == 0) {
-            arrayList_vertices.addAll(getPoly0(arrayList_vertices));
+            getFirstPoly(arrayList_vertices);
             polyCounter = polyCounter++;
         }
         else {
