@@ -179,6 +179,7 @@ public class UiController2D implements Initializable {
         });
         VBox_filterSelector.getChildren().add(back);
     }
+
     private void toggleFilterSelector(boolean toggle, String headingText) {
         if(toggle) {
             Text header = new Text("ADD A "+headingText);
