@@ -32,36 +32,38 @@ public class DetectionAlg {
     }
 
     private Mat algorithm(ArrayList<Point> arrayList_vertices, Mat progress, Mat mask) {
-        if (polyCounter == 0) {
-            arrayList_vertices.addAll(getPoly0(arrayList_vertices));
-        }
-        else {
+        for(int i = 0; i < 2; i++) { //Später so oft, wie Polygone gezeichnet werden
+            if (polyCounter == 0) {
+                getFirstPoly(arrayList_vertices);
+            } else {
+                getSecondPoly(arrayList_vertices);
+                System.out.println(arrayList_vertices);
+            }
 
+            drawMask(mask, arrayList_vertices);
+            //drawPoly(poly);
+            polyCounter++;
         }
-
-        drawMask(mask, arrayList_vertices);
-        //drawPoly(poly);
-        polyCounter++;
         return mask;
     }
 
-    private ArrayList<Point> getPoly0(ArrayList<Point> arrayList_vertices) { //Berechnet das erste Polygon so, dass es nicht zu groß und dünn wird
+    private void getFirstPoly(ArrayList<Point> arrayList_vertices) { //Berechnet das erste Polygon so, dass es nicht zu groß und dünn wird
 
-        Point point_zero = new Point(0,0);
+        Point point_0 = new Point(0,0);
         Point point_middle = null;
-        Point point_first = null;
-        Point point_second;
+        Point point_1 = null;
+        Point point_2;
         float distance1 = 0;
         while (distance1 > scale || distance1 == 0) {
-            point_first = new Point(randomLength(), randomLength());
-            point_middle = new Point(point_first.x / 2, point_first.y / 2);
-            distance1 = (float) Math.sqrt(point_first.x * point_first.x + point_first.y * point_first.y);
+            point_1 = new Point(randomLength(), randomLength());
+            point_middle = new Point(point_1.x / 2, point_1.y / 2);
+            distance1 = (float) Math.sqrt(point_1.x * point_1.x + point_1.y * point_1.y);
         }
         while (true) {
-            point_second = new Point(point_middle.x + randomLength(), point_middle.y + randomLength());
-            float distance2 = (float) Math.sqrt((point_second.x-point_first.x)*(point_second.x-point_first.x)+(point_second.y-point_first.y)*(point_second.y-point_first.y));
-            Point vektor1 = new Point(point_first.x,point_first.y);
-            Point vektor2 = new Point(point_second.x-point_first.x,point_second.y-point_first.y);
+            point_2 = new Point(point_middle.x + randomLength(), point_middle.y + randomLength());
+            float distance2 = (float) Math.sqrt((point_2.x-point_1.x)*(point_2.x-point_1.x)+(point_2.y-point_1.y)*(point_2.y-point_1.y));
+            Point vektor1 = new Point(point_1.x,point_1.y);
+            Point vektor2 = new Point(point_2.x-point_1.x,point_2.y-point_1.y);
             double double_skalar = vektor1.x*vektor2.x + vektor1.y*vektor2.y;
             float skalar = (float) double_skalar;
             double alpha = Math.acos(skalar/(Math.abs(distance1)*Math.abs(distance2)));
@@ -70,12 +72,13 @@ public class DetectionAlg {
             System.out.println("Distanz1: " +distance1 + " Distanz2: " +distance2 + " Bogenmaß: " + alpha + " Alpha: " + degrees_alpha);
             if (distance2>0.6*distance1 && degrees_alpha>=30) break;
         }
-        arrayList_vertices.add(point_zero); //Immer der Anfang, erster Vertex liegt auf 0,0
-        arrayList_vertices.add(point_first); //Wird so lange neu berechnet, bis distance1(die Distanz zum point_zero) kleiner als der scale ist
-        arrayList_vertices.add(point_second); //Wird so lange neu berechnet, bis die Distanz und die Winkel zu einander groß genug sind
+        arrayList_vertices.add(point_0); //Immer der Anfang, erster Vertex liegt auf 0,0
+        arrayList_vertices.add(point_1); //Wird so lange neu berechnet, bis distance1(die Distanz zum point_zero) kleiner als der scale ist
+        arrayList_vertices.add(point_2); //Wird so lange neu berechnet, bis die Distanz und die Winkel zu einander groß genug sind
         System.out.println("" + arrayList_vertices.get(1) + "" + arrayList_vertices.get(2));
+    }
 
-        return arrayList_vertices;
+    private void getSecondPoly(ArrayList<Point> arrayList_vertices) {
     }
 
     private void drawMask(Mat mask, ArrayList<Point> arrayList_vertices) {

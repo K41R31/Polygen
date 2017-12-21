@@ -128,7 +128,16 @@
                         </HBox>
                         <HBox fx:id="pane_sliderBlur" alignment="CENTER" disable="true" layoutX="10.0" layoutY="10.0" spacing="50.0" visible="false">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="BLUR" />
+                              <VBox alignment="CENTER" spacing="20.0">
+                                 <children>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="kernelsize">
+                                       <font>
+                                          <Font name="Walkway Bold" size="30.0" />
+                                       </font>
+                                    </Text>
+                                    <Slider fx:id="slider_kernelsize" blockIncrement="2.0" majorTickUnit="1.0" max="20.0" min="1.0" minorTickCount="0" onMouseDragged="#updatePicture" value="5.0" />
+                                 </children>
+                              </VBox>
                            </children>
                         </HBox>
                         <HBox fx:id="pane_sliderEdgeExtraction" alignment="CENTER" disable="true" layoutX="10.0" layoutY="10.0" spacing="50.0" visible="false">

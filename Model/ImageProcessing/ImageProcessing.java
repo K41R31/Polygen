@@ -8,7 +8,6 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.util.ArrayList;
 
 
 public class ImageProcessing {
@@ -55,15 +54,15 @@ public class ImageProcessing {
 	    					 Imgcodecs.CV_IMWRITE_PNG_STRATEGY_FIXED));
 	}
 
-    public Image drawImage() { //wird in UiController von EventHandlern ausgeführt (Variablen sollen nicht einzelnd übergeben werden)
+    public Image drawImage() { //Wird in UiController von EventHandlern ausgeführt
         Mat processedImgMat = imageFilter.processMat(originalMat);
         MatOfByte byteMat = new MatOfByte();
         Imgcodecs.imencode(".png", processedImgMat, byteMat); //imgMat = Mat die gezeichnet werden soll
         return new Image(new ByteArrayInputStream(byteMat.toArray()));
     }
 
-    public void setValues(float[] values) { imageFilter.setValues(values); }
     public void setBlurFilter(int blurFilter) { imageFilter.setBlurFilter(blurFilter); }
+    public void setValues(float[] values) { imageFilter.setValues(values); }
     public void setStates(boolean[] states) { imageFilter.setStates(states); }
     public Mat getOriginalMat() { return originalMat; }
     public Mat getProcessedImgMat() { return processedImgMat; }

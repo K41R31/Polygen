@@ -18,9 +18,9 @@ public class ImageFilter {
         if (states[0]) processMat = greyscale(processMat);
         if (states[1]) processMat = brightnessContrast(processMat, values[0], values[1]);
         if (states[2]) {
-            if (blurFilter == 0) processMat = gaussianBlur(processMat, 5, 5);
-            else if (blurFilter == 1) processMat = medianBlur(processMat, 5);
-            else if (blurFilter == 2) processMat = billateralFilter(processMat, 5);
+            if (blurFilter == 0) processMat = gaussianBlur(processMat, values[2]);
+            else if (blurFilter == 1) processMat = medianBlur(processMat, values[2]);
+            else if (blurFilter == 2) processMat = billateralFilter(processMat, values[2]);
         }
         return processMat;
     }
@@ -42,21 +42,21 @@ public class ImageFilter {
         return outputMat;
     }
 
-    private Mat gaussianBlur(Mat inputMat, int kernelsize_min, int kernelsize_max) {
+    private Mat gaussianBlur(Mat inputMat, float kernelsize) {
         Mat outputMat = new Mat();
-        Imgproc.GaussianBlur(inputMat, outputMat, new Size(5, 5), 5, 5);
+        Imgproc.GaussianBlur(inputMat, outputMat, new Size(kernelsize, kernelsize), kernelsize, kernelsize);
         return outputMat;
     }
 
-    private Mat medianBlur(Mat inputMat, int medianKernel) {
+    private Mat medianBlur(Mat inputMat, float medianKernel) {
         Mat outputMat = new Mat();
-        Imgproc.medianBlur(inputMat, outputMat, medianKernel);
+        Imgproc.medianBlur(inputMat, outputMat, (int)medianKernel);
         return outputMat;
     }
 
-    private Mat billateralFilter(Mat inputMat, int billKernel) {
+    private Mat billateralFilter(Mat inputMat, float billKernel) {
         Mat outputMat = new Mat();
-        Imgproc.bilateralFilter(inputMat, outputMat, billKernel, billKernel * 2, billKernel / 2);
+        Imgproc.bilateralFilter(inputMat, outputMat, (int)billKernel, billKernel * 2, billKernel / 2);
         return outputMat;
     }
 

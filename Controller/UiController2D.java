@@ -23,9 +23,13 @@ import org.opencv.core.MatOfByte;
 import org.opencv.imgcodecs.Imgcodecs;
 import java.awt.*;
 import java.io.ByteArrayInputStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import static java.lang.Math.round;
 
 public class UiController2D implements Initializable {
 
@@ -75,6 +79,8 @@ public class UiController2D implements Initializable {
     private Slider slider_alpha;
     @FXML
     private Slider slider_beta;
+    @FXML
+    private Slider slider_kernelsize;
     @FXML
     private AnchorPane anchorPane_uiMain;
     @FXML
@@ -141,7 +147,10 @@ public class UiController2D implements Initializable {
     }
 
     private void updateValues() {
-        float[] values = {(float)slider_alpha.getValue(), (float)slider_beta.getValue()};
+        int kernel = (int)Math.round(slider_kernelsize.getValue());
+        if (kernel % 2 == 0) kernel++;
+        System.out.println(kernel);
+        float[] values = {(float)slider_alpha.getValue(), (float)slider_beta.getValue(), kernel};
         imageProcessing.setValues(values);
     }
 
@@ -203,6 +212,7 @@ public class UiController2D implements Initializable {
             list_fiterBackgounds.get(i).setStyle("-fx-background-color: #2b2b2b");
         }
     }
+
     @FXML
     private void testAlgorithm() { //TODO Algorithmus anders einbinden
         MatOfByte byteMat = new MatOfByte();
