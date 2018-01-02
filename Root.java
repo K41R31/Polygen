@@ -17,13 +17,11 @@ import java.io.IOException;
 public class Root extends Application {
 
     static public Stage primaryStage;
-
     @Override
     public void start(Stage primaryStage) {
         Root.primaryStage = primaryStage;
         opener();
     }
-
     private void opener() {
         Stage openerStage = new Stage();
         HBox root = new HBox();
@@ -52,7 +50,6 @@ public class Root extends Application {
                 createMainView(FXMLLoader.load(getClass().getResource("View/ui3D.fxml")));
             } catch (IOException e) { e.printStackTrace(); }
         });
-
         openerStage.setScene(openerScene);
         openerStage.initStyle(StageStyle.TRANSPARENT);
         openerStage.show();

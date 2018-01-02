@@ -149,7 +149,6 @@ public class UiController2D implements Initializable {
     private void updateValues() {
         int kernel = (int)Math.round(slider_kernelsize.getValue());
         if (kernel % 2 == 0) kernel++;
-        System.out.println(kernel);
         float[] values = {(float)slider_alpha.getValue(), (float)slider_beta.getValue(), kernel};
         imageProcessing.setValues(values);
     }
@@ -217,7 +216,8 @@ public class UiController2D implements Initializable {
     @FXML
     private void testAlgorithm() { //TODO Algorithmus anders einbinden
         MatOfByte byteMat = new MatOfByte();
-        Imgcodecs.imencode(".png", new DetectionAlg(imageProcessing.getOriginalMat(), imageProcessing.getProcessedImgMat(), 100).getMat(), byteMat); //imgMat = Mat die gezeichnet werden soll
+        DetectionAlg detecttionAlg = new DetectionAlg(imageProcessing.getOriginalMat(), imageProcessing.getProcessedImgMat(), 100);
+        Imgcodecs.imencode(".png", detecttionAlg.getMask() , byteMat); //imgMat = Mat die gezeichnet werden soll
         view_processView.setImage(new Image(new ByteArrayInputStream(byteMat.toArray())));
     }
     @FXML
