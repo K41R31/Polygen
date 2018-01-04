@@ -239,7 +239,7 @@ public class UiController2D implements Initializable {
     @FXML
     private void loadImage() {
         imageProcessing.loadImage();
-        view_processView.setFitWidth(pane_processWindow.getWidth()); //TODO wird zu groß gemacht
+        view_processView.setFitWidth(pane_processWindow.getWidth());
         view_processView.setFitHeight(pane_processWindow.getHeight());
         text_zoomText.setFont(new Font("Walkway Bold", (hBox_zoomTextContainer.getHeight()*0.6)-1)); //Schriftgröße relativ zur Fenstergröße
         text_zoomFator.setFont(new Font("Walkway Bold", hBox_zoomTextContainer.getHeight()*0.6)); //Schriftgröße relativ zur Fenstergröße
@@ -247,7 +247,7 @@ public class UiController2D implements Initializable {
         text_zoomFator.setVisible(true);
         text_zoomFator.setText("100%");
         updatePicture();
-        new Polygen.Model.ZoomHandler(view_processView); //TODO
+        new Polygen.Model.ZoomHandler(view_processView);
     }
     @FXML
     private void closeFilterSelector() {
