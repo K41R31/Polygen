@@ -361,16 +361,40 @@
                         <Insets bottom="20.0" top="20.0" />
                      </padding>
                   </SplitPane>
-                  <StackPane fx:id="pane_processWindow" style="-fx-background-color: #1f1f1f;">
-                     <children>
-                        <ImageView fitHeight="320.0" fitWidth="325.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/Ui/ui_mainViewLogo.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="view_processView" fitHeight="600.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true" />
-                     </children>
-                  </StackPane>
+                  <SplitPane dividerPositions="0.95" orientation="VERTICAL" styleClass="backg-dark">
+                    <items>
+                        <StackPane fx:id="pane_processWindow" style="-fx-background-color: #1f1f1f;">
+                           <children>
+                              <ImageView fitHeight="320.0" fitWidth="325.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resources/Ui/ui_mainViewLogo.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="view_processView" fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </StackPane>
+                        <HBox fx:id="hBox_zoomTextContainer" alignment="CENTER" spacing="5.0" styleClass="backg-transp">
+                           <children>
+                              <Text fx:id="text_zoomText" fill="#aeaeae" strokeType="OUTSIDE" strokeWidth="0.0" text="ZOOM:" visible="false">
+                                 <HBox.margin>
+                                    <Insets left="40.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Walkway Bold" size="19.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="text_zoomFator" fill="#aeaeae" onMousePressed="#textZoom_action" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-zoomFactor" visible="false">
+                                 <font>
+                                    <Font name="Walkway Bold" size="20.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                           <padding>
+                              <Insets left="1.0" top="1.0" />
+                           </padding>
+                        </HBox>
+                    </items>
+                  </SplitPane>
               </items>
             </SplitPane>
         </items>

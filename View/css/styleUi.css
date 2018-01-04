@@ -120,3 +120,6 @@
 .button-genPoly {
     -fx-background-color: TRANSPARENT;
 }
+.text-zoomFactor:hover {
+    -fx-font-family: "Walkway Black";
+}

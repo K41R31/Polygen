@@ -21,15 +21,10 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import org.opencv.core.MatOfByte;
 import org.opencv.imgcodecs.Imgcodecs;
-import java.awt.*;
 import java.io.ByteArrayInputStream;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import static java.lang.Math.round;
 
 public class UiController2D implements Initializable {
 
@@ -39,6 +34,10 @@ public class UiController2D implements Initializable {
     private ImageView view_processView;
     @FXML
     private ImageView imageView_buttonGenPoly;
+    @FXML
+    private Text text_zoomText;
+    @FXML
+    private Text text_zoomFator;
     @FXML
     private Text text_title0;
     @FXML
@@ -98,6 +97,8 @@ public class UiController2D implements Initializable {
     @FXML
     private VBox vBox_edgeExtractionBackground;
     @FXML
+    private HBox hBox_zoomTextContainer;
+    @FXML
     private HBox hBox_blurFilter;
     @FXML
     private HBox pane_sliderPreProcessing;
@@ -113,9 +114,8 @@ public class UiController2D implements Initializable {
 
 
     private void resizeObjectsRelative() {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double windowWidth = screenSize.getWidth();
-        double windowHeight = screenSize.getHeight();
+        double windowWidth = Polygen.Root.screenSize.getWidth();
+        double windowHeight = Polygen.Root.screenSize.getHeight();
         anchorPane_uiMain.setPrefWidth(windowWidth);
         anchorPane_uiMain.setPrefHeight(windowHeight);
         imageView_logo.setFitWidth(windowWidth*0.021);
@@ -239,15 +239,23 @@ public class UiController2D implements Initializable {
     @FXML
     private void loadImage() {
         imageProcessing.loadImage();
-        view_processView.setFitWidth(pane_processWindow.getWidth());
+        view_processView.setFitWidth(pane_processWindow.getWidth()); //TODO wird zu groß gemacht
         view_processView.setFitHeight(pane_processWindow.getHeight());
+        text_zoomText.setFont(new Font("Walkway Bold", (hBox_zoomTextContainer.getHeight()*0.6)-1)); //Schriftgröße relativ zur Fenstergröße
+        text_zoomFator.setFont(new Font("Walkway Bold", hBox_zoomTextContainer.getHeight()*0.6)); //Schriftgröße relativ zur Fenstergröße
+        text_zoomText.setVisible(true);
+        text_zoomFator.setVisible(true);
+        text_zoomFator.setText("100%");
         updatePicture();
+        new Polygen.Model.ZoomHandler(view_processView); //TODO
     }
     @FXML
     private void closeFilterSelector() {
         toggleFilterSelector(false, null);
         VBox_filterSelector.getChildren().clear();
     }
+    @FXML
+    private void textZoom_action() { System.out.println("ZoomFaktorauswahl anzeigen"); }
     @FXML
     private void buttonGenPolys_entered() { imageView_buttonGenPoly.setImage(image_genPolyHover); }
     @FXML

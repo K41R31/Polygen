@@ -17,11 +17,15 @@ import java.io.IOException;
 public class Root extends Application {
 
     static public Stage primaryStage;
+    public static Dimension screenSize;
+
     @Override
     public void start(Stage primaryStage) {
         Root.primaryStage = primaryStage;
+        screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         opener();
     }
+
     private void opener() {
         Stage openerStage = new Stage();
         HBox root = new HBox();
@@ -56,7 +60,6 @@ public class Root extends Application {
     }
 
     private void createMainView(Parent root) {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         primaryStage.setTitle("Polygen");
         primaryStage.setWidth(screenSize.getWidth());
         primaryStage.setHeight(screenSize.getHeight() - 40);
