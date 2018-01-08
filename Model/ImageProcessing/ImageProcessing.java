@@ -12,6 +12,7 @@ import java.io.File;
 
 public class ImageProcessing {
 
+    private File file = null;
     private Mat originalMat;
     private Mat processedImgMat;
     private ImageFilter imageFilter = new ImageFilter();
@@ -23,27 +24,29 @@ public class ImageProcessing {
 
 	}
 
-	public void loadImage() {
+	public void loadImage(File quickLoadFile) {
         Mat imageMat;
-        Polygen.Model.FileSearcher fileSearcher = new Polygen.Model.FileSearcher();
-        File file = null;
-        try {
-            file = fileSearcher.openFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (file == null) return;
+        if (quickLoadFile != null) file = quickLoadFile;
         else {
-            imageMat = Imgcodecs.imread(file.toString());
-            if (imageMat.empty() && file.toString() != null) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Loading File");
-                alert.setHeaderText("Could not load the image");
-                alert.setContentText(file.toString().substring(file.toString().lastIndexOf("\\") + 1) + " is not a supported file"); //Windows Path muss an alle Betriebsysteme angepasst werden
-                alert.showAndWait();
-                loadImage(); //Wenn eine nicht lesbare Datei geöffnet wurde, öffnet sich die Methode immer wieder selber
+            Polygen.Model.FileSearcher fileSearcher = new Polygen.Model.FileSearcher();
+
+            try {
+                file = fileSearcher.openFile();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            if (file == null) return;
         }
+        imageMat = Imgcodecs.imread(file.toString());
+        if (imageMat.empty() && file.toString() != null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Loading File");
+            alert.setHeaderText("Could not load the image");
+            alert.setContentText(file.toString().substring(file.toString().lastIndexOf("\\") + 1) + " is not a supported file"); //Windows Path muss an alle Betriebsysteme angepasst werden
+            alert.showAndWait();
+            loadImage(null); //Wenn eine nicht lesbare Datei geöffnet wurde, öffnet sich die Methode immer wieder selber
+        }
+
         this.originalMat = imageMat;
 	}
 
@@ -66,4 +69,5 @@ public class ImageProcessing {
     public void setStates(boolean[] states) { imageFilter.setStates(states); }
     public Mat getOriginalMat() { return originalMat; }
     public Mat getProcessedImgMat() { return processedImgMat; }
+    public File getFile() { return file; }
 }

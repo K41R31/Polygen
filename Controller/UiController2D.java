@@ -2,8 +2,13 @@ package Polygen.Controller;
 
 import Polygen.Model.ImageProcessing.ImageProcessing;
 import Polygen.Model.Polygons.DetectionAlg;
+import Polygen.Model.LastOpenedFiles;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Slider;
+import javafx.scene.control.SplitPane;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
+import javafx.scene.effect.Reflection;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -22,12 +27,15 @@ import javafx.scene.shape.Rectangle;
 import org.opencv.core.MatOfByte;
 import org.opencv.imgcodecs.Imgcodecs;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class UiController2D implements Initializable {
 
+    @FXML
+    private SplitPane splitPane_paneSize;
     @FXML
     private StackPane pane_processWindow;
     @FXML
@@ -89,6 +97,8 @@ public class UiController2D implements Initializable {
     @FXML
     private AnchorPane AnchorPane_filterSelector;
     @FXML
+    private VBox vBox_fileChooser;
+    @FXML
     private VBox VBox_filterSelector;
     @FXML
     private VBox vBox_preProcessingBackground;
@@ -107,15 +117,19 @@ public class UiController2D implements Initializable {
     @FXML
     private HBox pane_sliderEdgeExtraction;
 
+    private File quickLoadFile;
+    private LastOpenedFiles lastOpenedFiles;
     private ImageProcessing imageProcessing;
     private Glow glow = new Glow();
     private ArrayList<HBox> list_sliderPanes = new ArrayList<>();
     private ArrayList<VBox> list_fiterBackgounds = new ArrayList<>();
+    private ArrayList<ImageView> list_queueImages = new ArrayList<>();
+    private double windowWidth = Polygen.Root.screenSize.getWidth();
+    private double windowHeight = Polygen.Root.screenSize.getHeight();
+    private int int_dataQueueController = 0;
 
 
     private void resizeObjectsRelative() {
-        double windowWidth = Polygen.Root.screenSize.getWidth();
-        double windowHeight = Polygen.Root.screenSize.getHeight();
         anchorPane_uiMain.setPrefWidth(windowWidth);
         anchorPane_uiMain.setPrefHeight(windowHeight);
         imageView_logo.setFitWidth(windowWidth*0.021);
@@ -208,8 +222,77 @@ public class UiController2D implements Initializable {
                 continue;
             }
             list_sliderPanes.get(i).setVisible(false);
+
             list_sliderPanes.get(i).setDisable(true);
             list_fiterBackgounds.get(i).setStyle("-fx-background-color: #2b2b2b");
+        }
+    }
+
+    private void initializeDataQueue() {  //TODO Möglichkeit einzelne Images raus zu löschen
+        ArrayList<String> files = lastOpenedFiles.getOpenedFiles();
+        if (files.size() == 0) {
+            Text text = new Text("No recently opened files");
+            text.setFont(new Font("Walkway Bold",windowWidth*0.0104));
+            vBox_fileChooser.getChildren().add(1, text);
+        } else {
+            for (String fileString : files) {
+                if (new File(fileString).exists()) {
+                    Image image = new Image(new File(fileString).toURI().toString());
+                    ImageView imageView = new ImageView(image);
+                    imageView.setOnMousePressed(e -> {
+                        quickLoadFile = new File(fileString);
+                        loadImage();
+                    });
+                    imageView.setFitWidth(windowWidth*0.0781 * 1.5);
+                    imageView.setFitHeight(windowWidth*0.0781);
+                    imageView.setViewport(new Rectangle2D((image.getWidth() - image.getHeight() * 1.5) / 2, 0, image.getHeight() * 1.5, image.getHeight()));
+                    imageView.setEffect(new DropShadow(windowWidth*0.0156, Color.BLACK));
+                    imageView.setOnMouseEntered(e -> imageView.setEffect(new Glow()));
+                    imageView.setOnMouseExited(e -> imageView.setEffect(new DropShadow(windowWidth*0.0156, Color.BLACK)));
+                    imageView.getStyleClass().add("images-Queue");
+                    list_queueImages.add(imageView);
+                }
+                else {
+                    lastOpenedFiles.deleteStringInFile(fileString);
+                }
+            }
+        }
+       updateDataQueue();
+    }
+
+    private void updateDataQueue() {
+        vBox_fileChooser.getChildren().clear();
+        if (list_queueImages.size() > 0) {
+            for (int i = int_dataQueueController; i < int_dataQueueController +4 && i < int_dataQueueController +list_queueImages.size(); i++) {
+                vBox_fileChooser.getChildren().add(0, list_queueImages.get(i));
+            }
+        }
+        if (list_queueImages.size() > 4) {
+            //Button_up
+            Button button_up = new Button();
+            button_up.setPrefSize(windowWidth*0.0270, 0.0125);
+            button_up.getStyleClass().add("button-arrowChooser");
+            button_up.setOnAction(e -> {
+                if (int_dataQueueController+4 < list_queueImages.size()) {
+                    int_dataQueueController++;
+                    updateDataQueue();
+                }
+            });
+            if (int_dataQueueController+4 == list_queueImages.size()) button_up.setVisible(false);
+            //Button_Down
+            Button button_down = new Button();
+            button_down.setPrefSize(windowWidth*0.0270, 0.0125);
+            button_down.setRotate(180);
+            button_down.getStyleClass().add("button-arrowChooser");
+            button_down.setOnAction(e -> {
+                if (int_dataQueueController > 0) {
+                    int_dataQueueController--;
+                    updateDataQueue();
+                }
+            });
+            if (int_dataQueueController == 0) button_down.setVisible(false);
+            vBox_fileChooser.getChildren().add(0, button_up);
+            vBox_fileChooser.getChildren().add(5, button_down);
         }
     }
 
@@ -238,13 +321,19 @@ public class UiController2D implements Initializable {
     }
     @FXML
     private void loadImage() {
-        imageProcessing.loadImage();
+        imageProcessing.loadImage(quickLoadFile);
+        quickLoadFile = null;
+        lastOpenedFiles.setOpenedFiles(imageProcessing.getFile().toString());
         view_processView.setFitWidth(pane_processWindow.getWidth());
         view_processView.setFitHeight(pane_processWindow.getHeight());
         text_zoomText.setFont(new Font("Walkway Bold", (hBox_zoomTextContainer.getHeight()*0.6)-1)); //Schriftgröße relativ zur Fenstergröße
         text_zoomFator.setFont(new Font("Walkway Bold", hBox_zoomTextContainer.getHeight()*0.6)); //Schriftgröße relativ zur Fenstergröße
         text_zoomText.setVisible(true);
         text_zoomFator.setVisible(true);
+        vBox_fileChooser.setVisible(false);
+        vBox_fileChooser.setDisable(true);
+        splitPane_paneSize.setVisible(true);
+        splitPane_paneSize.setDisable(false);
         text_zoomFator.setText("100%");
         updatePicture();
         new Polygen.Model.ZoomHandler(view_processView);
@@ -328,8 +417,10 @@ public class UiController2D implements Initializable {
         list_fiterBackgounds.add(vBox_edgeExtractionBackground);
         try {
             imageProcessing = new ImageProcessing();
+            lastOpenedFiles = new LastOpenedFiles();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        initializeDataQueue();
     }
 }

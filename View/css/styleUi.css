@@ -123,3 +123,10 @@
 .text-zoomFactor:hover {
     -fx-font-family: "Walkway Black";
 }
+.button-arrowChooser {
+    -fx-background-color: TRANSPARENT;
+    -fx-background-image: url("../../resources/Ui/ui_arrowUp.png");
+}
+.button-arrowChooser:hover {
+    -fx-background-image: url("../../resources/Ui/ui_arrowUpHover.png");
+}

@@ -151,216 +151,224 @@
                </items></SplitPane>
             <SplitPane dividerPositions="0.167" styleClass="backg-transp">
               <items>
-                  <SplitPane fx:id="splitPane_paneSize" dividerPositions="0.1, 0.36, 0.555" orientation="VERTICAL" styleClass="backg-bright">
-                    <items>
-                        <AnchorPane>
-                           <padding>
-                              <Insets bottom="20.0" top="20.0" />
-                           </padding>
-                           <children>
-                              <VBox fx:id="vBox_preProcessingBackground" alignment="BOTTOM_CENTER" layoutX="-16.0" layoutY="33.0" prefHeight="213.0" prefWidth="320.0" spacing="10.0" styleClass="que-panes" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <HBox alignment="CENTER_RIGHT" VBox.vgrow="ALWAYS">
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                       <children>
-                                          <Text fx:id="text_title0" fill="#9b9b9b" onMouseEntered="#title0_entered" onMouseExited="#title0_exited" onMousePressed="#title0_active" strokeType="OUTSIDE" strokeWidth="0.0" text="PRE PROCESSING" textAlignment="RIGHT">
-                                             <font>
-                                                <Font name="Walkway Black" size="26.0" />
-                                             </font>
-                                          </Text>
-                                       </children>
-                                       <padding>
-                                          <Insets left="10.0" right="20.0" />
-                                       </padding>
-                                    </HBox>
-                                    <HBox alignment="CENTER_RIGHT" spacing="20.0" styleClass="que-filter" VBox.vgrow="SOMETIMES">
-                                       <children>
-                                          <Text fx:id="text_greyscaleFilter" fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0" text="greyscale">
-                                             <font>
-                                                <Font name="Walkway SemiBold" size="30.0" />
-                                             </font>
-                                             <HBox.margin>
-                                                <Insets />
-                                             </HBox.margin>
-                                          </Text>
-                                          <CheckBox fx:id="checkBox_0" layoutX="270.0" layoutY="22.0" mnemonicParsing="false" onAction="#updatePicture" prefHeight="29.0" prefWidth="45.0" selected="true" styleClass="visible-check-box" />
-                                       </children>
-                                       <padding>
-                                          <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
-                                       </padding>
-                                    </HBox>
-                                    <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="62.0" spacing="20.0" styleClass="que-filter" VBox.vgrow="SOMETIMES">
-                                       <children>
-                                          <Text fx:id="text_brightnessFilter" fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0" text="brightness" textAlignment="RIGHT">
-                                             <font>
-                                                <Font name="Walkway SemiBold" size="30.0" />
-                                             </font>
-                                          </Text>
-                                          <CheckBox fx:id="checkBox_1" mnemonicParsing="false" onAction="#updatePicture" prefHeight="29.0" prefWidth="45.0" selected="true" styleClass="visible-check-box" />
-                                       </children>
-                                       <padding>
-                                          <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
-                                       </padding>
-                                    </HBox>
-                                 </children>
+                  <StackPane prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <VBox fx:id="vBox_fileChooser" alignment="CENTER" spacing="30.0" styleClass="backg-bright" StackPane.alignment="CENTER" />
+                        <SplitPane fx:id="splitPane_paneSize" disable="true" dividerPositions="0.1, 0.36, 0.555" orientation="VERTICAL" styleClass="backg-bright" visible="false">
+                          <items>
+                              <AnchorPane>
                                  <padding>
-                                    <Insets bottom="20.0" top="10.0" />
+                                    <Insets bottom="20.0" top="20.0" />
                                  </padding>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane>
-                           <children>
-                              <VBox fx:id="vBox_blurBackground" alignment="BOTTOM_CENTER" spacing="10.0" styleClass="que-panes" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <HBox alignment="CENTER_RIGHT" spacing="20.0" VBox.vgrow="ALWAYS">
+                                    <VBox fx:id="vBox_preProcessingBackground" alignment="BOTTOM_CENTER" layoutX="-16.0" layoutY="33.0" prefHeight="213.0" prefWidth="320.0" spacing="10.0" styleClass="que-panes" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Text fx:id="text_title1" fill="#9b9b9b" onMouseEntered="#title1_entered" onMouseExited="#title1_exited" onMousePressed="#title1_active" strokeType="OUTSIDE" strokeWidth="0.0" text="BLUR" textAlignment="RIGHT">
-                                             <font>
-                                                <Font name="Walkway Black" size="26.0" />
-                                             </font>
-                                          </Text>
-                                       </children>
-                                       <padding>
-                                          <Insets left="10.0" right="20.0" />
-                                       </padding>
-                                    </HBox>
-                                    <StackPane alignment="CENTER_RIGHT" styleClass="que-filter">
-                                       <children>
-                                          <HBox fx:id="hBox_blurFilter" alignment="CENTER_RIGHT" disable="true" layoutX="10.0" layoutY="10.0" spacing="20.0" visible="false">
+                                          <HBox alignment="CENTER_RIGHT" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
                                              <children>
-                                                <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#removeBlurFilter" prefHeight="25.0" prefWidth="25.0" styleClass="remove-filter-button" textAlignment="CENTER" />
-                                                <Text fx:id="text_blurFilter" fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0">
+                                                <Text fx:id="text_title0" fill="#9b9b9b" onMouseEntered="#title0_entered" onMouseExited="#title0_exited" onMousePressed="#title0_active" strokeType="OUTSIDE" strokeWidth="0.0" text="PRE PROCESSING" textAlignment="RIGHT">
+                                                   <font>
+                                                      <Font name="Walkway Black" size="26.0" />
+                                                   </font>
+                                                </Text>
+                                             </children>
+                                             <padding>
+                                                <Insets left="10.0" right="20.0" />
+                                             </padding>
+                                          </HBox>
+                                          <HBox alignment="CENTER_RIGHT" spacing="20.0" styleClass="que-filter" VBox.vgrow="SOMETIMES">
+                                             <children>
+                                                <Text fx:id="text_greyscaleFilter" fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0" text="greyscale">
+                                                   <font>
+                                                      <Font name="Walkway SemiBold" size="30.0" />
+                                                   </font>
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                </Text>
+                                                <CheckBox fx:id="checkBox_0" layoutX="270.0" layoutY="22.0" mnemonicParsing="false" onAction="#updatePicture" prefHeight="29.0" prefWidth="45.0" selected="true" styleClass="visible-check-box" />
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
+                                             </padding>
+                                          </HBox>
+                                          <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="62.0" spacing="20.0" styleClass="que-filter" VBox.vgrow="SOMETIMES">
+                                             <children>
+                                                <Text fx:id="text_brightnessFilter" fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0" text="brightness" textAlignment="RIGHT">
                                                    <font>
                                                       <Font name="Walkway SemiBold" size="30.0" />
                                                    </font>
                                                 </Text>
-                                                <CheckBox fx:id="checkBox_2" mnemonicParsing="false" onAction="#updatePicture" prefHeight="29.0" prefWidth="45.0" selected="true" styleClass="visible-check-box" />
+                                                <CheckBox fx:id="checkBox_1" mnemonicParsing="false" onAction="#updatePicture" prefHeight="29.0" prefWidth="45.0" selected="true" styleClass="visible-check-box" />
                                              </children>
                                              <padding>
                                                 <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
                                              </padding>
                                           </HBox>
-                                          <Button fx:id="button_addBlurFilter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#selectBlurFilter" prefHeight="25.0" prefWidth="25.0" styleClass="add-filter-button" textAlignment="CENTER">
-                                             <StackPane.margin>
-                                                <Insets right="15.0" />
-                                             </StackPane.margin>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="20.0" top="10.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane>
+                                 <children>
+                                    <VBox fx:id="vBox_blurBackground" alignment="BOTTOM_CENTER" spacing="10.0" styleClass="que-panes" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <HBox alignment="CENTER_RIGHT" spacing="20.0" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <Text fx:id="text_title1" fill="#9b9b9b" onMouseEntered="#title1_entered" onMouseExited="#title1_exited" onMousePressed="#title1_active" strokeType="OUTSIDE" strokeWidth="0.0" text="BLUR" textAlignment="RIGHT">
+                                                   <font>
+                                                      <Font name="Walkway Black" size="26.0" />
+                                                   </font>
+                                                </Text>
+                                             </children>
+                                             <padding>
+                                                <Insets left="10.0" right="20.0" />
+                                             </padding>
+                                          </HBox>
+                                          <StackPane alignment="CENTER_RIGHT" styleClass="que-filter">
+                                             <children>
+                                                <HBox fx:id="hBox_blurFilter" alignment="CENTER_RIGHT" disable="true" layoutX="10.0" layoutY="10.0" spacing="20.0" visible="false">
+                                                   <children>
+                                                      <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#removeBlurFilter" prefHeight="25.0" prefWidth="25.0" styleClass="remove-filter-button" textAlignment="CENTER" />
+                                                      <Text fx:id="text_blurFilter" fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0">
+                                                         <font>
+                                                            <Font name="Walkway SemiBold" size="30.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <CheckBox fx:id="checkBox_2" mnemonicParsing="false" onAction="#updatePicture" prefHeight="29.0" prefWidth="45.0" selected="true" styleClass="visible-check-box" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
+                                                   </padding>
+                                                </HBox>
+                                                <Button fx:id="button_addBlurFilter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#selectBlurFilter" prefHeight="25.0" prefWidth="25.0" styleClass="add-filter-button" textAlignment="CENTER">
+                                                   <StackPane.margin>
+                                                      <Insets right="15.0" />
+                                                   </StackPane.margin>
+                                                </Button>
+                                             </children>
+                                          </StackPane>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="20.0" top="10.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="20.0" top="20.0" />
+                                 </padding>
+                              </AnchorPane>
+                              <AnchorPane>
+                                 <children>
+                                    <VBox fx:id="vBox_edgeExtractionBackground" alignment="BOTTOM_CENTER" spacing="10.0" styleClass="que-panes" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <HBox alignment="CENTER_RIGHT" spacing="20.0" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <Text fx:id="text_title2" fill="#9b9b9b" onMouseEntered="#title2_entered" onMouseExited="#title2_exited" onMousePressed="#title2_active" strokeType="OUTSIDE" strokeWidth="0.0" text="EDGE EXTRACTION" textAlignment="RIGHT">
+                                                   <font>
+                                                      <Font name="Walkway Black" size="26.0" />
+                                                   </font>
+                                                </Text>
+                                             </children>
+                                             <padding>
+                                                <Insets left="10.0" right="20.0" />
+                                             </padding>
+                                          </HBox>
+                                          <GridPane alignment="CENTER" vgap="10.0" VBox.vgrow="SOMETIMES">
+                                            <columnConstraints>
+                                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                                              <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                                              <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <HBox alignment="CENTER_RIGHT" spacing="20.0" styleClass="que-filter">
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
+                                                   </padding>
+                                                   <children>
+                                                      <Text fx:id="text_edgeExtractionFilter0" fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0">
+                                                         <font>
+                                                            <Font name="Walkway SemiBold" size="36.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" styleClass="add-filter-button" textAlignment="CENTER" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER_RIGHT" spacing="20.0" styleClass="que-filter" GridPane.rowIndex="1">
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
+                                                   </padding>
+                                                   <children>
+                                                      <Text fx:id="text_edgeExtractionFilter1" fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0">
+                                                         <font>
+                                                            <Font name="Walkway SemiBold" size="36.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" styleClass="add-filter-button" textAlignment="CENTER" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER_RIGHT" spacing="20.0" styleClass="que-filter" GridPane.rowIndex="2">
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
+                                                   </padding>
+                                                   <children>
+                                                      <Text fx:id="text_edgeExtractionFilter2" fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0">
+                                                         <font>
+                                                            <Font name="Walkway SemiBold" size="36.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" styleClass="add-filter-button" textAlignment="CENTER" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                          </GridPane>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="20.0" top="10.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="20.0" top="20.0" />
+                                 </padding>
+                              </AnchorPane>
+                              <AnchorPane>
+                                 <children>
+                                    <StackPane layoutY="41.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Button fx:id="button_buttonGenPoly" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseEntered="#buttonGenPolys_entered" onMouseExited="#buttonGenPolys_exited" onMousePressed="#buttonGenPolys_action" prefHeight="131.0" prefWidth="300.0" styleClass="button-genPoly">
+                                             <graphic>
+                                                <ImageView fx:id="imageView_buttonGenPoly" fitHeight="131.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" />
+                                             </graphic>
                                           </Button>
                                        </children>
                                     </StackPane>
                                  </children>
-                                 <padding>
-                                    <Insets bottom="20.0" top="10.0" />
-                                 </padding>
-                              </VBox>
-                           </children>
+                              </AnchorPane>
+                          </items>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
                            <padding>
                               <Insets bottom="20.0" top="20.0" />
                            </padding>
-                        </AnchorPane>
-                        <AnchorPane>
-                           <children>
-                              <VBox fx:id="vBox_edgeExtractionBackground" alignment="BOTTOM_CENTER" spacing="10.0" styleClass="que-panes" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <HBox alignment="CENTER_RIGHT" spacing="20.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Text fx:id="text_title2" fill="#9b9b9b" onMouseEntered="#title2_entered" onMouseExited="#title2_exited" onMousePressed="#title2_active" strokeType="OUTSIDE" strokeWidth="0.0" text="EDGE EXTRACTION" textAlignment="RIGHT">
-                                             <font>
-                                                <Font name="Walkway Black" size="26.0" />
-                                             </font>
-                                          </Text>
-                                       </children>
-                                       <padding>
-                                          <Insets left="10.0" right="20.0" />
-                                       </padding>
-                                    </HBox>
-                                    <GridPane alignment="CENTER" vgap="10.0" VBox.vgrow="SOMETIMES">
-                                      <columnConstraints>
-                                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
-                                      </columnConstraints>
-                                      <rowConstraints>
-                                        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
-                                        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
-                                        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
-                                      </rowConstraints>
-                                       <children>
-                                          <HBox alignment="CENTER_RIGHT" spacing="20.0" styleClass="que-filter">
-                                             <padding>
-                                                <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
-                                             </padding>
-                                             <children>
-                                                <Text fx:id="text_edgeExtractionFilter0" fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0">
-                                                   <font>
-                                                      <Font name="Walkway SemiBold" size="36.0" />
-                                                   </font>
-                                                </Text>
-                                                <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" styleClass="add-filter-button" textAlignment="CENTER" />
-                                             </children>
-                                          </HBox>
-                                          <HBox alignment="CENTER_RIGHT" spacing="20.0" styleClass="que-filter" GridPane.rowIndex="1">
-                                             <padding>
-                                                <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
-                                             </padding>
-                                             <children>
-                                                <Text fx:id="text_edgeExtractionFilter1" fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0">
-                                                   <font>
-                                                      <Font name="Walkway SemiBold" size="36.0" />
-                                                   </font>
-                                                </Text>
-                                                <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" styleClass="add-filter-button" textAlignment="CENTER" />
-                                             </children>
-                                          </HBox>
-                                          <HBox alignment="CENTER_RIGHT" spacing="20.0" styleClass="que-filter" GridPane.rowIndex="2">
-                                             <padding>
-                                                <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
-                                             </padding>
-                                             <children>
-                                                <Text fx:id="text_edgeExtractionFilter2" fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0">
-                                                   <font>
-                                                      <Font name="Walkway SemiBold" size="36.0" />
-                                                   </font>
-                                                </Text>
-                                                <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" styleClass="add-filter-button" textAlignment="CENTER" />
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                       <opaqueInsets>
-                                          <Insets />
-                                       </opaqueInsets>
-                                    </GridPane>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="20.0" top="10.0" />
-                                 </padding>
-                              </VBox>
-                           </children>
-                           <padding>
-                              <Insets bottom="20.0" top="20.0" />
-                           </padding>
-                        </AnchorPane>
-                        <AnchorPane>
-                           <children>
-                              <StackPane layoutY="41.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <Button fx:id="button_buttonGenPoly" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseEntered="#buttonGenPolys_entered" onMouseExited="#buttonGenPolys_exited" onMousePressed="#buttonGenPolys_action" prefHeight="131.0" prefWidth="300.0" styleClass="button-genPoly">
-                                       <graphic>
-                                          <ImageView fx:id="imageView_buttonGenPoly" fitHeight="131.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" />
-                                       </graphic></Button>
-                                 </children></StackPane>
-                           </children></AnchorPane>
-                    </items>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <padding>
-                        <Insets bottom="20.0" top="20.0" />
-                     </padding>
-                  </SplitPane>
+                        </SplitPane>
+                     </children>
+                  </StackPane>
                   <SplitPane dividerPositions="0.95" orientation="VERTICAL" styleClass="backg-dark">
                     <items>
                         <StackPane fx:id="pane_processWindow" style="-fx-background-color: #1f1f1f;">
