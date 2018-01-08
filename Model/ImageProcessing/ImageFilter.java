@@ -1,16 +1,14 @@
 package Polygen.Model.ImageProcessing;
 
 import org.opencv.core.Mat;
-import org.opencv.core.Point;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
-
-import java.util.Arrays;
 
 public class ImageFilter {
 
     private boolean[] states; //Der Zustand der einzelnen Filter (Augen)
     private int blurFilter = -1; //Der Ausgewählter Blur Filter (-1 wenn keiner ausgewählt wurde)
+    private int edgeExtraction = -1;
     private float[] values; //Die Werte der Filter
 
     public ImageFilter() {
@@ -21,9 +19,18 @@ public class ImageFilter {
         if (states[0]) processMat = greyscale(processMat);
         if (states[1]) processMat = brightnessContrast(processMat, values[0], values[1]);
         if (states[2]) {
-            if (blurFilter == 0) processMat = gaussianBlur(processMat, values[2]);
-            else if (blurFilter == 1) processMat = medianBlur(processMat, values[2]);
-            else if (blurFilter == 2) processMat = billateralFilter(processMat, values[2]);
+            switch (blurFilter) {
+                case 0: processMat = gaussianBlur(processMat, values[2]);
+                        break;
+                case 1: processMat = medianBlur(processMat, values[2]);
+                        break;
+                case 2: processMat = billateralFilter(processMat, values[2]);
+            }
+        }
+        if (states[3]) {
+            switch (edgeExtraction) {
+                case 0: processMat = cannyEdge(processMat,0,0);
+            }
         }
         return processMat;
     }
@@ -73,9 +80,10 @@ public class ImageFilter {
         return scharr;
     }
 
-    private Mat cannyEdge() {
-        Mat canny = null;
-        return canny;
+    private Mat cannyEdge(Mat inputMat, int lowThreshold, int ratio) {
+        Mat outputMat = new Mat();
+        Imgproc.Canny(inputMat, outputMat, lowThreshold, lowThreshold * ratio);
+        return outputMat;
     }
 
     void setValues(float[] values) { this.values = values; }

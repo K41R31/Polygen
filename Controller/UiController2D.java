@@ -59,21 +59,33 @@ public class UiController2D implements Initializable {
     @FXML
     private Text text_blurFilter;
     @FXML
-    private Text text_edgeExtractionFilter0;
+    private Text text_edgeExtraction0; //TODO --------------------------------------------------------------------------
     @FXML
-    private Text text_edgeExtractionFilter1;
+    private Text text_edgeExtraction1;
     @FXML
-    private Text text_edgeExtractionFilter2;
+    private Text text_edgeExtraction2;
     @FXML
     private Button button_addBlurFilter;
     @FXML
     private Button button_buttonGenPoly;
+    @FXML
+    private Button button_addEdgeExtraction0; //TODO -------------------------------------------------------------------
+    @FXML
+    private Button button_addEdgeExtraction1;
+    @FXML
+    private Button button_addEdgeExtraction2;
     @FXML
     private CheckBox checkBox_0;
     @FXML
     private CheckBox checkBox_1;
     @FXML
     private CheckBox checkBox_2;
+    @FXML
+    private CheckBox checkBox_3; //TODO --------------------------------------------------------------------------------
+    @FXML
+    private CheckBox checkBox_4;
+    @FXML
+    private CheckBox checkBox_5;
     @FXML
     private Image image_genPoly;
     @FXML
@@ -116,6 +128,12 @@ public class UiController2D implements Initializable {
     private HBox pane_sliderBlur;
     @FXML
     private HBox pane_sliderEdgeExtraction;
+    @FXML
+    private HBox hBox_edgeExtraction0; //TODO --------------------------------------------------------------------------
+    @FXML
+    private HBox hBox_edgeExtraction1;
+    @FXML
+    private HBox hBox_edgeExtraction2;
 
     private File quickLoadFile;
     private LastOpenedFiles lastOpenedFiles;
@@ -142,9 +160,9 @@ public class UiController2D implements Initializable {
         text_greyscaleFilter.setFont(resizeFilterFont);
         text_brightnessFilter.setFont(resizeFilterFont);
         text_blurFilter.setFont(resizeFilterFont);
-        text_edgeExtractionFilter0.setFont(resizeFilterFont);
-        text_edgeExtractionFilter1.setFont(resizeFilterFont);
-        text_edgeExtractionFilter2.setFont(resizeFilterFont);
+        text_edgeExtraction0.setFont(resizeFilterFont);
+        text_edgeExtraction1.setFont(resizeFilterFont);
+        text_edgeExtraction2.setFont(resizeFilterFont);
         double buttonGenWidth = windowWidth*0.1458;
         double buttonGenHeight = windowHeight*0.1134;
         image_genPoly = new Image("Polygen/resources/Ui/ui_generatePolysButton.png", buttonGenWidth, buttonGenHeight, false, false);
@@ -156,7 +174,7 @@ public class UiController2D implements Initializable {
     }
 
     private void updateStates() {
-        boolean[] states = {checkBox_0.isSelected(), checkBox_1.isSelected(), checkBox_2.isSelected()};
+        boolean[] states = {checkBox_0.isSelected(), checkBox_1.isSelected(), checkBox_2.isSelected(), checkBox_3.isSelected(), checkBox_4.isSelected(), checkBox_5.isSelected()};
         imageProcessing.setStates(states);
     }
 
@@ -233,7 +251,7 @@ public class UiController2D implements Initializable {
         if (files.size() == 0) {
             Text text = new Text("No recently opened files");
             text.setFont(new Font("Walkway Bold",windowWidth*0.0104));
-            vBox_fileChooser.getChildren().add(1, text);
+            vBox_fileChooser.getChildren().add(0, text);
         } else {
             for (String fileString : files) {
                 if (new File(fileString).exists()) {
@@ -343,6 +361,12 @@ public class UiController2D implements Initializable {
         toggleFilterSelector(false, null);
         VBox_filterSelector.getChildren().clear();
     }
+    @FXML
+    private void removeEdgeExtraction0() {}
+    @FXML
+    private void removeEdgeExtraction1() {}
+    @FXML
+    private void removeEdgeExtraction2() {}
     @FXML
     private void textZoom_action() { System.out.println("ZoomFaktorauswahl anzeigen"); }
     @FXML
