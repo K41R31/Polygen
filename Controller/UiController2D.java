@@ -59,7 +59,7 @@ public class UiController2D implements Initializable {
     @FXML
     private Text text_blurFilter;
     @FXML
-    private Text text_edgeExtraction0; //TODO --------------------------------------------------------------------------
+    private Text text_edgeExtraction0;
     @FXML
     private Text text_edgeExtraction1;
     @FXML
@@ -69,7 +69,7 @@ public class UiController2D implements Initializable {
     @FXML
     private Button button_buttonGenPoly;
     @FXML
-    private Button button_addEdgeExtraction0; //TODO -------------------------------------------------------------------
+    private Button button_addEdgeExtraction0;
     @FXML
     private Button button_addEdgeExtraction1;
     @FXML
@@ -81,7 +81,7 @@ public class UiController2D implements Initializable {
     @FXML
     private CheckBox checkBox_2;
     @FXML
-    private CheckBox checkBox_3; //TODO --------------------------------------------------------------------------------
+    private CheckBox checkBox_3;
     @FXML
     private CheckBox checkBox_4;
     @FXML
@@ -100,6 +100,18 @@ public class UiController2D implements Initializable {
     private Slider slider_beta;
     @FXML
     private Slider slider_kernelsize;
+    @FXML
+    private Slider slider_lowThreshold;
+    @FXML
+    private Slider slider_ratio;
+    @FXML
+    private Slider slider_scale0;
+    @FXML
+    private Slider slider_delta0;
+    @FXML
+    private Slider slider_scale1;
+    @FXML
+    private Slider slider_delta1;
     @FXML
     private AnchorPane anchorPane_uiMain;
     @FXML
@@ -129,7 +141,7 @@ public class UiController2D implements Initializable {
     @FXML
     private HBox pane_sliderEdgeExtraction;
     @FXML
-    private HBox hBox_edgeExtraction0; //TODO --------------------------------------------------------------------------
+    private HBox hBox_edgeExtraction0;
     @FXML
     private HBox hBox_edgeExtraction1;
     @FXML
@@ -174,14 +186,31 @@ public class UiController2D implements Initializable {
     }
 
     private void updateStates() {
-        boolean[] states = {checkBox_0.isSelected(), checkBox_1.isSelected(), checkBox_2.isSelected(), checkBox_3.isSelected(), checkBox_4.isSelected(), checkBox_5.isSelected()};
+        boolean[] states = {
+                checkBox_0.isSelected(),
+                checkBox_1.isSelected(),
+                checkBox_2.isSelected(),
+                checkBox_3.isSelected(),
+                checkBox_4.isSelected(),
+                checkBox_5.isSelected()
+        };
         imageProcessing.setStates(states);
     }
 
     private void updateValues() {
         int kernel = (int)Math.round(slider_kernelsize.getValue());
         if (kernel % 2 == 0) kernel++;
-        float[] values = {(float)slider_alpha.getValue(), (float)slider_beta.getValue(), kernel};
+        float[] values = {
+                (float)slider_alpha.getValue(),
+                (float)slider_beta.getValue(),
+                kernel,
+                (float)slider_lowThreshold.getValue(),
+                (float)slider_ratio.getValue(),
+                (float)slider_scale0.getValue(),
+                (float)slider_delta0.getValue(),
+                (float)slider_scale1.getValue(),
+                (float)slider_delta1.getValue(),
+        };
         imageProcessing.setValues(values);
     }
 
@@ -203,7 +232,6 @@ public class UiController2D implements Initializable {
                 button_addBlurFilter.setVisible(false);
                 hBox_blurFilter.setDisable(false);
                 hBox_blurFilter.setVisible(true);
-                button_buttonGenPoly.setDisable(false); //TODO Später beim hinzufügen eines Edge Detection Filters aktivieren
                 closeFilterSelector();
                 updatePicture();
             });
@@ -276,6 +304,67 @@ public class UiController2D implements Initializable {
             }
         }
        updateDataQueue();
+    }
+
+    private void addEdgeExtraction(int pane) {
+        toggleFilterSelector(true, "EDGE EXTRACTION");
+        Text empty0 = new Text(); //Platzhalter0
+        VBox_filterSelector.getChildren().add(empty0);
+        String[] edgeText = {"Canny","Scharr Filter","Sobel Filter"};
+        for(int i = 0; i < 3; i++) {
+            Text t = new Text(edgeText[i]);
+            t.getStyleClass().add("text-blurSelector");
+            t.setFill(Color.WHITE);
+            int finalI = i;
+            t.setOnMouseClicked(event -> {
+                switch (pane) {
+                    case 0: text_edgeExtraction0.setText(edgeText[finalI]);
+                            break;
+                    case 1: text_edgeExtraction1.setText(edgeText[finalI]);
+                            break;
+                    case 2: text_edgeExtraction2.setText(edgeText[finalI]);
+                }
+                switch (pane) {
+                    case 0: button_addEdgeExtraction0.setDisable(true);
+                            button_addEdgeExtraction0.setVisible(false);
+                            hBox_edgeExtraction0.setDisable(false);
+                            hBox_edgeExtraction0.setVisible(true);
+                            button_buttonGenPoly.setDisable(false);
+                            imageProcessing.setEdgeExtraction0(finalI);
+                            closeFilterSelector();
+                            updatePicture();
+                            break;
+                    case 1: button_addEdgeExtraction1.setDisable(true);
+                            button_addEdgeExtraction1.setVisible(false);
+                            hBox_edgeExtraction1.setDisable(false);
+                            hBox_edgeExtraction1.setVisible(true);
+                            button_buttonGenPoly.setDisable(false);
+                            imageProcessing.setEdgeExtraction1(finalI);
+                            closeFilterSelector();
+                            updatePicture();
+                            break;
+                    case 2: button_addEdgeExtraction2.setDisable(true);
+                            button_addEdgeExtraction2.setVisible(false);
+                            hBox_edgeExtraction2.setDisable(false);
+                            hBox_edgeExtraction2.setVisible(true);
+                            button_buttonGenPoly.setDisable(false);
+                            imageProcessing.setEdgeExtraction2(finalI);
+                            closeFilterSelector();
+                            updatePicture();
+                }
+
+            });
+            VBox_filterSelector.getChildren().add(t);
+        }
+        Text empty1 = new Text(); //Platzhalter1
+        VBox_filterSelector.getChildren().add(empty1);
+        Text back = new Text("BACK");
+        back.getStyleClass().add("text-filterBack");
+        back.setFill(Color.web("#ff3535"));
+        back.setOnMouseClicked(event -> {
+            closeFilterSelector();
+        });
+        VBox_filterSelector.getChildren().add(back);
     }
 
     private void updateDataQueue() {
@@ -361,6 +450,12 @@ public class UiController2D implements Initializable {
         toggleFilterSelector(false, null);
         VBox_filterSelector.getChildren().clear();
     }
+    @FXML
+    private void selectEdgeExtraction0() { addEdgeExtraction(0); }
+    @FXML
+    private void selectEdgeExtraction1() { addEdgeExtraction(1); }
+    @FXML
+    private void selectEdgeExtraction2() { addEdgeExtraction(2); }
     @FXML
     private void removeEdgeExtraction0() {}
     @FXML

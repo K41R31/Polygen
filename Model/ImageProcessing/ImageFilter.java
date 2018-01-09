@@ -4,11 +4,15 @@ import org.opencv.core.Mat;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
+import static org.opencv.core.Core.BORDER_DEFAULT;
+
 public class ImageFilter {
 
     private boolean[] states; //Der Zustand der einzelnen Filter (Augen)
     private int blurFilter = -1; //Der Ausgewählter Blur Filter (-1 wenn keiner ausgewählt wurde)
-    private int edgeExtraction = -1;
+    private int edgeExtraction0 = -1;
+    private int edgeExtraction1 = -1;
+    private int edgeExtraction2 = -1;
     private float[] values; //Die Werte der Filter
 
     public ImageFilter() {
@@ -28,8 +32,30 @@ public class ImageFilter {
             }
         }
         if (states[3]) {
-            switch (edgeExtraction) {
-                case 0: processMat = cannyEdge(processMat,0,0);
+            switch (edgeExtraction0) {
+                case 0: processMat = cannyEdge(processMat, values[3], values[4]);
+                        break;
+                case 1: processMat = sobelFilter(processMat, values[5], values[6]);
+                        break;
+                case 2: processMat = scharrFilter(processMat, values[7], values[8]);
+            }
+            if (states[4]) {
+                switch (edgeExtraction1) {
+                    case 0: processMat = cannyEdge(processMat, values[3], values[4]);
+                        break;
+                    case 1: processMat = sobelFilter(processMat, values[5], values[6]);
+                        break;
+                    case 2: processMat = scharrFilter(processMat, values[7], values[8]);
+                }
+                if (states[5]) {
+                    switch (edgeExtraction2) {
+                        case 0: processMat = cannyEdge(processMat, values[3], values[4]);
+                            break;
+                        case 1: processMat = sobelFilter(processMat, values[5], values[6]);
+                            break;
+                        case 2: processMat = scharrFilter(processMat, values[7], values[8]);
+                    }
+                }
             }
         }
         return processMat;
@@ -70,23 +96,30 @@ public class ImageFilter {
         return outputMat;
     }
 
-    private Mat sobelFilter() {
-        Mat sobel = null;
-        return sobel;
-    }
-
-    private Mat scharrFilter() {
-        Mat scharr = null;
-        return scharr;
-    }
-
-    private Mat cannyEdge(Mat inputMat, int lowThreshold, int ratio) {
+    private Mat cannyEdge(Mat inputMat, float lowThreshold, float ratio) {
         Mat outputMat = new Mat();
         Imgproc.Canny(inputMat, outputMat, lowThreshold, lowThreshold * ratio);
         return outputMat;
     }
 
+    private Mat sobelFilter(Mat inputMat, float scale, float delta) {
+        Mat outputMat = new Mat();
+        Imgproc.Sobel(inputMat, outputMat, inputMat.depth(), 1, 0, 3, scale, delta, BORDER_DEFAULT);
+		Imgproc.Sobel(inputMat, outputMat, inputMat.depth(), 0, 1, 3, scale, delta, BORDER_DEFAULT);
+        return outputMat;
+    }
+
+    private Mat scharrFilter(Mat inputMat, float scaleInt, float deltaInt) {
+        Mat outputMat = new Mat();
+        Imgproc.Scharr(inputMat, outputMat, inputMat.depth(), 1, 0, scaleInt, deltaInt, BORDER_DEFAULT);
+		Imgproc.Scharr(inputMat, outputMat, inputMat.depth(), 0, 1, scaleInt, deltaInt, BORDER_DEFAULT);
+        return outputMat;
+    }
+
     void setValues(float[] values) { this.values = values; }
     void setBlurFilter(int blurFilter) { this.blurFilter = blurFilter; }
+    void setEdgeExtraction0(int edgeExtraction0) { this.edgeExtraction0 = edgeExtraction0; }
+    void setEdgeExtraction1(int edgeExtraction1) { this.edgeExtraction1 = edgeExtraction1; }
+    void setEdgeExtraction2(int edgeExtraction2) { this.edgeExtraction2 = edgeExtraction2; }
     void setStates(boolean[] states) { this.states = states; }
 }

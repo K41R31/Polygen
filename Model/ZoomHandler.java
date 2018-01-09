@@ -24,9 +24,6 @@ public class ZoomHandler {
         reset(imageView, width, height);
     }
 
-
-    // shift the viewport of the imageView by the specified delta, clamping so
-    // the viewport does not move off the actual image:
     private void shift(ImageView imageView, Point2D delta) {
         Rectangle2D viewport = imageView.getViewport();
 
@@ -55,7 +52,6 @@ public class ZoomHandler {
         return value;
     }
 
-    // convert mouse coordinates in the imageView to coordinates in the actual image:
     private Point2D imageViewToImage(ImageView imageView, Point2D imageViewCoordinates) {
         double xProportion = imageViewCoordinates.getX() / imageView.getBoundsInLocal().getWidth();
         double yProportion = imageViewCoordinates.getY() / imageView.getBoundsInLocal().getHeight();
@@ -86,10 +82,8 @@ public class ZoomHandler {
 
             double scale = clamp(Math.pow(1.01, -delta),
 
-                    // don't scale so we're zoomed in to fewer than MIN_PIXELS in any direction:
                     Math.min(MIN_PIXELS / viewport.getWidth(), MIN_PIXELS / viewport.getHeight()),
 
-                    // don't scale so that we're bigger than image dimensions:
                     Math.max(width / viewport.getWidth(), height / viewport.getHeight()) //TODO Exception handler (Wenn noch kein Bild geladen wurde)
 
             );
@@ -98,17 +92,6 @@ public class ZoomHandler {
 
             double newWidth = viewport.getWidth() * scale;
             double newHeight = viewport.getHeight() * scale;
-
-            // To keep the visual point under the mouse from moving, we need
-            // (x - newViewportMinX) / (x - currentViewportMinX) = scale
-            // where x is the mouse X coordinate in the image
-
-            // solving this for newViewportMinX gives
-
-            // newViewportMinX = x - (x - currentViewportMinX) * scale
-
-            // we then clamp this value so the image never scrolls out
-            // of the imageview:
 
             double newMinX = clamp(mouse.getX() - (mouse.getX() - viewport.getMinX()) * scale,
                     0, width - newWidth);

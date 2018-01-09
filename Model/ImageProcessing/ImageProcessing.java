@@ -65,6 +65,9 @@ public class ImageProcessing {
     }
 
     public void setBlurFilter(int blurFilter) { imageFilter.setBlurFilter(blurFilter); }
+    public void setEdgeExtraction0(int edgeExtraction0) { imageFilter.setEdgeExtraction0(edgeExtraction0); }
+    public void setEdgeExtraction1(int edgeExtraction1) { imageFilter.setEdgeExtraction1(edgeExtraction1); }
+    public void setEdgeExtraction2(int edgeExtraction2) { imageFilter.setEdgeExtraction2(edgeExtraction2); }
     public void setValues(float[] values) { imageFilter.setValues(values); }
     public void setStates(boolean[] states) { imageFilter.setStates(states); }
     public Mat getOriginalMat() { return originalMat; }

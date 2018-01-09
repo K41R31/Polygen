@@ -112,38 +112,37 @@ public class DetectionAlg {
 
     private boolean[] sideDetection(Point searchpoint) {
 
-/*
-        System.out.println("Punkt0 Position: "+arrayList_firstPolyVertices.get(0));
-        System.out.println("Punkt1 Position: "+arrayList_firstPolyVertices.get(1));
-        System.out.println("Punkt2 Position: "+arrayList_firstPolyVertices.get(2));
-*/
+//        System.out.println("Punkt0 Position: "+arrayList_firstPolyVertices.get(0));
+//        System.out.println("Punkt1 Position: "+arrayList_firstPolyVertices.get(1));
+//        System.out.println("Punkt2 Position: "+arrayList_firstPolyVertices.get(2));
+
         boolean[] toSearch = {true, true};
-        for (int i = 1; i < 50 && (toSearch[0] || toSearch[1]); i++) {
+        for (double i = 1; i < 50 && (toSearch[0] || toSearch[1]); i++) {
 
             if (toSearch[0]) {
-                if (((int) searchpoint.x - i) < 0) {
+                if (((int) (searchpoint.x - i)) < 0) {
                     System.out.println("x-: " + i + " weniger als 0");
                     toSearch[0] = false;
                 }
-                else if (mask.get(((int) searchpoint.x + i), (int) searchpoint.y)[2] >= 100 && mask.get(((int) searchpoint.x - i), (int) searchpoint.y)[2] < 100) {
+                else if (mask.get((int)(searchpoint.y), (int)(searchpoint.x + i))[2] >= 100 && mask.get((int)(searchpoint.y), ((int)(searchpoint.x - i)))[2] < 100) {
                     System.out.println("x+ " + i);
                     toSearch[0] = false;
                 }
-                else if (mask.get(((int) searchpoint.x - i), ((int) searchpoint.y))[2] >= 100 && mask.get(((int) searchpoint.x + i), (int) searchpoint.y)[2] < 100) {
+                else if (mask.get(((int)(searchpoint.y)), ((int)(searchpoint.x - i)))[2] >= 100 && mask.get((int)(searchpoint.y), ((int)(searchpoint.x + i)))[2] < 100) {
                     System.out.println("x- " + i);
                     toSearch[0] = false;
                 }
             }
             if (toSearch[1]) {
-                if (((int) searchpoint.y - i) < 0) {
+                if (((int) (searchpoint.y - i)) < 0) {
                     System.out.println("y-: " + i + " weniger als 0");
                     toSearch[1] = false;
                 }
-                else if (mask.get((int) searchpoint.x, ((int) searchpoint.y + i))[2] >= 100 && mask.get((int) searchpoint.x, ((int) searchpoint.y - i))[2] < 100) {
+                else if (mask.get(((int)(searchpoint.y + i)), (int)(searchpoint.x))[2] >= 100 && mask.get(((int)(searchpoint.y - i)), (int)(searchpoint.x))[2] < 100) {
                     System.out.println("y+ " + i);
                     toSearch[1] = false;
                 }
-                else if (mask.get((int) searchpoint.x, ((int) searchpoint.y - i))[2] >= 100 && mask.get((int) searchpoint.x, ((int) searchpoint.y + i))[2] < 100) {
+                else if (mask.get(((int)(searchpoint.y - i)), (int)(searchpoint.x))[2] >= 100 && mask.get(((int)(searchpoint.y + i)), (int)(searchpoint.x))[2] < 100) {
                     System.out.println("y- " + i);
                     toSearch[1] = false;
                 }
@@ -177,7 +176,7 @@ public class DetectionAlg {
 
     private void drawMask() {
         if (polyCounter == 0) {
-            fillConvexPoly(mask, new MatOfPoint(arrayList_firstPolyVertices.get(polyCounter), arrayList_firstPolyVertices.get(polyCounter+1), arrayList_firstPolyVertices.get(polyCounter+2)), new Scalar(200,200, 200));
+            fillConvexPoly(mask, new MatOfPoint(arrayList_firstPolyVertices.get(polyCounter), arrayList_firstPolyVertices.get(polyCounter+1), arrayList_firstPolyVertices.get(polyCounter+2)), new Scalar(240,240, 240));
 //            System.out.println("first: "+arrayList_firstPolyVertices);
         }
         else {
