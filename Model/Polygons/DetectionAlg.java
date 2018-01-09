@@ -207,11 +207,6 @@ public class DetectionAlg {
                     toSearch[0] = false;
                 }
                 else if (mask.get(((int)(searchpoint.y)), ((int)(searchpoint.x - i)))[2] >= 100 && mask.get((int)(searchpoint.y), ((int)(searchpoint.x + i)))[2] < 100) {
-                else if (mask.get(((int) (searchpoint.x + i)), (int) searchpoint.y)[2] >= 100 && mask.get(((int) (searchpoint.x - i)), (int) searchpoint.y)[2] < 100) {
-                    System.out.println("x+ " + i);
-                    toSearch[0] = false;
-                }
-                else if (mask.get(((int) (searchpoint.x - i)), ((int) searchpoint.y))[2] >= 100 && mask.get(((int) (searchpoint.x + i)), (int) searchpoint.y)[2] < 100) {
                     System.out.println("x- " + i);
                     toSearch[0] = false;
                 }
@@ -226,11 +221,6 @@ public class DetectionAlg {
                     toSearch[1] = false;
                 }
                 else if (mask.get(((int)(searchpoint.y - i)), (int)(searchpoint.x))[2] >= 100 && mask.get(((int)(searchpoint.y + i)), (int)(searchpoint.x))[2] < 100) {
-                else if (mask.get((int) searchpoint.x, ((int) (searchpoint.y + i)))[2] >= 100 && mask.get((int) searchpoint.x, ((int) (searchpoint.y - i)))[2] < 100) {
-                    System.out.println("y+ " + i);
-                    toSearch[1] = false;
-                }
-                else if (mask.get((int) searchpoint.x, ((int) (searchpoint.y - i)))[2] >= 100 && mask.get((int) searchpoint.x, ((int) (searchpoint.y + i)))[2] < 100) {
                     System.out.println("y- " + i);
                     toSearch[1] = false;
                 }
