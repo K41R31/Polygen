@@ -7,6 +7,7 @@ import org.opencv.core.Scalar;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 import static org.opencv.core.CvType.CV_8UC3;
 import static org.opencv.imgproc.Imgproc.fillConvexPoly;
@@ -16,11 +17,13 @@ public class DetectionAlg {
 
     private ArrayList<Point> arrayList_firstPolyVertices = new ArrayList<>();
     private ArrayList<Point> arrayList_mainVertices = new ArrayList<>();
-    private float scale; //TODO Scale minValue = 0,0007% || 10; maxValue = 0,01% || 10
+    private float scale, newScale; //TODO Scale minValue = 0,0007% || 10; maxValue = 0,01% || 10
     private int polyCounter = 0;
     private Mat imageMat;
     private Mat edgeMat;
     private Mat mask;
+    private Point temporaryPoint, greenPoint, whitePoint = null;
+    private boolean isGreen, isWhite = false;
 
     public DetectionAlg(Mat imageMat, Mat edgeMat, float scale) { //edge Mat = KantenBild; scale = eingabe vom Nutzer
         this.scale = scale;
@@ -109,6 +112,81 @@ public class DetectionAlg {
         return arrayList_vertices;
     }
 */
+    private Point pointForSearch(){
+        int result = 0;
+        Random r = new Random();
+        int low = (int) arrayList_mainVertices.get((polyCounter*3)-3).x;
+        int high = (int) arrayList_mainVertices.get((polyCounter*3)-2).x;
+        if(high >= low)
+            result = r.nextInt(high-low) + low;
+        else //Falls X-Wert vom ersten Vertex größer ist
+            result = r.nextInt(low-high) + high;
+        int pitch = ((int) (arrayList_mainVertices.get((polyCounter*3)-2).y - arrayList_mainVertices.get((polyCounter*3)-3).y))/(int) ((arrayList_mainVertices.get((polyCounter*3)-2).x - arrayList_mainVertices.get((polyCounter*3)-3).x));
+        int pitch_Y = result * pitch;
+        temporaryPoint = new Point(result, pitch_Y);
+    return temporaryPoint;
+    }
+
+    private Point verticeDetection() {
+        double[] green = {0.0, 255.0, 0.0};
+        int range_X = (int) (temporaryPoint.x + scale);
+        int range_Y = (int) (temporaryPoint.y + scale);
+        while((int) temporaryPoint.x < range_X || isGreen) {
+            for (int x = (int) temporaryPoint.x; x <= range_X; x++) { //Suche nach einem Vertex in diesem Bereich
+                for (int y = (int) temporaryPoint.y; y <= range_Y; y++) {
+                    if (Arrays.equals(mask.get(y, x), green)) { //Falls ein grüner Vertex gefunden wird muss geprüft werden, ob einen theoretische Linie mit einem vorhandenen Polygon interferiert
+                        greenPoint = new Point(mask.get(y,x));
+                        isGreen = true;
+                    }
+                    else temporaryPoint.x++;
+                }
+            }
+        }
+        if(isGreen)
+            return greenPoint;
+        else
+            return null;
+    }
+
+    private float interferenceDetection() {
+        double[] white = {255.0, 255.0, 255.0};
+        int x = 0;
+        int y = 0;
+        int scaledX = (int) (temporaryPoint.x+scale);
+        int scaledY = (int) (temporaryPoint.y+scale);
+        if(isGreen) {//Falls ein Vertex vorliegt muss noch geprüft werden ob ein Objekt dazwischen liegt
+            while(isWhite || x < greenPoint.x) {
+                int pitch_White = (int) ((greenPoint.y - temporaryPoint.y) / (greenPoint.x - temporaryPoint.x));//Strecke zwischen Ausgangspunkt und Vertex
+                for (int runX = x ; runX <= greenPoint.x; runX++) {
+                    int runY = pitch_White * runX;
+                    if (Arrays.equals(mask.get(runY, runX), white)) {
+                        whitePoint = new Point(mask.get(runY, runX));
+                        newScale = (float) Math.sqrt((runX-temporaryPoint.x)*(runX-temporaryPoint.x)+(runY-temporaryPoint.y)*(runY-temporaryPoint.y));
+                        isWhite = true;
+                    }
+                    else x++;
+                }
+            }
+        }
+        else{
+            while(isWhite || x <= scaledX) {
+                for (x = (int) temporaryPoint.x; x <= scaledX; x++) { //Suche nach einem weißen Punkt in diesem Bereich
+                    for (y = (int) temporaryPoint.y; y <= scaledY; y++) {
+                        if (Arrays.equals(mask.get(y, x), white)) { //Falls ein weißer Punkt gefunden wurde muss eine neue maximale Länge betrachtet werden
+                            whitePoint = new Point(mask.get(y,x));
+                            newScale = (float) Math.sqrt((x-temporaryPoint.x)*(x-temporaryPoint.x)+(y-temporaryPoint.y)*(y-temporaryPoint.y));
+                            isWhite = true;
+                        }
+                    }
+                }
+            }
+
+        }
+        if(isWhite)
+            return newScale;
+        else 
+            return 0;
+    }
 
     private boolean[] sideDetection(Point searchpoint) {
 
@@ -121,29 +199,29 @@ public class DetectionAlg {
         for (int i = 1; i < 50 && (toSearch[0] || toSearch[1]); i++) {
 
             if (toSearch[0]) {
-                if (((int) searchpoint.x - i) < 0) {
+                if (((int) (searchpoint.x - i)) < 0) {
                     System.out.println("x-: " + i + " weniger als 0");
                     toSearch[0] = false;
                 }
-                else if (mask.get(((int) searchpoint.x + i), (int) searchpoint.y)[2] >= 100 && mask.get(((int) searchpoint.x - i), (int) searchpoint.y)[2] < 100) {
+                else if (mask.get(((int) (searchpoint.x + i)), (int) searchpoint.y)[2] >= 100 && mask.get(((int) (searchpoint.x - i)), (int) searchpoint.y)[2] < 100) {
                     System.out.println("x+ " + i);
                     toSearch[0] = false;
                 }
-                else if (mask.get(((int) searchpoint.x - i), ((int) searchpoint.y))[2] >= 100 && mask.get(((int) searchpoint.x + i), (int) searchpoint.y)[2] < 100) {
+                else if (mask.get(((int) (searchpoint.x - i)), ((int) searchpoint.y))[2] >= 100 && mask.get(((int) (searchpoint.x + i)), (int) searchpoint.y)[2] < 100) {
                     System.out.println("x- " + i);
                     toSearch[0] = false;
                 }
             }
             if (toSearch[1]) {
-                if (((int) searchpoint.y - i) < 0) {
+                if (((int) (searchpoint.y - i)) < 0) {
                     System.out.println("y-: " + i + " weniger als 0");
                     toSearch[1] = false;
                 }
-                else if (mask.get((int) searchpoint.x, ((int) searchpoint.y + i))[2] >= 100 && mask.get((int) searchpoint.x, ((int) searchpoint.y - i))[2] < 100) {
+                else if (mask.get((int) searchpoint.x, ((int) (searchpoint.y + i)))[2] >= 100 && mask.get((int) searchpoint.x, ((int) (searchpoint.y - i)))[2] < 100) {
                     System.out.println("y+ " + i);
                     toSearch[1] = false;
                 }
-                else if (mask.get((int) searchpoint.x, ((int) searchpoint.y - i))[2] >= 100 && mask.get((int) searchpoint.x, ((int) searchpoint.y + i))[2] < 100) {
+                else if (mask.get((int) searchpoint.x, ((int) (searchpoint.y - i)))[2] >= 100 && mask.get((int) searchpoint.x, ((int) (searchpoint.y + i)))[2] < 100) {
                     System.out.println("y- " + i);
                     toSearch[1] = false;
                 }
