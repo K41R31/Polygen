@@ -47,7 +47,9 @@ public class DetectionAlg {
             else break;
             Point temporaryPoint = pointForSearch();
             System.out.println("temporaryPoint: "+temporaryPoint);
-            Point greenPoint = verticeDetection(temporaryPoint); //TODO
+            int[] signs = sideDetection(temporaryPoint);
+            System.out.println("signs: "+signs[0] + " "+signs[1]);
+            Point greenPoint = verticeDetection(temporaryPoint, signs); //TODO
             System.out.println("greenPoint: "+greenPoint);
             float newScale = interferenceDetection(temporaryPoint, greenPoint);
             System.out.println("newScale: "+newScale);
@@ -164,15 +166,15 @@ public class DetectionAlg {
         return new Point(pitch_X, result);
     }
 
-    private Point verticeDetection(Point temporaryPoint) {
+    private Point verticeDetection(Point temporaryPoint, int[] signs) {
         Point greenPoint = new Point();
         double[] green = {0.0, 255.0, 0.0};
-        int range_X = (int) (temporaryPoint.x + scale);
-        int range_Y = (int) (temporaryPoint.y + scale);
+        int range_X = (int) (temporaryPoint.x + signs[0]*scale);
+        int range_Y = (int) (temporaryPoint.y + signs[1]*scale);
         for (int x = (int) temporaryPoint.x; x <= range_X && !isGreen; x++) { //Suche nach einem Vertex in diesem Bereich
-            System.out.println("rangex: "+range_X);
+            //System.out.println("rangex: "+range_X);
             for (int y = (int) temporaryPoint.y; y <= range_Y; y++) {
-                System.out.println("x: "+x+", y: "+y);
+                //System.out.println("x: "+x+", y: "+y);
                 if (Arrays.equals(mask.get(y, x), green)) { //Falls ein grüner Vertex gefunden wird muss geprüft werden, ob einen theoretische Linie mit einem vorhandenen Polygon interferiert //TODO Wirft unknown exception (Passiert wenn (x || y) < 0)
                     greenPoint = new Point(x, y);
                     isGreen = true;
@@ -186,33 +188,34 @@ public class DetectionAlg {
     }
 
     private float interferenceDetection(Point temporaryPoint, Point greenPoint) {
-        double[] white = {255.0, 255.0, 255.0};
+        double[] white = {100.0, 100.0, 100.0}; //TODO muss wieder in weiß [255,255,255] geändert werden
         float newScale = 0;
-        int x = 0;
+        int runX= 0;
+        int runY = 0;
         int y = 0;
+        int pitch_White = 0;
         int scaledX = (int) (temporaryPoint.x+scale);
         int scaledY = (int) (temporaryPoint.y+scale);
         if(isGreen) { //Falls ein Vertex vorliegt muss noch geprüft werden ob ein Objekt dazwischen liegt
-            while(!isWhite && x < greenPoint.x) {
-                int pitch_White = (int) ((greenPoint.y - temporaryPoint.y) / (greenPoint.x - temporaryPoint.x)); //Strecke zwischen Ausgangspunkt und Vertex
-                for (int runX = x ; runX <= greenPoint.x; runX++) {
-                    int runY = pitch_White * runX;
+            while(!isWhite && runX < greenPoint.x) {
+                pitch_White = (int) ((greenPoint.x - temporaryPoint.x) / (greenPoint.y - temporaryPoint.y)); //Strecke zwischen Ausgangspunkt und Vertex
+                for (runX = 0 ; runX <= greenPoint.x; runX++) {
+                    runY = pitch_White * runX;
                     if (Arrays.equals(mask.get(runY, runX), white)) {
                         whitePoint = new Point(runX, runY);
-                        newScale = (float) Math.sqrt((runX-temporaryPoint.x)*(runX-temporaryPoint.x)+(runY-temporaryPoint.y)*(runY-temporaryPoint.y));
+                        newScale = (float) Math.min((runX-temporaryPoint.x),(runY-temporaryPoint.y));
                         isWhite = true;
                     }
-                    else x++;
                 }
             }
         }
         else {
-            while(!isWhite && x <= scaledX) {
-                for (x = (int) temporaryPoint.x; x <= scaledX; x++) { //Suche nach einem weißen Punkt in diesem Bereich
+            while(!isWhite && runX <= scaledX) {
+                for (runX = (int) temporaryPoint.x; runX <= scaledX; runX++) { //Suche nach einem weißen Punkt in diesem Bereich
                     for (y = (int) temporaryPoint.y; y <= scaledY; y++) {
-                        if (Arrays.equals(mask.get(y, x), white)) { //Falls ein weißer Punkt gefunden wurde muss eine neue maximale Länge betrachtet werden
-                            whitePoint = new Point(x, y);
-                            newScale = (float) Math.sqrt((x-temporaryPoint.x)*(x-temporaryPoint.x)+(y-temporaryPoint.y)*(y-temporaryPoint.y));
+                        if (Arrays.equals(mask.get(y, runX), white)) { //Falls ein weißer Punkt gefunden wurde muss eine neue maximale Länge betrachtet werden
+                            whitePoint = new Point(runX, y);
+                            newScale = (float) Math.min((runX-temporaryPoint.x),(y-temporaryPoint.y));
                             isWhite = true;
                         }
                     }
@@ -220,8 +223,9 @@ public class DetectionAlg {
             }
 
         }
-        if(isWhite)
+        if(isWhite) {
             return newScale;
+        }
         else 
             return 0;
     }
