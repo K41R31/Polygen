@@ -28,6 +28,7 @@ import org.opencv.core.MatOfByte;
 import org.opencv.imgcodecs.Imgcodecs;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -299,7 +300,11 @@ public class UiController2D implements Initializable {
                     list_queueImages.add(imageView);
                 }
                 else {
-                    lastOpenedFiles.deleteStringInFile(fileString);
+                    try {
+                        lastOpenedFiles.deleteStringInFile(fileString);
+                    } catch (IOException e) {
+                        System.out.println("ERROR");
+                    }
                 }
             }
         }

@@ -59,8 +59,6 @@ public class Root extends Application {
         openerStage.show();
     }
 
-    //Lehn.equals(Penisgesicht) = true;
-
     private void createMainView(Parent root) {
         primaryStage.setTitle("Polygen");
         primaryStage.setWidth(screenSize.getWidth());

@@ -10,15 +10,18 @@ import java.util.ArrayList;
 public class LastOpenedFiles {
 
     private ArrayList<String> lastOpened = new ArrayList<>();
+    private ArrayList<String> newLastOpened;
+    private final String fileLocation = "Polygen/Data/lastOpened.txt";
 
     public LastOpenedFiles() {
         try {
             lastOpened = readFile();
+            newLastOpened = new ArrayList<>(lastOpened);
         } catch (IOException e) { e.printStackTrace(); }
     }
 
 
-    public void setOpenedFiles(String newFile) { try { writeFile(newFile); } catch (IOException e) { e.printStackTrace(); } }
+    public void setOpenedFiles(String newFile) { try { writeFileWith(newFile); } catch (IOException e) { e.printStackTrace(); } }
 
     public ArrayList<String> getOpenedFiles() { return lastOpened; }
 
@@ -27,24 +30,29 @@ public class LastOpenedFiles {
      * Writes the given String into "Data/lastOpened.txt"
      * only if the String isn't written already.
      */
-    private void writeFile(String newFile) throws IOException { //Writes the String into "Data/lastOpened.txt"
+    private void writeFileWith(String newFile) throws IOException { //Writes the String into "Data/lastOpened.txt"
         for (String search : lastOpened) {
             if (search.equals(newFile)) return; //Returns, if the String is written already
         }
         lastOpened.add(newFile);
         Charset utf8 = StandardCharsets.UTF_8;
-            Files.write(Paths.get("Polygen/Data/lastOpened.txt"), lastOpened, utf8);
+            Files.write(Paths.get(fileLocation), lastOpened, utf8);
     }
 
     /**
      * Deletes the given String in the File
      * "Data/lastOpened.txt".
      */
-    public void deleteStringInFile(String deleteString) {
-        for (String lastOpened : lastOpened) {
-            int index = lastOpened.indexOf(deleteString);
+    public void deleteStringInFile(String deleteString) throws IOException {
+        File file = new File(fileLocation);
+        for (String files : lastOpened) {
+            int index = files.indexOf(deleteString);
             if (index > -1) {
-                System.out.println(index);
+                file.createNewFile();
+                newLastOpened.remove(deleteString);
+                Charset utf8 = StandardCharsets.UTF_8;
+                Files.write(Paths.get(fileLocation), newLastOpened, utf8);
+                break;
             }
         }
     }
