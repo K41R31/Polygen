@@ -39,18 +39,19 @@ public class DetectionAlg {
         while (true) {
             isGreen = false;
             isWhite = false;
+
             if (polyCounter == 0) { firstPoly(); drawMask(); polyCounter++; continue; }
             else if (polyCounter < 4) {
                 getFirstAlgPolys();
-                if (arrayList_mainVertices.get(arrayList_mainVertices.size()-1) == null) { polyCounter++; continue; } //Falls kein Polygon gezeichnet werden muss
+                if (arrayList_mainVertices.get(arrayList_mainVertices.size()-1) == null) { System.out.println("null hinzugefügt"); polyCounter++; continue; } //Falls kein Polygon gezeichnet werden muss
             }
             else break;
             Point temporaryPoint = pointForSearch();
-            System.out.println("temporaryPoint: "+temporaryPoint);
+//            System.out.println("temporaryPoint: "+temporaryPoint);
             Point greenPoint = verticeDetection(temporaryPoint); //TODO
-            System.out.println("greenPoint: "+greenPoint);
+//            System.out.println("greenPoint: "+greenPoint);
             float newScale = interferenceDetection(temporaryPoint, greenPoint);
-            System.out.println("newScale: "+newScale);
+//            System.out.println("newScale: "+newScale);
             drawMask();
             //drawPoly(poly);
             polyCounter++;
@@ -89,6 +90,7 @@ public class DetectionAlg {
     }
 
     private void getFirstAlgPolys() {
+
         switch (polyCounter) {
             case 1: for(int i = 0; i < 2; i++) arrayList_mainVertices.add(arrayList_firstPolyVertices.get(i)); //Point 0 + 1
                     break;
@@ -96,7 +98,10 @@ public class DetectionAlg {
                     break;
             case 3: for(int i = 0; i < 3; i=i+2) arrayList_mainVertices.add(arrayList_firstPolyVertices.get(i)); //Point 0 + 2
         }
-        arrayList_mainVertices.add(new Point(0,0)); //Damit man immer mit einer Multiplikation mit 3 die Punkte finden kann#
+        arrayList_mainVertices.add(new Point(0,0)); //Damit man immer mit einer Multiplikation mit 3 die Punkte finden kann
+        System.out.println("polyCounter: "+polyCounter); //TODO immer bei polyCounter == 3
+        System.out.println("-3: "+arrayList_mainVertices.get((polyCounter*3)-3).x);
+        System.out.println("-2: "+arrayList_mainVertices.get((polyCounter*3)-2).x);
         int middleX = (int)(arrayList_mainVertices.get((polyCounter*3)-3).x + arrayList_mainVertices.get((polyCounter*3)-2).x)/2; //X Mittelwert der letzten hinzugefügten Punkte //-2 und -1 weil der Index auf 0 beginnt
         int middleY = (int)(arrayList_mainVertices.get((polyCounter*3)-3).y + arrayList_mainVertices.get((polyCounter*3)-2).y)/2; //Y Mittelwert der letzten hinzugefügten Punkte
         int[] mathOperators = sideDetection(new Point(middleX, middleY));
@@ -170,9 +175,7 @@ public class DetectionAlg {
         int range_X = (int) (temporaryPoint.x + scale);
         int range_Y = (int) (temporaryPoint.y + scale);
         for (int x = (int) temporaryPoint.x; x <= range_X && !isGreen; x++) { //Suche nach einem Vertex in diesem Bereich
-            System.out.println("rangex: "+range_X);
             for (int y = (int) temporaryPoint.y; y <= range_Y; y++) {
-                System.out.println("x: "+x+", y: "+y);
                 if (Arrays.equals(mask.get(y, x), green)) { //Falls ein grüner Vertex gefunden wird muss geprüft werden, ob einen theoretische Linie mit einem vorhandenen Polygon interferiert //TODO Wirft unknown exception (Passiert wenn (x || y) < 0)
                     greenPoint = new Point(x, y);
                     isGreen = true;
@@ -229,10 +232,12 @@ public class DetectionAlg {
     private void drawMask() {
         if (polyCounter == 0) {
             fillConvexPoly(mask, new MatOfPoint(arrayList_firstPolyVertices.get(polyCounter), arrayList_firstPolyVertices.get(polyCounter+1), arrayList_firstPolyVertices.get(polyCounter+2)), new Scalar(255,255, 255));
-            Imgproc.line(mask, arrayList_firstPolyVertices.get(polyCounter), arrayList_firstPolyVertices.get(polyCounter), new Scalar(0.0, 255.0, 0.0));
         }
         else {
             fillConvexPoly(mask, new MatOfPoint(arrayList_mainVertices.get(polyCounter*3-3), arrayList_mainVertices.get(polyCounter*3-2), arrayList_mainVertices.get(polyCounter*3-1)), new Scalar(100,100, 100)); // TODO - polyCounter um die Polygone zu unterscheiden
+            Imgproc.line(mask, arrayList_mainVertices.get(polyCounter*3-3), arrayList_mainVertices.get(polyCounter*3-3), new Scalar(0.0, 255.0, 0.0));
+            Imgproc.line(mask, arrayList_mainVertices.get(polyCounter*3-2), arrayList_mainVertices.get(polyCounter*3-2), new Scalar(0.0, 255.0, 0.0));
+            Imgproc.line(mask, arrayList_mainVertices.get(polyCounter*3-1), arrayList_mainVertices.get(polyCounter*3-1), new Scalar(0.0, 255.0, 0.0));
         }
     }
 
@@ -240,7 +245,7 @@ public class DetectionAlg {
 
     }
 
-    private int randomLength() { return (int)(scale * Math.random()); }
+    private int randomLength() { return (int)(scale * (Math.random() + Math.random() / 2)); } //Für Werte die näher am Durchschnitt liegen
 
     public Mat getMask() { return mask; }
 }
