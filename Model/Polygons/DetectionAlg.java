@@ -25,7 +25,7 @@ public class DetectionAlg {
     private Mat edgeMat;
     private Mat mask;
     private Point whitePoint = null;
-    private boolean isGreen, isWhite = false;
+    private boolean isGreen, isWhite;
 
     public DetectionAlg(Mat imageMat, Mat edgeMat, float scale) { //edge Mat = KantenBild; scale = eingabe vom Nutzer
         this.scale = scale;
@@ -37,6 +37,8 @@ public class DetectionAlg {
 
     private void algorithm() {
         while (true) {
+            isGreen = false;
+            isWhite = false;
             if (polyCounter == 0) { firstPoly(); drawMask(); polyCounter++; continue; }
             else if (polyCounter < 4) {
                 getFirstAlgPolys();
@@ -115,7 +117,7 @@ public class DetectionAlg {
 
         int[] mathOperators = new int[2];
         boolean[] toSearch = {true, true};
-        for (double i = 1; i < 50 && (toSearch[0] || toSearch[1]); i++) {
+        for (double i = 1; i < 20 && (toSearch[0] || toSearch[1]); i++) {
 
             if (toSearch[0]) {
                 if (((int) (searchpoint.x - i)) < 0) {
@@ -167,14 +169,13 @@ public class DetectionAlg {
         double[] green = {0.0, 255.0, 0.0};
         int range_X = (int) (temporaryPoint.x + scale);
         int range_Y = (int) (temporaryPoint.y + scale);
-        while((int) temporaryPoint.x < range_X || isGreen) { //TODO Bleibt in einer Endlosschleife hängen (wenn Y == 0)
-            for (int x = (int) temporaryPoint.x; x <= range_X; x++) { //Suche nach einem Vertex in diesem Bereich
-                for (int y = (int) temporaryPoint.y; y <= range_Y; y++) {
-                    if (Arrays.equals(mask.get(y, x), green)) { //Falls ein grüner Vertex gefunden wird muss geprüft werden, ob einen theoretische Linie mit einem vorhandenen Polygon interferiert //TODO Wirft unknown exception (Passiert wenn (x || y) < 0)
-                        greenPoint = new Point(mask.get(y,x));
-                        isGreen = true;
-                    }
-                    else temporaryPoint.x++;
+        for (int x = (int) temporaryPoint.x; x <= range_X && !isGreen; x++) { //Suche nach einem Vertex in diesem Bereich
+            System.out.println("rangex: "+range_X);
+            for (int y = (int) temporaryPoint.y; y <= range_Y; y++) {
+                System.out.println("x: "+x+", y: "+y);
+                if (Arrays.equals(mask.get(y, x), green)) { //Falls ein grüner Vertex gefunden wird muss geprüft werden, ob einen theoretische Linie mit einem vorhandenen Polygon interferiert //TODO Wirft unknown exception (Passiert wenn (x || y) < 0)
+                    greenPoint = new Point(x, y);
+                    isGreen = true;
                 }
             }
         }
@@ -192,12 +193,12 @@ public class DetectionAlg {
         int scaledX = (int) (temporaryPoint.x+scale);
         int scaledY = (int) (temporaryPoint.y+scale);
         if(isGreen) { //Falls ein Vertex vorliegt muss noch geprüft werden ob ein Objekt dazwischen liegt
-            while(isWhite || x < greenPoint.x) {
+            while(!isWhite || x < greenPoint.x) {
                 int pitch_White = (int) ((greenPoint.y - temporaryPoint.y) / (greenPoint.x - temporaryPoint.x)); //Strecke zwischen Ausgangspunkt und Vertex
                 for (int runX = x ; runX <= greenPoint.x; runX++) {
                     int runY = pitch_White * runX;
                     if (Arrays.equals(mask.get(runY, runX), white)) {
-                        whitePoint = new Point(mask.get(runY, runX));
+                        whitePoint = new Point(runX, runY);
                         newScale = (float) Math.sqrt((runX-temporaryPoint.x)*(runX-temporaryPoint.x)+(runY-temporaryPoint.y)*(runY-temporaryPoint.y));
                         isWhite = true;
                     }
@@ -206,11 +207,11 @@ public class DetectionAlg {
             }
         }
         else {
-            while(isWhite || x <= scaledX) {
+            while(!isWhite || x <= scaledX) {
                 for (x = (int) temporaryPoint.x; x <= scaledX; x++) { //Suche nach einem weißen Punkt in diesem Bereich
                     for (y = (int) temporaryPoint.y; y <= scaledY; y++) {
                         if (Arrays.equals(mask.get(y, x), white)) { //Falls ein weißer Punkt gefunden wurde muss eine neue maximale Länge betrachtet werden
-                            whitePoint = new Point(mask.get(y, x));
+                            whitePoint = new Point(x, y);
                             newScale = (float) Math.sqrt((x-temporaryPoint.x)*(x-temporaryPoint.x)+(y-temporaryPoint.y)*(y-temporaryPoint.y));
                             isWhite = true;
                         }
@@ -229,8 +230,6 @@ public class DetectionAlg {
         if (polyCounter == 0) {
             fillConvexPoly(mask, new MatOfPoint(arrayList_firstPolyVertices.get(polyCounter), arrayList_firstPolyVertices.get(polyCounter+1), arrayList_firstPolyVertices.get(polyCounter+2)), new Scalar(255,255, 255));
             Imgproc.line(mask, arrayList_firstPolyVertices.get(polyCounter), arrayList_firstPolyVertices.get(polyCounter), new Scalar(0.0, 255.0, 0.0));
-            Imgproc.line(mask, arrayList_firstPolyVertices.get(polyCounter+1), arrayList_firstPolyVertices.get(polyCounter+1), new Scalar(0.0, 255.0, 0.0));
-            Imgproc.line(mask, arrayList_firstPolyVertices.get(polyCounter+2), arrayList_firstPolyVertices.get(polyCounter+2), new Scalar(0.0, 255.0, 0.0));
         }
         else {
             fillConvexPoly(mask, new MatOfPoint(arrayList_mainVertices.get(polyCounter*3-3), arrayList_mainVertices.get(polyCounter*3-2), arrayList_mainVertices.get(polyCounter*3-1)), new Scalar(100,100, 100)); // TODO - polyCounter um die Polygone zu unterscheiden
