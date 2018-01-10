@@ -94,7 +94,7 @@ public class DetectionAlg {
                     break;
             case 3: for(int i = 0; i < 3; i=i+2) arrayList_mainVertices.add(arrayList_firstPolyVertices.get(i)); //Point 0 + 2
         }
-        arrayList_mainVertices.add(new Point(0,0)); //Damit man immer mit einer Multiplikation mit 3 die Punkte finden kann
+        arrayList_mainVertices.add(new Point(0,0)); //Damit man immer mit einer Multiplikation mit 3 die Punkte finden kann#
         int middleX = (int)(arrayList_mainVertices.get((polyCounter*3)-3).x + arrayList_mainVertices.get((polyCounter*3)-2).x)/2; //X Mittelwert der letzten hinzugefügten Punkte //-2 und -1 weil der Index auf 0 beginnt
         int middleY = (int)(arrayList_mainVertices.get((polyCounter*3)-3).y + arrayList_mainVertices.get((polyCounter*3)-2).y)/2; //Y Mittelwert der letzten hinzugefügten Punkte
         int[] mathOperators = sideDetection(new Point(middleX, middleY));
@@ -167,7 +167,7 @@ public class DetectionAlg {
         double[] green = {0.0, 255.0, 0.0};
         int range_X = (int) (temporaryPoint.x + scale);
         int range_Y = (int) (temporaryPoint.y + scale);
-        while((int) temporaryPoint.x < range_X || isGreen) { //TODO Bleibt in einer Endlosschleife hängen (öfters wenn temporayPoint.x == temporayPoint.y) (Immer wenn side detection >kleiner als 0< ausgibt)
+        while((int) temporaryPoint.x < range_X || isGreen) { //TODO Bleibt in einer Endlosschleife hängen (wenn Y == 0)
             for (int x = (int) temporaryPoint.x; x <= range_X; x++) { //Suche nach einem Vertex in diesem Bereich
                 for (int y = (int) temporaryPoint.y; y <= range_Y; y++) {
                     if (Arrays.equals(mask.get(y, x), green)) { //Falls ein grüner Vertex gefunden wird muss geprüft werden, ob einen theoretische Linie mit einem vorhandenen Polygon interferiert //TODO Wirft unknown exception (Passiert wenn (x || y) < 0)
@@ -229,10 +229,11 @@ public class DetectionAlg {
         if (polyCounter == 0) {
             fillConvexPoly(mask, new MatOfPoint(arrayList_firstPolyVertices.get(polyCounter), arrayList_firstPolyVertices.get(polyCounter+1), arrayList_firstPolyVertices.get(polyCounter+2)), new Scalar(255,255, 255));
             Imgproc.line(mask, arrayList_firstPolyVertices.get(polyCounter), arrayList_firstPolyVertices.get(polyCounter), new Scalar(0.0, 255.0, 0.0));
+            Imgproc.line(mask, arrayList_firstPolyVertices.get(polyCounter+1), arrayList_firstPolyVertices.get(polyCounter+1), new Scalar(0.0, 255.0, 0.0));
+            Imgproc.line(mask, arrayList_firstPolyVertices.get(polyCounter+2), arrayList_firstPolyVertices.get(polyCounter+2), new Scalar(0.0, 255.0, 0.0));
         }
         else {
             fillConvexPoly(mask, new MatOfPoint(arrayList_mainVertices.get(polyCounter*3-3), arrayList_mainVertices.get(polyCounter*3-2), arrayList_mainVertices.get(polyCounter*3-1)), new Scalar(100,100, 100)); // TODO - polyCounter um die Polygone zu unterscheiden
-//            System.out.println("main: "+arrayList_mainVertices);
         }
     }
 
