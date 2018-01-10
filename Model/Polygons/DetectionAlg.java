@@ -47,17 +47,10 @@ public class DetectionAlg {
             }
             else break;
             Point temporaryPoint = pointForSearch();
-<<<<<<< HEAD
 //            System.out.println("temporaryPoint: "+temporaryPoint);
-            Point greenPoint = verticeDetection(temporaryPoint); //TODO
-//            System.out.println("greenPoint: "+greenPoint);
-=======
-            System.out.println("temporaryPoint: "+temporaryPoint);
             int[] signs = sideDetection(temporaryPoint);
-            System.out.println("signs: "+signs[0] + " "+signs[1]);
             Point greenPoint = verticeDetection(temporaryPoint, signs); //TODO
             System.out.println("greenPoint: "+greenPoint);
->>>>>>> 0392e446aaf8b78a6b7c04bcb32af1d55269069f
             float newScale = interferenceDetection(temporaryPoint, greenPoint);
 //            System.out.println("newScale: "+newScale);
             drawMask();
@@ -183,13 +176,7 @@ public class DetectionAlg {
         int range_X = (int) (temporaryPoint.x + signs[0]*scale);
         int range_Y = (int) (temporaryPoint.y + signs[1]*scale);
         for (int x = (int) temporaryPoint.x; x <= range_X && !isGreen; x++) { //Suche nach einem Vertex in diesem Bereich
-<<<<<<< HEAD
             for (int y = (int) temporaryPoint.y; y <= range_Y; y++) {
-=======
-            //System.out.println("rangex: "+range_X);
-            for (int y = (int) temporaryPoint.y; y <= range_Y; y++) {
-                //System.out.println("x: "+x+", y: "+y);
->>>>>>> 0392e446aaf8b78a6b7c04bcb32af1d55269069f
                 if (Arrays.equals(mask.get(y, x), green)) { //Falls ein grüner Vertex gefunden wird muss geprüft werden, ob einen theoretische Linie mit einem vorhandenen Polygon interferiert //TODO Wirft unknown exception (Passiert wenn (x || y) < 0)
                     greenPoint = new Point(x, y);
                     isGreen = true;
