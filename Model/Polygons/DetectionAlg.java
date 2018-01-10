@@ -193,7 +193,7 @@ public class DetectionAlg {
         int scaledX = (int) (temporaryPoint.x+scale);
         int scaledY = (int) (temporaryPoint.y+scale);
         if(isGreen) { //Falls ein Vertex vorliegt muss noch geprüft werden ob ein Objekt dazwischen liegt
-            while(!isWhite || x < greenPoint.x) {
+            while(!isWhite && x < greenPoint.x) {
                 int pitch_White = (int) ((greenPoint.y - temporaryPoint.y) / (greenPoint.x - temporaryPoint.x)); //Strecke zwischen Ausgangspunkt und Vertex
                 for (int runX = x ; runX <= greenPoint.x; runX++) {
                     int runY = pitch_White * runX;
@@ -207,7 +207,7 @@ public class DetectionAlg {
             }
         }
         else {
-            while(!isWhite || x <= scaledX) {
+            while(!isWhite && x <= scaledX) {
                 for (x = (int) temporaryPoint.x; x <= scaledX; x++) { //Suche nach einem weißen Punkt in diesem Bereich
                     for (y = (int) temporaryPoint.y; y <= scaledY; y++) {
                         if (Arrays.equals(mask.get(y, x), white)) { //Falls ein weißer Punkt gefunden wurde muss eine neue maximale Länge betrachtet werden
