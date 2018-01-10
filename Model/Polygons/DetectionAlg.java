@@ -152,14 +152,14 @@ public class DetectionAlg {
     private Point pointForSearch() {
         int result = 0;
         Random r = new Random();
-        int low = (int) arrayList_mainVertices.get((polyCounter*3)-3).x;
-        int high = (int) arrayList_mainVertices.get((polyCounter*3)-2).x;
+        int low = (int) arrayList_mainVertices.get((polyCounter*3)-3).y;
+        int high = (int) arrayList_mainVertices.get((polyCounter*3)-2).y;
         if (high > low) result = r.nextInt(high-low) + low; //TODO Wirft exeptions (bound must be positive) (Anscheinend weil r 0 ist)
-        else if (high < low) result = r.nextInt(low-high) + high; //Falls X-Wert vom ersten Vertex größer ist
-        else result = low; //Wenn die beiden x Werte gleich sind -> result = low
-        int pitch = ((int)(arrayList_mainVertices.get((polyCounter*3)-2).y - arrayList_mainVertices.get((polyCounter*3)-3).y))/(int)((arrayList_mainVertices.get((polyCounter*3)-2).x - arrayList_mainVertices.get((polyCounter*3)-3).x));
-        int pitch_Y = result * pitch;
-        return new Point(result, pitch_Y);
+        else if (high < low) result = r.nextInt(low-high) + high; //Falls Y-Wert vom ersten Vertex größer ist
+        else result = low; //Wenn die beiden Y-Werte gleich sind -> result = low
+        int pitch = ((int)(arrayList_mainVertices.get((polyCounter*3)-2).x - arrayList_mainVertices.get((polyCounter*3)-3).x))/(int)((arrayList_mainVertices.get((polyCounter*3)-2).y - arrayList_mainVertices.get((polyCounter*3)-3).y));
+        int pitch_X = result * pitch;
+        return new Point(pitch_X, result);
     }
 
     private Point verticeDetection(Point temporaryPoint) {
