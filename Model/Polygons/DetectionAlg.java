@@ -48,6 +48,7 @@ public class DetectionAlg {
             else break;
             Point temporaryPoint = pointForSearch();
 //            System.out.println("temporaryPoint: "+temporaryPoint);
+<<<<<<< HEAD
             int[] signs = sideDetection(temporaryPoint);
             Point greenPoint = verticeDetection(temporaryPoint, signs); //TODO
             System.out.println("greenPoint: "+greenPoint);
