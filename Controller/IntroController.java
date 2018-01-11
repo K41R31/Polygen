@@ -49,10 +49,6 @@ public class IntroController implements Initializable {
                 new KeyFrame(new Duration(4000), new KeyValue(imageView_tiltleText.opacityProperty(), 1, Interpolator.EASE_BOTH), new KeyValue(imageView_tiltleLogo.opacityProperty(), 1, Interpolator.EASE_BOTH), new KeyValue(button_2D.opacityProperty(), 0), new KeyValue(button_3D.opacityProperty(), 0)),
                 new KeyFrame(new Duration(4300), new KeyValue(imageView_tiltleText.opacityProperty(), 0, Interpolator.EASE_BOTH), new KeyValue(imageView_tiltleLogo.opacityProperty(), 0, Interpolator.EASE_BOTH), new KeyValue(button_2D.opacityProperty(), 1, Interpolator.EASE_BOTH), new KeyValue(button_3D.opacityProperty(), 1, Interpolator.EASE_BOTH))
         );
-
-        //Event, dass den Ladebildschirm schließt, und addPlaylistView() startet
-        EventHandler<ActionEvent> event = arg0 -> System.out.println("FERTIG");
-        timelineAnimation.setOnFinished(event); //Hier wird das Event angehängt
         timelineAnimation.play();
     }
 

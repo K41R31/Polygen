@@ -44,12 +44,13 @@ public class DetectionAlg {
 
             if (polyCounter == 0) { firstPoly(); drawMask(); polyCounter++; continue; }
             else if (polyCounter < 4) {
-                getFirstAlgPolys();
-                if (arrayList_mainVertices.get(arrayList_mainVertices.size()-1) == null) { System.out.println("null hinzugefügt"); polyCounter++; continue; } //Falls kein Polygon gezeichnet werden muss
+                if (!getFirstAlgPolys()) { System.out.println("Kein Poly Hinzugefügt"); polyCounter++; continue; } //Falls kein Polygon gezeichnet werden muss
             }
             else if (polyCounter <11) {
                 getMainAlgPolys();
             }
+
+            else break;
             Point temporaryPoint = pointForSearch();
 //            System.out.println("temporaryPoint: "+temporaryPoint);
             System.out.println("temporaryPoint: "+temporaryPoint);
@@ -95,7 +96,7 @@ public class DetectionAlg {
         //System.out.println("" + arrayList_vertices.get(1) + "" + arrayList_vertices.get(2));
     }
 
-    private void getFirstAlgPolys() {
+    private boolean getFirstAlgPolys() {
 
         float temporaryScale = 0;
 
@@ -110,7 +111,7 @@ public class DetectionAlg {
         int middleX = (int)(arrayList_mainVertices.get((polyCounter*3)-3).x + arrayList_mainVertices.get((polyCounter*3)-2).x)/2; //X Mittelwert der letzten hinzugefügten Punkte //-2 und -1 weil der Index auf 0 beginnt
         int middleY = (int)(arrayList_mainVertices.get((polyCounter*3)-3).y + arrayList_mainVertices.get((polyCounter*3)-2).y)/2; //Y Mittelwert der letzten hinzugefügten Punkte
         int[] mathOperators = sideDetection(new Point(middleX, middleY));
-        if (mathOperators[0] == 0 || mathOperators[1] == 0) { arrayList_mainVertices.add(null); return; } //Falls kein Polygon gezeichnet werden muss
+        if (mathOperators[0] == 0 || mathOperators[1] == 0) { arrayList_mainVertices.set((polyCounter*3)-1, null); arrayList_mainVertices.set((polyCounter*3)-2, null); arrayList_mainVertices.set((polyCounter*3)-3, null); return false; } //Falls kein Polygon gezeichnet werden muss
         Point temporaryPoint = pointForSearch();
         Point greenPoint = verticeDetection(temporaryPoint, mathOperators);
         float newScale = interferenceDetection(temporaryPoint, greenPoint);
@@ -130,6 +131,7 @@ public class DetectionAlg {
             arrayList_firstPolyVertices.get(polyCounter * 2 + i);
         }
         */
+        return true;
     }
 
     private void getMainAlgPolys(){

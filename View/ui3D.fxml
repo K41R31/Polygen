@@ -1,30 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchorPane_uiMain" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Polygen.Controller.UiController2D">
+<AnchorPane fx:id="anchorPane_uiMain" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Polygen.Controller.UiController3D">
    <children>
       <SplitPane dividerPositions="0.035, 0.166" orientation="VERTICAL" style="-fx-background-color: #282828;" styleClass="backg-dark" stylesheets="@css/styleUi.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -41,7 +31,7 @@
                           <menus>
                             <Menu mnemonicParsing="false" text="File">
                               <items>
-                                <MenuItem mnemonicParsing="false" onAction="#loadImage" text="New">
+                                <MenuItem mnemonicParsing="false" text="New">
                                        <accelerator>
                                           <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                                        </accelerator></MenuItem>
@@ -89,217 +79,10 @@
             <SplitPane styleClass="backg-dark">
                <padding>
                   <Insets bottom="1.0" top="1.0" />
-               </padding>
-               <items>
-                  <TabPane prefHeight="200.0" prefWidth="200.0" styleClass="backg-bright" tabClosingPolicy="UNAVAILABLE">
-                    <tabs>
-                      <Tab text="Untitled Tab 1">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #444444;" />
-                        </content>
-                      </Tab>
-                      <Tab text="Untitled Tab 2">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                        </content>
-                      </Tab>
-                    </tabs>
-                  </TabPane>
-               </items></SplitPane>
+               </padding></SplitPane>
             <SplitPane dividerPositions="0.167" styleClass="backg-transp">
               <items>
-                  <SplitPane fx:id="splitPane_paneSize" dividerPositions="0.1, 0.36, 0.555, 0.91" orientation="VERTICAL" styleClass="backg-bright">
-                    <items>
-                        <AnchorPane>
-                           <children>
-                              <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <Button mnemonicParsing="false" onAction="#testAlgorithm" text="TestAlgorithm" />
-                                 </children></StackPane>
-                           </children>
-                           <padding>
-                              <Insets bottom="15.0" top="15.0" />
-                           </padding>
-                        </AnchorPane>
-                        <AnchorPane>
-                           <padding>
-                              <Insets bottom="15.0" top="15.0" />
-                           </padding>
-                           <children>
-                              <VBox alignment="BOTTOM_CENTER" layoutX="-16.0" layoutY="26.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="que-panes" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <HBox alignment="CENTER_RIGHT" spacing="20.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Text fill="#9b9b9b" strokeType="OUTSIDE" strokeWidth="0.0" text="PRE PROCESSING" textAlignment="RIGHT">
-                                             <font>
-                                                <Font name="Walkway Black" size="25.0" />
-                                             </font>
-                                          </Text>
-                                       </children>
-                                       <padding>
-                                          <Insets left="10.0" right="15.0" />
-                                       </padding>
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                    </HBox>
-                                    <HBox alignment="CENTER_RIGHT" spacing="20.0" styleClass="que-filter" VBox.vgrow="SOMETIMES">
-                                       <children>
-                                          <Text fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0" text="grayscale">
-                                             <font>
-                                                <Font name="Walkway SemiBold" size="30.0" />
-                                             </font>
-                                          </Text>
-                                          <CheckBox fx:id="checkBox_0" layoutX="270.0" layoutY="22.0" mnemonicParsing="false" onAction="#updatePicture" prefHeight="29.0" prefWidth="45.0" selected="true" styleClass="visible-check-box" />
-                                       </children>
-                                       <padding>
-                                          <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
-                                       </padding>
-                                    </HBox>
-                                    <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="62.0" spacing="20.0" styleClass="que-filter" VBox.vgrow="SOMETIMES">
-                                       <children>
-                                          <Text fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0" text="brightness" textAlignment="RIGHT">
-                                             <font>
-                                                <Font name="Walkway SemiBold" size="30.0" />
-                                             </font>
-                                          </Text>
-                                          <CheckBox fx:id="checkBox_1" mnemonicParsing="false" onAction="#updatePicture" prefHeight="29.0" prefWidth="45.0" selected="true" styleClass="visible-check-box" />
-                                       </children>
-                                       <padding>
-                                          <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
-                                       </padding>
-                                    </HBox>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="20.0" top="10.0" />
-                                 </padding>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane>
-                           <children>
-                              <VBox alignment="BOTTOM_CENTER" prefWidth="320.0" spacing="10.0" styleClass="que-panes" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <HBox alignment="CENTER_RIGHT" spacing="20.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Text fill="#9b9b9b" strokeType="OUTSIDE" strokeWidth="0.0" text="BLUR" textAlignment="RIGHT">
-                                             <font>
-                                                <Font name="Walkway Black" size="25.0" />
-                                             </font>
-                                          </Text>
-                                       </children>
-                                       <padding>
-                                          <Insets left="10.0" right="15.0" />
-                                       </padding>
-                                    </HBox>
-                                    <HBox alignment="CENTER_RIGHT" prefWidth="320.0" spacing="20.0" styleClass="que-filter" VBox.vgrow="SOMETIMES">
-                                       <children>
-                                          <Text fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0">
-                                             <font>
-                                                <Font name="Walkway SemiBold" size="36.0" />
-                                             </font>
-                                          </Text>
-                                          <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" styleClass="add-filter-button" textAlignment="CENTER" />
-                                       </children>
-                                       <padding>
-                                          <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
-                                       </padding>
-                                    </HBox>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="20.0" top="10.0" />
-                                 </padding>
-                              </VBox>
-                           </children>
-                           <padding>
-                              <Insets bottom="15.0" top="15.0" />
-                           </padding>
-                        </AnchorPane>
-                        <AnchorPane>
-                           <children>
-                              <VBox alignment="BOTTOM_CENTER" spacing="10.0" styleClass="que-panes" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <HBox alignment="CENTER_RIGHT" spacing="20.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Text fill="#9b9b9b" strokeType="OUTSIDE" strokeWidth="0.0" text="EDGE EXTRACTION" textAlignment="RIGHT">
-                                             <font>
-                                                <Font name="Walkway Black" size="25.0" />
-                                             </font>
-                                          </Text>
-                                       </children>
-                                       <padding>
-                                          <Insets left="10.0" right="15.0" />
-                                       </padding>
-                                    </HBox>
-                                    <GridPane alignment="CENTER" vgap="10.0" VBox.vgrow="SOMETIMES">
-                                      <columnConstraints>
-                                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
-                                      </columnConstraints>
-                                      <rowConstraints>
-                                        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
-                                        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
-                                        <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
-                                      </rowConstraints>
-                                       <children>
-                                          <HBox alignment="CENTER_RIGHT" spacing="20.0" styleClass="que-filter">
-                                             <padding>
-                                                <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
-                                             </padding>
-                                             <children>
-                                                <Text fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0">
-                                                   <font>
-                                                      <Font name="Walkway SemiBold" size="36.0" />
-                                                   </font>
-                                                </Text>
-                                                <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" styleClass="add-filter-button" textAlignment="CENTER" />
-                                             </children>
-                                          </HBox>
-                                          <HBox alignment="CENTER_RIGHT" spacing="20.0" styleClass="que-filter" GridPane.rowIndex="1">
-                                             <padding>
-                                                <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
-                                             </padding>
-                                             <children>
-                                                <Text fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0">
-                                                   <font>
-                                                      <Font name="Walkway SemiBold" size="36.0" />
-                                                   </font>
-                                                </Text>
-                                                <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" styleClass="add-filter-button" textAlignment="CENTER" />
-                                             </children>
-                                          </HBox>
-                                          <HBox alignment="CENTER_RIGHT" spacing="20.0" styleClass="que-filter" GridPane.rowIndex="2">
-                                             <padding>
-                                                <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />
-                                             </padding>
-                                             <children>
-                                                <Text fill="#1a1a1a" strokeType="OUTSIDE" strokeWidth="0.0">
-                                                   <font>
-                                                      <Font name="Walkway SemiBold" size="36.0" />
-                                                   </font>
-                                                </Text>
-                                                <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" styleClass="add-filter-button" textAlignment="CENTER" />
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                       <opaqueInsets>
-                                          <Insets />
-                                       </opaqueInsets>
-                                    </GridPane>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="20.0" top="10.0" />
-                                 </padding>
-                              </VBox>
-                           </children>
-                           <padding>
-                              <Insets bottom="15.0" top="15.0" />
-                           </padding>
-                        </AnchorPane>
-                        <AnchorPane />
-                    </items>
+                  <SplitPane orientation="VERTICAL" styleClass="backg-bright">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -314,7 +97,7 @@
                               <Image url="@../Resources/Ui/ui_mainViewLogo.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="processView" fitHeight="800.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="800.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </StackPane>
               </items>
@@ -324,6 +107,5 @@
             <Insets />
          </opaqueInsets>
       </SplitPane>
-      <VBox alignment="CENTER_LEFT" disable="true" layoutY="602.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="298.0" prefWidth="300.0" AnchorPane.leftAnchor="320.0" AnchorPane.topAnchor="500.0" />
    </children>
 </AnchorPane>
