@@ -47,10 +47,6 @@ public class DetectionAlg {
                 getFirstAlgPolys();
                 if (arrayList_mainVertices.get(arrayList_mainVertices.size()-1) == null) { System.out.println("null hinzugefügt"); polyCounter++; continue; } //Falls kein Polygon gezeichnet werden muss
             }
-<<<<<<< HEAD
-            else;
-=======
-<<<<<<< HEAD
             else if (polyCounter <11) {
                 getMainAlgPolys();
             }
@@ -62,8 +58,6 @@ public class DetectionAlg {
             System.out.println("greenPoint: "+greenPoint);
             float newScale = interferenceDetection(temporaryPoint, greenPoint);
 //            System.out.println("newScale: "+newScale);
->>>>>>> e28cdaef1536906851c3129017a0d40d95ad4fcb
->>>>>>> f958f738ec99f2778e155688eb0f95977ba46558
             drawMask();
             //drawPoly(poly);
             polyCounter++;
