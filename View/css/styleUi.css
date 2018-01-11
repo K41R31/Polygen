@@ -40,42 +40,42 @@
     -fx-background-color: GREY;
 }
 .visible-check-box {
-    -fx-background-image: url("../../resources/Ui/ui_toggleVisibilityDisabled.png");
+    -fx-background-image: url("../../Resources/Ui/ui_toggleVisibilityDisabled.png");
 }
 .visible-check-box:hover {
-    -fx-background-image: url("../../resources/Ui/ui_toggleVisibilityDisabledHover.png");
+    -fx-background-image: url("../../Resources/Ui/ui_toggleVisibilityDisabledHover.png");
  }
 .visible-check-box .box {
     -fx-background-color: TRANSPARENT;
 }
 .visible-check-box:selected {
-    -fx-background-image: url("../../resources/Ui/ui_toggleVisibilityActive.png");
+    -fx-background-image: url("../../Resources/Ui/ui_toggleVisibilityActive.png");
 }
 .visible-check-box:hover:selected {
-    -fx-background-image: url("../../resources/Ui/ui_toggleVisibilityActiveHover.png");
+    -fx-background-image: url("../../Resources/Ui/ui_toggleVisibilityActiveHover.png");
 }
 .visible-check-box:selected .mark {
     -fx-background-color: TRANSPARENT;
 }
 .add-filter-button {
     -fx-background-color: TRANSPARENT;
-    -fx-background-image: url("../../resources/Ui/ui_arrow.png");
+    -fx-background-image: url("../../Resources/Ui/ui_arrow.png");
 }
 .add-filter-button:hover {
-    -fx-background-image: url("../../resources/Ui/ui_arrowHover.png");
+    -fx-background-image: url("../../Resources/Ui/ui_arrowHover.png");
 }
 .add-filter-button:pressed {
-    -fx-background-image: url("../../resources/Ui/ui_arrowPressed.png");
+    -fx-background-image: url("../../Resources/Ui/ui_arrowPressed.png");
 }
 .remove-filter-button {
     -fx-background-color: TRANSPARENT;
-    -fx-background-image: url("../../resources/Ui/ui_line.png");
+    -fx-background-image: url("../../Resources/Ui/ui_line.png");
 }
 .remove-filter-button:hover {
-    -fx-background-image: url("../../resources/Ui/ui_lineHover.png");
+    -fx-background-image: url("../../Resources/Ui/ui_lineHover.png");
 }
 .remove-filter-button:pressed {
-    -fx-background-image: url("../../resources/Ui/ui_linePressed.png");
+    -fx-background-image: url("../../Resources/Ui/ui_linePressed.png");
 }
 .tab-pane .tab-header-area .tab-header-background {
     -fx-opacity: 0;
@@ -125,8 +125,8 @@
 }
 .button-arrowChooser {
     -fx-background-color: TRANSPARENT;
-    -fx-background-image: url("../../resources/Ui/ui_arrowUp.png");
+    -fx-background-image: url("../../Resources/Ui/ui_arrowUp.png");
 }
 .button-arrowChooser:hover {
-    -fx-background-image: url("../../resources/Ui/ui_arrowUpHover.png");
+    -fx-background-image: url("../../Resources/Ui/ui_arrowUpHover.png");
 }

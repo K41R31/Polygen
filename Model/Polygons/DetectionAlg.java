@@ -45,7 +45,7 @@ public class DetectionAlg {
                 getFirstAlgPolys();
                 if (arrayList_mainVertices.get(arrayList_mainVertices.size()-1) == null) { System.out.println("null hinzugefügt"); polyCounter++; continue; } //Falls kein Polygon gezeichnet werden muss
             }
-            else break;
+            else;
             drawMask();
             //drawPoly(poly);
             polyCounter++;
@@ -85,7 +85,7 @@ public class DetectionAlg {
 
     private void getFirstAlgPolys() {
 
-        float temporaryScale;
+        float temporaryScale = 0;
 
         switch (polyCounter) {
             case 1: for(int i = 0; i < 2; i++) arrayList_mainVertices.add(arrayList_firstPolyVertices.get(i)); //Point 0 + 1
@@ -102,9 +102,9 @@ public class DetectionAlg {
         Point temporaryPoint = pointForSearch();
         Point greenPoint = verticeDetection(temporaryPoint, mathOperators);
         float newScale = interferenceDetection(temporaryPoint, greenPoint);
-        if (isGreen && !isWhite) { arrayList_mainVertices.set(arrayList_mainVertices.size() - 1, greenPoint); System.out.println("Vertex gefunden und wird nicht unterbrochen"); }//Falls ein Vertex gefunden wurde
+        if (isGreen && !isWhite) { arrayList_mainVertices.set(arrayList_mainVertices.size() - 1, greenPoint); System.out.println("Vertex gefunden und wird nicht unterbrochen"); } //Falls ein Vertex gefunden wurde
         else {
-            if (isGreen || isWhite) temporaryScale = newScale; //Falls ein Vertex gefunden wurde, aber die gerade zum temporaryPoint durch ein Polygon versperrt wird || ein Weißes Polygon gefunden wurde
+            if (isGreen || isWhite) { temporaryScale = newScale; System.out.println(temporaryScale+" Vertex gefunden und wird unterbrochen"); } //Falls ein Vertex gefunden wurde, aber die gerade zum temporaryPoint durch ein Polygon versperrt wird || ein Weißes Polygon gefunden wurde
             else temporaryScale = scale; //Falls nichts gefunden wurde
             int randomX = middleX + randomLength(temporaryScale) * mathOperators[0];
             int randomY = middleY + randomLength(temporaryScale) * mathOperators[1];
@@ -163,7 +163,7 @@ public class DetectionAlg {
         Random r = new Random();
         int low = (int) arrayList_mainVertices.get((polyCounter*3)-3).y;
         int high = (int) arrayList_mainVertices.get((polyCounter*3)-2).y;
-        if (high > low) result = r.nextInt(high-low) + low; //TODO Wirft exeptions (bound must be positive) (Anscheinend weil r 0 ist)
+        if (high > low) result = r.nextInt(high-low) + low;
         else if (high < low) result = r.nextInt(low-high) + high; //Falls Y-Wert vom ersten Vertex größer ist
         else result = low; //Wenn die beiden Y-Werte gleich sind -> result = low
         int pitch = ((int)(arrayList_mainVertices.get((polyCounter*3)-2).x - arrayList_mainVertices.get((polyCounter*3)-3).x))/(int)((arrayList_mainVertices.get((polyCounter*3)-2).y - arrayList_mainVertices.get((polyCounter*3)-3).y));
@@ -249,7 +249,7 @@ public class DetectionAlg {
 
     }
 
-    private int randomLength(float scale) { return (int)(scale * (Math.random() + Math.random() / 2)); } //Für Werte die näher am Durchschnitt liegen
+    private int randomLength(float innerScale) { return (int)(innerScale * (Math.random() + Math.random() / 2)); } //Für Werte die näher am Durchschnitt liegen
 
     public Mat getMask() { return mask; }
 }
