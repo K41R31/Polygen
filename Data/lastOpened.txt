@@ -1,6 +1,1 @@
-<<<<<<< HEAD
-C:\Users\Kai\Pictures\Maya Render\roccat_mouse_HD.jpg
-C:\Users\Kai\Pictures\Maya Render\bed.jpg
-=======
 C:\Users\Dominik\Pictures\LolDesktop.png
->>>>>>> f958f738ec99f2778e155688eb0f95977ba46558
