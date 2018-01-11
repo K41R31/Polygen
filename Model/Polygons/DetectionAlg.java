@@ -289,48 +289,26 @@ public class DetectionAlg {
             return 0;
     }
 
-    private Point gapCloser(Point vertexPoint){
+    private Point gapCloser(Point vertexPoint) {
         Point finalPoint = vertexPoint;
-        //int posX, posY, negX, negY, checkX, checkY, startX, endX, startY, endY;
+        int quadrant = 1;
         int startX = 0;
         int endX = 0;
         int startY = 0;
         int endY = 0;
-        while(finalPoint == vertexPoint) {
-            int quadrant = 1;
-            if(quadrant == 1){
-                startX = 1;
-                endX = 11;
-                startY = 0;
-                endY = 11;
+        int stepX = 0;
+        int stepY = 0;
+        while (finalPoint == vertexPoint) {
+            switch (quadrant) {
+                case 1: startX = 1; endX = 11; startY = 0; endY = 11; stepX = 1; stepY = 1; break;
+                case 2: startX = -1; endX = -11; startY = 0; endY = 11; stepX = -1; stepY = 1; break;
+                case 3: startX = -1; endX = -11; startY = 0; endY = -11; stepX = -1; stepY = -1; break;
+                case 4: startX = 1; endX = 11; startY = 0; endY = -11; stepX = 1; stepY = -1; break;
             }
-            if(quadrant == 2){
-                startX = -1;
-                endX = -11;
-                startY = 0;
-                endY = 11;
-            }
-            if(quadrant == 3){
-                startX = -1;
-                endX = -11;
-                startY = 0;
-                endY = -11;
-            }
-            if(quadrant == 4){
-                startX = -1;
-                endX = -11;
-                startY = 0;
-                endY = -11;
-            }
-            for(int x = startX; x < endX; x++){
-                for(int y = startY; y < endY; y++){
-
-                }
-            }
-            /*for (posX = 1; posX < 11; posX++) { //1.Quadrant zum Schließen kleiner Lücken
-                for (posY = 0; posY < 11; posY++) {
-                    int checkX1 = (int) vertexPoint.x + posX;
-                    int checkY1 = (int) vertexPoint.y + posY;
+            for (int x = startX; x < endX; x = x + stepX) {
+                for (int y = startY; y < endY; y = y + stepY) {
+                    int checkX1 = (int) vertexPoint.x + x;
+                    int checkY1 = (int) vertexPoint.y + y;
                     if (Arrays.equals(mask.get(checkY1, checkX1), green)) {
                         finalPoint = new Point(checkX1, checkY1);
                     }
@@ -339,45 +317,9 @@ public class DetectionAlg {
                     }
                 }
             }
-            for (negX = -1; negX > -11; negX--) { //2.Quadrant zum Schließen kleiner Lücken
-                for (posY = 0; posY < 11; posY++) {
-                    checkX = (int) vertexPoint.x + negX;
-                    checkY = (int) vertexPoint.y + posY;
-                    if (Arrays.equals(mask.get(checkY, checkX), green)) {
-                        finalPoint = new Point(checkX, checkY);
-                    }
-                    if (Arrays.equals(mask.get(checkY, checkX), white)) {
-                        finalPoint = new Point(checkX, checkY);
-                    }
-                }
-            }
-            for (negX = -1; negX > -11; negX--) { //3.Quadrant zum Schließen kleiner Lücken
-                for (negY = -1; negY > -11; negY--) {
-                    checkX = (int) vertexPoint.x + negX;
-                    checkY = (int) vertexPoint.y + negY;
-                    if (Arrays.equals(mask.get(checkY, checkX), green)) {
-                        finalPoint = new Point(checkX, checkY);
-                    }
-                    if (Arrays.equals(mask.get(checkY, checkX), white)) {
-                        finalPoint = new Point(checkX, checkY);
-                    }
-                }
-            }
-            for (posX = 1; posX < 11; posX++) { //4.Quadrant zum Schließen kleiner Lücken
-                for (negY = -1; negY > -11; negY--) {
-                    checkX = (int) vertexPoint.x + negX;
-                    checkY = (int) vertexPoint.y + negY;
-                    if (Arrays.equals(mask.get(checkY, checkX), green)) {
-                        finalPoint = new Point(checkX, checkY);
-                    }
-                    if (Arrays.equals(mask.get(checkY, checkX), white)) {
-                        finalPoint = new Point(checkX, checkY);
-                    }
-                }
-            }*/
-            break;
+            quadrant++;
         }
-    return finalPoint;
+        return finalPoint;
     }
 
     private void drawMask() {
