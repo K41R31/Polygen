@@ -26,6 +26,8 @@ public class DetectionAlg {
     private Mat mask;
     private Point whitePoint = null;
     private boolean isGreen, isWhite;
+    double[] green = {0.0, 255.0, 0.0};
+    private double[] white = {100.0, 100.0, 100.0}; //TODO muss wieder in weiß [255,255,255] geändert werden
 
     public DetectionAlg(Mat imageMat, Mat edgeMat, float scale) { //edge Mat = KantenBild; scale = eingabe vom Nutzer
         this.scale = scale;
@@ -45,7 +47,23 @@ public class DetectionAlg {
                 getFirstAlgPolys();
                 if (arrayList_mainVertices.get(arrayList_mainVertices.size()-1) == null) { System.out.println("null hinzugefügt"); polyCounter++; continue; } //Falls kein Polygon gezeichnet werden muss
             }
+<<<<<<< HEAD
             else;
+=======
+<<<<<<< HEAD
+            else if (polyCounter <11) {
+                getMainAlgPolys();
+            }
+            Point temporaryPoint = pointForSearch();
+//            System.out.println("temporaryPoint: "+temporaryPoint);
+            System.out.println("temporaryPoint: "+temporaryPoint);
+            int[] signs = sideDetection(temporaryPoint);
+            Point greenPoint = verticeDetection(temporaryPoint, signs); //TODO
+            System.out.println("greenPoint: "+greenPoint);
+            float newScale = interferenceDetection(temporaryPoint, greenPoint);
+//            System.out.println("newScale: "+newScale);
+>>>>>>> e28cdaef1536906851c3129017a0d40d95ad4fcb
+>>>>>>> f958f738ec99f2778e155688eb0f95977ba46558
             drawMask();
             //drawPoly(poly);
             polyCounter++;
@@ -120,6 +138,48 @@ public class DetectionAlg {
         */
     }
 
+    private void getMainAlgPolys(){
+        int vertex_X = 0;
+        int vertex_Y = 0;
+        for(int x = 4; x <= polyCounter; x++){
+            arrayList_mainVertices.add(new Point(0,0)); //Damit man immer mit einer Multiplikation mit 3 die Punkte finden kann
+            System.out.println("polycounter:" + polyCounter + " arrayListSize:" + arrayList_mainVertices.size());
+            int middleX = (int) (arrayList_mainVertices.get((polyCounter*3)-3).x + arrayList_mainVertices.get((polyCounter*3)-2).x)/2;
+            int middleY = (int) (arrayList_mainVertices.get((polyCounter*3)-3).y + arrayList_mainVertices.get((polyCounter*3)-2).y)/2;
+            Point middlePoint = new Point(middleX, middleY);
+            int[] mathOperators = sideDetection(middlePoint);
+            Point tempPoint = pointForSearch();
+            Point greenPoint = verticeDetection(tempPoint, mathOperators);
+            float tempScale = interferenceDetection(tempPoint, greenPoint);
+            if(greenPoint != null && tempScale == 0.0) {
+                arrayList_mainVertices.set(arrayList_mainVertices.size()-1, greenPoint);
+                polyCounter++;
+            }
+            else if(tempScale != 0.0){
+                boolean maxPoint = false;
+                while(!maxPoint) {
+                    double tempScale1 = tempScale * ((Math.random() + Math.random()) / 2);
+                    double tempScale2 = tempScale * ((Math.random() + Math.random()) / 2);
+                    if(tempScale >= Math.sqrt(tempScale1*tempScale1 + tempScale2*tempScale2)) {
+                        vertex_X = (int) (tempPoint.x + tempScale * (Math.random() + Math.random()) / 2);
+                        vertex_Y = (int) (tempPoint.y + tempScale * (Math.random() + Math.random()) / 2);
+                        Point newVertex = new Point(vertex_X, vertex_Y);
+                        arrayList_mainVertices.set(arrayList_mainVertices.size()-1, newVertex);
+                        polyCounter++;
+                        maxPoint = true;
+                    }
+                }
+            }
+            else{
+                vertex_X = (int) (tempPoint.x + scale * ((Math.random() + Math.random())/2));
+                vertex_Y = (int) (tempPoint.y + scale * ((Math.random() + Math.random())/2));
+                Point newVertex = new Point(vertex_X, vertex_Y);
+                arrayList_mainVertices.set(arrayList_mainVertices.size()-1, newVertex);
+                polyCounter++;
+            }
+        }
+    }
+
     private int[] sideDetection(Point searchpoint) {
 
         int[] mathOperators = new int[2];
@@ -173,11 +233,12 @@ public class DetectionAlg {
 
     private Point verticeDetection(Point temporaryPoint, int[] signs) {
         Point greenPoint = new Point();
-        double[] green = {0.0, 255.0, 0.0};
         int range_X = (int) (temporaryPoint.x + signs[0]*scale);
         int range_Y = (int) (temporaryPoint.y + signs[1]*scale);
         for (int x = (int) temporaryPoint.x; x <= range_X && !isGreen; x++) { //Suche nach einem Vertex in diesem Bereich
             for (int y = (int) temporaryPoint.y; y <= range_Y; y++) {
+            //System.out.println("rangex: "+range_X);
+                //System.out.println("x: "+x+", y: "+y);
                 if (Arrays.equals(mask.get(y, x), green)) { //Falls ein grüner Vertex gefunden wird muss geprüft werden, ob einen theoretische Linie mit einem vorhandenen Polygon interferiert //TODO Wirft unknown exception (Passiert wenn (x || y) < 0)
                     greenPoint = new Point(x, y);
                     isGreen = true;
@@ -191,7 +252,6 @@ public class DetectionAlg {
     }
 
     private float interferenceDetection(Point temporaryPoint, Point greenPoint) {
-        double[] white = {100.0, 100.0, 100.0}; //TODO muss wieder in weiß [255,255,255] geändert werden
         float newScale = 0;
         int runX= 0;
         int runY = 0;
@@ -231,6 +291,97 @@ public class DetectionAlg {
         }
         else 
             return 0;
+    }
+
+    private Point gapCloser(Point vertexPoint){
+        Point finalPoint = vertexPoint;
+        //int posX, posY, negX, negY, checkX, checkY, startX, endX, startY, endY;
+        int startX = 0;
+        int endX = 0;
+        int startY = 0;
+        int endY = 0;
+        while(finalPoint == vertexPoint) {
+            int quadrant = 1;
+            if(quadrant == 1){
+                startX = 1;
+                endX = 11;
+                startY = 0;
+                endY = 11;
+            }
+            if(quadrant == 2){
+                startX = -1;
+                endX = -11;
+                startY = 0;
+                endY = 11;
+            }
+            if(quadrant == 3){
+                startX = -1;
+                endX = -11;
+                startY = 0;
+                endY = -11;
+            }
+            if(quadrant == 4){
+                startX = -1;
+                endX = -11;
+                startY = 0;
+                endY = -11;
+            }
+            for(int x = startX; x < endX; x++){
+                for(int y = startY; y < endY; y++){
+
+                }
+            }
+            /*for (posX = 1; posX < 11; posX++) { //1.Quadrant zum Schließen kleiner Lücken
+                for (posY = 0; posY < 11; posY++) {
+                    int checkX1 = (int) vertexPoint.x + posX;
+                    int checkY1 = (int) vertexPoint.y + posY;
+                    if (Arrays.equals(mask.get(checkY1, checkX1), green)) {
+                        finalPoint = new Point(checkX1, checkY1);
+                    }
+                    if (Arrays.equals(mask.get(checkY1, checkX1), white)) {
+                        finalPoint = new Point(checkX1, checkY1);
+                    }
+                }
+            }
+            for (negX = -1; negX > -11; negX--) { //2.Quadrant zum Schließen kleiner Lücken
+                for (posY = 0; posY < 11; posY++) {
+                    checkX = (int) vertexPoint.x + negX;
+                    checkY = (int) vertexPoint.y + posY;
+                    if (Arrays.equals(mask.get(checkY, checkX), green)) {
+                        finalPoint = new Point(checkX, checkY);
+                    }
+                    if (Arrays.equals(mask.get(checkY, checkX), white)) {
+                        finalPoint = new Point(checkX, checkY);
+                    }
+                }
+            }
+            for (negX = -1; negX > -11; negX--) { //3.Quadrant zum Schließen kleiner Lücken
+                for (negY = -1; negY > -11; negY--) {
+                    checkX = (int) vertexPoint.x + negX;
+                    checkY = (int) vertexPoint.y + negY;
+                    if (Arrays.equals(mask.get(checkY, checkX), green)) {
+                        finalPoint = new Point(checkX, checkY);
+                    }
+                    if (Arrays.equals(mask.get(checkY, checkX), white)) {
+                        finalPoint = new Point(checkX, checkY);
+                    }
+                }
+            }
+            for (posX = 1; posX < 11; posX++) { //4.Quadrant zum Schließen kleiner Lücken
+                for (negY = -1; negY > -11; negY--) {
+                    checkX = (int) vertexPoint.x + negX;
+                    checkY = (int) vertexPoint.y + negY;
+                    if (Arrays.equals(mask.get(checkY, checkX), green)) {
+                        finalPoint = new Point(checkX, checkY);
+                    }
+                    if (Arrays.equals(mask.get(checkY, checkX), white)) {
+                        finalPoint = new Point(checkX, checkY);
+                    }
+                }
+            }*/
+            break;
+        }
+    return finalPoint;
     }
 
     private void drawMask() {
