@@ -8,7 +8,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.SplitPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
-import javafx.scene.effect.Reflection;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -178,8 +177,8 @@ public class UiController2D implements Initializable {
         text_edgeExtraction2.setFont(resizeFilterFont);
         double buttonGenWidth = windowWidth*0.1458;
         double buttonGenHeight = windowHeight*0.1134;
-        image_genPoly = new Image("Polygen/resources/Ui/ui_generatePolysButton.png", buttonGenWidth, buttonGenHeight, false, false);
-        image_genPolyHover = new Image("Polygen/resources/Ui/ui_generatePolysButtonHover.png");
+        image_genPoly = new Image("Polygen/Resources/Ui/ui_generatePolysButton.png", buttonGenWidth, buttonGenHeight, false, false);
+        image_genPolyHover = new Image("Polygen/Resources/Ui/ui_generatePolysButtonHover.png");
         imageView_buttonGenPoly.setFitWidth(buttonGenWidth);
         imageView_buttonGenPoly.setFitHeight(buttonGenHeight);
         button_buttonGenPoly.setPrefWidth(buttonGenWidth);
@@ -426,6 +425,34 @@ public class UiController2D implements Initializable {
         updatePicture();
     }
     @FXML
+    private void removeEdgeExtraction0() {
+        removeEdgeExtractionController(text_edgeExtraction0, 0, button_addEdgeExtraction0, hBox_edgeExtraction0);
+    }
+    @FXML
+    private void removeEdgeExtraction1() {
+        removeEdgeExtractionController(text_edgeExtraction1, 1, button_addEdgeExtraction1, hBox_edgeExtraction1);
+    }
+    @FXML
+    private void removeEdgeExtraction2() {
+        removeEdgeExtractionController(text_edgeExtraction2, 2, button_addEdgeExtraction2, hBox_edgeExtraction2);
+    }
+    @FXML
+    private void removeEdgeExtractionController(Text text, int method, Button button, HBox hBox) {
+        text.setText("");
+        switch (method) {
+            case 0: imageProcessing.setEdgeExtraction0(-1);
+                break;
+            case 1: imageProcessing.setEdgeExtraction1(-1);
+                break;
+            case 2: imageProcessing.setEdgeExtraction2(-1);
+        }
+        button.setDisable(false);
+        button.setVisible(true);
+        hBox.setDisable(true);
+        hBox.setVisible(false);
+        updatePicture();
+    }
+    @FXML
     private void updatePicture() {
         updateStates();
         updateValues();
@@ -461,12 +488,6 @@ public class UiController2D implements Initializable {
     private void selectEdgeExtraction1() { addEdgeExtraction(1); }
     @FXML
     private void selectEdgeExtraction2() { addEdgeExtraction(2); }
-    @FXML
-    private void removeEdgeExtraction0() {}
-    @FXML
-    private void removeEdgeExtraction1() {}
-    @FXML
-    private void removeEdgeExtraction2() {}
     @FXML
     private void textZoom_action() { System.out.println("ZoomFaktorauswahl anzeigen"); }
     @FXML

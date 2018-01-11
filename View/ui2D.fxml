@@ -28,7 +28,7 @@
                <items>
                   <ImageView fx:id="imageView_logo" fitHeight="40.0" fitWidth="40.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../resources/Ui/ui_logo.png" />
+                        <Image url="@../Resources/Ui/ui_logo.png" />
                      </image>
                   </ImageView>
                   <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="200.0">
@@ -465,7 +465,7 @@
                            <children>
                               <ImageView fitHeight="320.0" fitWidth="325.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../resources/Ui/ui_mainViewLogo.png" />
+                                    <Image url="@../Resources/Ui/ui_mainViewLogo.png" />
                                  </image>
                               </ImageView>
                               <ImageView fx:id="view_processView" fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" />

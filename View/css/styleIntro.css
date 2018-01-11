@@ -1,0 +1,14 @@
+.button-2D {
+    -fx-background-color: TRANSPARENT;
+    -fx-background-image: url("../../Resources/Intro/intro_button2D.png");
+}
+.button-3D {
+    -fx-background-color: TRANSPARENT;
+    -fx-background-image: url("../../Resources/Intro/intro_button3D.png");
+}
+.button-2D:hover {
+    -fx-opacity: 1;
+}
+.button-3D:hover {
+    -fx-opacity: 1;
+}
