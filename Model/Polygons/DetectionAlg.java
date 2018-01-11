@@ -47,7 +47,6 @@ public class DetectionAlg {
                 getFirstAlgPolys();
                 if (arrayList_mainVertices.get(arrayList_mainVertices.size()-1) == null) { System.out.println("null hinzugefügt"); polyCounter++; continue; } //Falls kein Polygon gezeichnet werden muss
             }
-<<<<<<< HEAD
             else if (polyCounter <11) {
                 getMainAlgPolys();
             }
@@ -58,8 +57,7 @@ public class DetectionAlg {
             Point greenPoint = verticeDetection(temporaryPoint, signs); //TODO
             System.out.println("greenPoint: "+greenPoint);
             float newScale = interferenceDetection(temporaryPoint, greenPoint);
-//            System.out.println("newScale: "+newScale);
->>>>>>> e28cdaef1536906851c3129017a0d40d95ad4fcb
+//            System.out.println("newScale: "+newScale)
             drawMask();
             //drawPoly(poly);
             polyCounter++;
@@ -126,7 +124,6 @@ public class DetectionAlg {
             if (randomY < 0) randomY = 0;
             arrayList_mainVertices.set(arrayList_mainVertices.size()-1, new Point(randomX, randomY));
         }
-
         /* TODO Für die späteren Polys
         for(int i = 0; i < 2; i++) {
             arrayList_firstPolyVertices.get(polyCounter * 2 + i);
@@ -140,6 +137,7 @@ public class DetectionAlg {
         for(int x = 4; x <= polyCounter; x++){
             arrayList_mainVertices.add(new Point(0,0)); //Damit man immer mit einer Multiplikation mit 3 die Punkte finden kann
             System.out.println("polycounter:" + polyCounter + " arrayListSize:" + arrayList_mainVertices.size());
+            System.out.println("test: " +arrayList_mainVertices.get((polyCounter*3)-2));
             int middleX = (int) (arrayList_mainVertices.get((polyCounter*3)-3).x + arrayList_mainVertices.get((polyCounter*3)-2).x)/2;
             int middleY = (int) (arrayList_mainVertices.get((polyCounter*3)-3).y + arrayList_mainVertices.get((polyCounter*3)-2).y)/2;
             Point middlePoint = new Point(middleX, middleY);
