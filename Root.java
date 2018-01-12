@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class Root extends Application {
 
-    private final int playIntro = 1; //1 = intro; 2 = 2D; 3 = 3D
+    private final int playIntro = 2; //1 = intro; 2 = 2D; 3 = 3D
 
     static public Stage openerStage;
     static public Stage primaryStage;
