@@ -13,6 +13,7 @@ import java.util.Random;
 
 import static org.opencv.core.CvType.CV_8UC3;
 import static org.opencv.imgproc.Imgproc.fillConvexPoly;
+import static org.opencv.imgproc.Imgproc.floodFill;
 
 
 public class DetectionAlg {
@@ -102,33 +103,22 @@ public class DetectionAlg {
         int middleX = (int)(arrayList_mainVertices.get((polyCounter*3)-3).x + arrayList_mainVertices.get((polyCounter*3)-2).x)/2; //X Mittelwert der letzten hinzugefügten Punkte
         int middleY = (int)(arrayList_mainVertices.get((polyCounter*3)-3).y + arrayList_mainVertices.get((polyCounter*3)-2).y)/2; //Y Mittelwert der letzten hinzugefügten Punkte
         int[] mathOperators = sideDetection(new Point(middleX, middleY));
+        System.out.println(Arrays.toString(mathOperators));
         if (mathOperators[0] == 0 || mathOperators[1] == 0) { arrayList_mainVertices.set((polyCounter*3)-1, null); arrayList_mainVertices.set((polyCounter*3)-2, null); arrayList_mainVertices.set((polyCounter*3)-3, null); return false; } //Falls kein Polygon gezeichnet werden muss
 
         Point tempPoint = pointForSearch();
         Point greenPoint = vertexDetection(tempPoint, mathOperators);
-        float newScale = interferenceDetection(tempPoint, greenPoint);
+        Point whitePoint = interferenceDetection(tempPoint, greenPoint, mathOperators);
 
-        if (isGreen && !isWhite) { System.out.println("Grün gezeichnet"); arrayList_mainVertices.set(arrayList_mainVertices.size()-1, greenPoint); } //Wenn ein grüner Punkt gefunden wurde der ok ist
-        else if (newScale > 0) { //Wenn ein weißer Pixel gefunden wurde (Guckt ob die scale größer ist als x und y vom Suchbereich)
-            System.out.println("Weißer Pixel gefunden");
-            while (true) {
-                double tempScale1 = randomLength(newScale);
-                double tempScale2 = randomLength(newScale);
-                if (newScale >= Math.sqrt(tempScale1*tempScale1 + tempScale2*tempScale2)) {
-                    int vertex_X = (int) (tempPoint.x + randomLength(newScale));
-                    int vertex_Y = (int) (tempPoint.y + randomLength(newScale));
-                    Point newVertex = new Point(vertex_X, vertex_Y);
-                    arrayList_mainVertices.set(arrayList_mainVertices.size()-1, newVertex); //Hier wird der 3. Punkt hinzugefügt
-                    break;
-                }
-            }
-        }
+        if (isGreen && !isWhite) { arrayList_mainVertices.set(arrayList_mainVertices.size()-1, greenPoint); return true; } //Wenn ein grüner Punkt gefunden wurde der ok ist
+        else if (whitePoint != null) { arrayList_mainVertices.set(arrayList_mainVertices.size()-1, whitePoint); return true; }
         else {
             System.out.println("Random");
-            int x = (int)(tempPoint.x + randomLength(scale))*mathOperators[0];
-            int y = (int)(tempPoint.y + randomLength(scale))*mathOperators[1];
+            int x = (int)tempPoint.x + randomLength(scale)*mathOperators[0];
+            int y = (int)tempPoint.y + randomLength(scale)*mathOperators[1];
             if (x < 0) x = 0;
             if (y < 0) y = 0;
+            isCut(arrayList_mainVertices.get((polyCounter*3)-3), arrayList_mainVertices.get((polyCounter*3)-2), new Point(x ,y));
             arrayList_mainVertices.set(arrayList_mainVertices.size()-1, new Point(x, y)); //Hier wird der 3. Punkt hinzugefügt
         }
         return true;
@@ -153,28 +143,25 @@ public class DetectionAlg {
 
         Point tempPoint = pointForSearch();
         Point greenPoint = vertexDetection(tempPoint, mathOperators);
-        float newScale = interferenceDetection(tempPoint, greenPoint);
+        Point whitePoint = interferenceDetection(tempPoint, greenPoint, mathOperators);
 
-        if (isGreen && !isWhite) arrayList_mainVertices.set(arrayList_mainVertices.size()-1, greenPoint); //Wenn ein grüner Punkt gefunden wurde, der ok ist
-        else if (newScale > 0) { //Wenn ein weißer Pixel gefunden wurde (Guckt ob die scale größer ist als x und y vom Suchbereich)
+        if (isGreen && !isWhite) { arrayList_mainVertices.set(arrayList_mainVertices.size()-1, greenPoint); return true; } //Wenn ein grüner Punkt gefunden wurde der ok ist
+        if (whitePoint != null) { arrayList_mainVertices.set(arrayList_mainVertices.size()-1, whitePoint); return true; }
+/*        else if (newScale > 0) { //Wenn ein weißer Pixel gefunden wurde (Guckt ob die scale größer ist als x und y vom Suchbereich)
+            System.out.println("Weißer Pixel gefunden");
             while (true) {
                 double tempScale1 = randomLength(newScale);
                 double tempScale2 = randomLength(newScale);
                 if (newScale >= Math.sqrt(tempScale1*tempScale1 + tempScale2*tempScale2)) {
-                    vertex_X = (int) (tempPoint.x + randomLength(newScale));
-                    vertex_Y = (int) (tempPoint.y + randomLength(newScale));
+                    int vertex_X = (int) (tempPoint.x + randomLength(newScale));
+                    int vertex_Y = (int) (tempPoint.y + randomLength(newScale));
                     Point newVertex = new Point(vertex_X, vertex_Y);
                     arrayList_mainVertices.set(arrayList_mainVertices.size()-1, newVertex); //Hier wird der 3. Punkt hinzugefügt
                     break;
                 }
             }
         }
-        else {
-            vertex_X = (int) (tempPoint.x + scale * ((Math.random() + Math.random())/2));
-            vertex_Y = (int) (tempPoint.y + scale * ((Math.random() + Math.random())/2));
-            Point newVertex = new Point(vertex_X, vertex_Y);
-            arrayList_mainVertices.set(arrayList_mainVertices.size()-1, newVertex);
-        }
+*/
         return true;
     }
 
@@ -182,7 +169,7 @@ public class DetectionAlg {
 
         int[] mathOperators = new int[2];
         boolean[] toSearch = {true, true};
-        for (double i = 1; i < 20 && (toSearch[0] || toSearch[1]); i++) {
+        for (double i = 1; i <= 10 && (toSearch[0] || toSearch[1]); i++) {
 
             if (toSearch[0]) {
                 if (((int) (searchpoint.x - i)) < 0) {
@@ -212,6 +199,18 @@ public class DetectionAlg {
                     toSearch[1] = false;
                 }
             }
+            if (i == 10) { //Wenn die Steigung sehr niedrig ist
+                if (mathOperators[0] == 0) {
+                    double random = Math.random();
+                    if (random < 0.5) mathOperators[0] = -1;
+                    else mathOperators[0] = 1;
+                }
+                if (mathOperators[1] == 0) {
+                    double random = Math.random();
+                    if (random < 0.5) mathOperators[1] = -1;
+                    else mathOperators[1] = 1;
+                }
+            }
         }
         return(mathOperators);
     }
@@ -233,14 +232,14 @@ public class DetectionAlg {
     }
 
     /**
-     * Vertice detection
+     * Vertex detection
      */
     private Point vertexDetection(Point temporaryPoint, int[] mathOperators) {
         Point greenPoint = new Point();
-        int range_X = (int) (temporaryPoint.x + mathOperators[0]*scale);
-        int range_Y = (int) (temporaryPoint.y + mathOperators[1]*scale);
-        for (int x = (int) temporaryPoint.x; x <= range_X && !isGreen; x++) { //Suche nach einem Vertex in diesem Bereich
-            for (int y = (int) temporaryPoint.y; y <= range_Y; y++) {
+        int range_X = (int)(temporaryPoint.x + (randomLength(scale)*mathOperators[0]));
+        int range_Y = (int)(temporaryPoint.y + (randomLength(scale)*mathOperators[1]));
+        for (int x = (int)temporaryPoint.x; x <= range_X && !isGreen; x++) { //Suche nach einem Vertex in diesem Bereich
+            for (int y = (int)temporaryPoint.y; y <= range_Y; y++) {
                 if (Arrays.equals(mask.get(y, x), green)) { //Falls ein grüner Vertex gefunden wird muss geprüft werden, ob einen theoretische Linie mit einem vorhandenen Polygon interferiert //TODO Wirft unknown exception (Passiert wenn (x || y) < 0)
                     greenPoint = new Point(x, y);
                     isGreen = true;
@@ -255,46 +254,44 @@ public class DetectionAlg {
     /**
      * Interference detection
      */
-    private float interferenceDetection(Point temporaryPoint, Point greenPoint) {
-
-        float newScale = 0;
+    private Point interferenceDetection(Point temporaryPoint, Point greenPoint, int[] mathOperators) {
+        Point newPoint = new Point();
         int runX= 0;
-        int runY = 0;
-        int y = 0;
-        int pitch_White = 0;
-        int scaledX = (int) (temporaryPoint.x+scale);
-        int scaledY = (int) (temporaryPoint.y+scale);
-        if(greenPoint != null) { //Falls ein Vertex vorliegt, muss noch geprüft werden ob ein Objekt dazwischen liegt
+        int runY;
+        int pitch_White;
+        if (isGreen) { //Falls ein Vertex vorliegt, muss noch geprüft werden ob ein Polygon dazwischen liegt
             while(!isWhite && runX < greenPoint.x) {
                 pitch_White = (int) ((greenPoint.x - temporaryPoint.x) / (greenPoint.y - temporaryPoint.y)); //Strecke zwischen Ausgangspunkt und Vertex
                 for (runX = 0 ; runX <= greenPoint.x; runX++) {
                     runY = pitch_White * runX;
                     if (!Arrays.equals(mask.get(runY, runX), black)) {
                         whitePoint = new Point(runX, runY);
-                        newScale = (float) Math.min((runX-temporaryPoint.x),(runY-temporaryPoint.y));
                         isWhite = true;
-                    }
-                }
-            }
-        }
-        else {
-            while(!isWhite && runX <= scaledX) {
-                for (runX = (int) temporaryPoint.x; runX <= scaledX; runX++) { //Suche nach einem weißen Punkt in diesem Bereich
-                    for (y = (int) temporaryPoint.y; y <= scaledY; y++) {
-                        if (!Arrays.equals(mask.get(y, runX), black)) { //Falls ein weißer Punkt gefunden wurde muss eine neue maximale Länge betrachtet werden
-                            whitePoint = new Point(runX, y);
-                            newScale = (float) Math.min((runX-temporaryPoint.x),(y-temporaryPoint.y));
-                            isWhite = true;
-                        }
+                        return whitePoint;
                     }
                 }
             }
         }
         if(isWhite) {
-            return newScale;
+            return newPoint;
         }
         else 
-            return -1;
+            return null;
+    }
+
+    private Point isCut(Point first, Point second, Point random) { //Kein boolean
+        double steps = (first.x-second.x)*-1;
+        if (steps > 0) {
+            for (int i = 0; i <= steps; i++) {
+                double linePoint = ((second.y)-(first.y))/((second.x)-(first.x))*i;
+                if (Arrays.equals(mask.get((int)new Point(i, linePoint).x, (int)new Point(i, linePoint).y), black));
+            }
+        }
+        if (steps > 0) {
+            for (int i = 0; i >= steps; i--) {
+            }
+        }
+        return null;
     }
 
     private Point gapCloser(Point vertexPoint) {
